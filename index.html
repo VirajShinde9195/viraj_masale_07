@@ -1,0 +1,4078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <title>Viraj Masale - Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f4ef;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(to right, #ede8e8,#da8e25, #da8e25, #f3ebe4);
+      color: white;
+      padding: 25px 0 15px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .brand-name {
+      font-size: 38px;
+      margin-bottom: 5px;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 700;
+    }
+    
+    .tagline {
+      font-size: 18px;
+      color: #fff9f0;
+      font-style: italic;
+    }
+    
+    /* User Badge */
+    .user-badge {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      text-align: center;
+      z-index: 999;
+    }
+    
+    .user-badge img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 0 8px rgba(0,0,0,0.15);
+    }
+    
+    .user-id {
+      background: #d91440;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-top: 5px;
+      font-weight: bold;
+    }
+      /* Updated Beautiful Header */
+  .shop-header {
+    background: linear-gradient(90deg, #582600, #cf2121);
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .shop-header .logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  }
+  
+  .shop-header h1 {
+    font-size: 28px;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .shop-header .tagline {
+    font-size: 14px;
+    color: #fef3dc;
+    margin: 3px 0 0;
+    font-style: italic;
+  }
+  
+  .shop-now-btn {
+    background-color: #fff;
+    color: #d91440;
+    font-weight: bold;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  
+  .shop-now-btn:hover {
+    background-color: #e8bc3a;
+    transform: scale(1.05);
+  }
+  
+      
+    /* Navigation */
+    .nav-bar {
+      background: #eeb8b8;
+      padding: 14px 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      font-weight: 600;
+      font-family: 'Segoe UI', sans-serif;
+      border-top: 1px solid #ccc;
+      border-bottom: 2px solid #ed2d2d;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .nav-bar a {
+      text-decoration: none;
+      color: #222;
+      font-size: 14px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      transition: 0.3s ease;
+    }
+    
+    .nav-bar a:hover {
+      background-color: #ff8e15;
+      color: white;
+      transform: scale(1.25);
+    }
+    
+    /* Cart Preview */
+    .cart-wrapper {
+      position: relative;
+    }
+    
+    .cart-preview {
+      display: none;
+      position: absolute;
+      top: 35px;
+      right: 0;
+      width: 220px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 10px;
+      z-index: 1001;
+    }
+    
+    .cart-wrapper:hover .cart-preview {
+      display: block;
+    }
+    
+    .cart-preview div {
+      font-size: 14px;
+      padding: 6px 0;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .cart-preview div:last-child {
+      border-bottom: none;
+    }
+    
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 20px;
+      }
+    
+      .nav-bar a {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+      }
+    
+      .brand-name {
+        font-size: 28px;
+      }
+    
+      .tagline {
+        font-size: 14px;
+      }
+    }
+    /* main  */
+    main {
+      padding: 20px;
+    }
+
+    .search-box {
+      text-align: center;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    .search-box input {
+      padding: 10px 20px;
+      width: 50%;
+      max-width: 800px;
+      font-size: 16px;
+      border-radius: 25px;
+      border: 2px solid #af0228;
+      outline: none;
+    }
+    .category-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 2px solid #eee;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    
+    .category-navbar button {
+      background-color: #f0f0f0;
+      border: none;
+      padding: 10px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    
+    .category-navbar button:hover {
+      background-color: #ddd;
+    }
+    
+    .category-section {
+      margin: 50px auto;
+      /* padding: 10px; */
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      max-width: 1400px;
+      transition: all 0.3s ease;
+    }
+    
+    .category-section h2 {
+      font-size: 28px;
+      margin-bottom: 25px;
+      text-align: center;
+      color: #333;
+      background: #e10b0b;
+      padding: 12px 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    /* Color-coded borders */
+    .border-yellow { border-left: 8px solid #f5c518; }
+    .border-brown  { border-left: 8px solid #8b5e3c; }
+    .border-red    { border-left: 8px solid #e63946; }
+    .border-blue   { border-left: 8px solid #457b9d; }
+    .border-black  { border-left: 8px solid #333; }
+    
+    /* Hidden class for collapsible */
+    .hidden {
+      display: none;
+    }
+    
+
+    h2 {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 26px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .product-card {
+      background: white;
+      padding: 24px;
+      /* width:260px; */
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      /* height: 100%; */
+    }
+
+    .product-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 25px rgba(117, 5, 5, 0.2);
+    }
+
+    .product-card img {
+      width: 200px;
+      height: 140px;
+      object-fit: contain;
+      margin-bottom: 5px;
+      margin-left: 28px;
+    }
+
+    .product-card h3 {
+      margin: 1px 0 5px;
+      font-size: 20px;
+      flex-grow: 1;
+    }
+
+    .product-card p {
+      color: #555;
+      font-size: 16px;
+      flex-grow: 1;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .buy-btn {
+      margin-top: auto;
+      padding: 10px 10px ;
+      background-color: rgb(208, 53, 53);
+      border: none;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .action-buttons {
+      text-align: center;
+      margin: 30px 0 50px;
+
+      
+    }
+
+    .action-buttons a {
+      display: inline-block;
+      margin: 10px;
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 6px;
+      font-size: 16px;
+      color: white;
+    }
+
+    .whatsapp {
+      background-color: #25D366;
+    }
+
+    .view-products {
+      background-color: #ff6a00;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+    }
+
+    @media (max-width: 992px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-box input {
+        width: 90%;
+      }
+    }
+    .user-badge {
+       position: fixed;
+       top: 15px;
+       right: 15px;
+       text-align: center;
+       z-index: 999;
+     }
+     
+     .user-badge img {
+       width: 60px;
+       height: 60px;
+       border-radius: 50%;
+       border: 3px solid #25D366;
+       box-shadow: 0 0 8px rgba(0,0,0,0.2);
+       transition: transform 0.3s ease;
+     }
+     
+     .user-badge img:hover {
+       transform: scale(1.1);
+     }
+     
+     .user-id {
+       background: #d91440;
+       color: white;
+       padding: 4px 10px;
+       border-radius: 15px;
+       font-size: 13px;
+       margin-top: 5px;
+       font-weight: bold;
+       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+     }
+     nav a {
+       text-decoration: none;
+       color: #333;
+       padding: 8px 16px;
+       border-radius: 6px;
+       font-weight: bold;
+       transition: all 0.3s ease;
+      }
+      
+      nav a:hover {
+        background-color: #d91440;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+          
+      .cat-btn {
+        margin: 6px;
+        padding: 8px 16px;
+        background-color: #eee;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+      .cat-btn:hover {
+        background-color: #ddd;
+        transform: scale(1.05);
+      }
+      .cat-btn.active {
+        background-color: #f87171;
+        color: white;
+      }
+      .category-section {
+        display: none;
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(10px);}
+        to {opacity: 1; transform: translateY(0);}
+      }
+    
+      .active-category {
+        background-color: #f44f1d;
+        color: rgb(238, 6, 6);
+        font-weight: bold;
+        border-radius: 4px;
+      }
+        
+     .category-navbar {
+       display: flex;
+       flex-wrap: wrap;
+       justify-content: center;
+       gap: 15px;
+       /* margin: 0px 0; */
+     }
+   
+     .category-navbar button {
+       padding: 15px 15px;
+       font-size: 18px;
+       border: none;
+       border-radius: 12px;
+       background: linear-gradient(to right, #ffa726, #fb8c00);
+       color: white;
+       font-weight: bold;
+       cursor: pointer;
+       transition: transform 0.2s ease, box-shadow 0.3s ease;
+       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+       min-width: 160px;
+     }
+   
+     .category-navbar button:hover {
+       transform: scale(1.08);
+       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+     }
+   
+     .category-navbar button.active-category {
+       background: linear-gradient(to right, #d84315, #bf360c);
+       box-shadow: 0 6px 14px rgba(255, 87, 34, 0.5);
+       transform: scale(1.05);
+     }
+   
+     /* Make it responsive */
+     @media (max-width: 600px) {
+       .category-navbar button {
+         font-size: 16px;
+         padding: 12px 16px;
+         min-width: auto;
+         flex: 1 1 40%;
+       }
+      }
+      .footer {
+       background-color: #222;
+       color: #fff;
+       padding: 50px 20px 20px;
+       font-family: 'Segoe UI', sans-serif;
+     }
+     
+     .footer-container {
+       display: flex;
+       flex-wrap: wrap;
+       justify-content: space-between;
+       max-width: 1200px;
+       margin: auto;
+       gap: 30px;
+     }
+     
+     .footer-about, .footer-links, .footer-contact, .footer-social {
+       flex: 1 1 200px;
+     }
+     
+     .footer h3, .footer h4 {
+       color: #ff8000;
+       margin-bottom: 15px;
+     }
+     
+     .footer-links ul {
+       list-style: none;
+       padding: 0;
+     }
+     
+     .footer-links ul li {
+       margin: 10px 0;
+     }
+     
+     .footer-links ul li a {
+       color: #eee;
+       text-decoration: none;
+       transition: color 0.3s;
+     }
+     
+     .footer-links ul li a:hover {
+       color: #ffcc00;
+     }
+     
+     .footer-contact p {
+       margin: 10px 0;
+     }
+     
+     .footer-social .social-icons a {
+       margin-right: 10px;
+       display: inline-block;
+     }
+     
+     .footer-social img {
+       width: 28px;
+       height: 28px;
+       filter: brightness(0) invert(1);
+       transition: transform 0.3s;
+     }
+     
+     .footer-social img:hover {
+       transform: scale(1.2);
+     }
+     
+     .footer-bottom {
+       text-align: center;
+       padding-top: 20px;
+       font-size: 14px;
+       border-top: 1px solid #444;
+       margin-top: 30px;
+     }
+     .social-icons i {
+      font-size: 24px;
+      margin-right: 15px;
+      color: white;
+      transition: 0.3s;
+    }
+    .social-icons i:hover {
+      color: #ff8000;
+      transform: scale(1.2);
+    }
+
+    /* //------------------ Custom Header ------------------// */
+    .custom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e9375e; /* Your red background */
+  color: rgb(219, 219, 219);
+  padding: 50px 25px;
+  border-bottom: 2px solid #ffe6e6;
+  position: relative;
+}
+
+.header-left img.ganpati-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.header-center {
+  /* left: 100%; */
+  flex-grow: 1;
+  text-align: center;
+  margin-left: -50px; /* Adjust to center after adding left logo */
+}
+
+.header-center h1 {
+  margin: 0;
+  font-size: 45px;
+  font-weight: bold;
+}
+
+.header-center p {
+  margin: 20px 0 0;
+  font-size: 20px;
+  font-style: italic;
+}
+
+.user-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50px;
+  right: 30px;
+  bottom: 20px;
+  z-index: 10;
+}
+
+.user-badge img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.user-id {
+  margin-top: 10px;
+  font-size: 17px;
+  background-color: #ff0077;
+  color: white;
+  padding: 2px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+    
+      @keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.ganpati-logo {
+  animation: pulse 3s infinite ease-in-out;
+}
+/*     logo and animation of brnad name  */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.logo-img {
+  width: 160px;
+  height: 180px;
+  border-radius: 45%;
+  /* animation: pulse 3s infinite ease-in-out; */
+  /* padding: 5px; */
+}
+
+/* Logo subtle pulse */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-family: Playfair Display;
+  font-size: 40px;
+  font-weight: bold;
+  color: #b22222;
+  animation: wipeBounce 6s ease-in-out infinite;
+}
+
+.tagline {
+  font-family: 'Great Vibes', cursive;
+  font-size: 22px;
+  color: #333;
+  animation: wipeBounce 6s ease-in-out infinite;
+  animation-delay: 0.6s;
+  opacity: 0;
+} 
+/* 
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: bold;
+  color: #b22222;
+  animation: bounceFade 3s ease-in-out infinite;
+}
+
+.tagline {
+  font-family: 'Great Vibes', cursive;
+  font-size: 24px;
+  color: #333;
+  animation: fadeSlide 4s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes bounceFade {
+  0%   { transform: translateY(0); opacity: 0.6; }
+  25%  { transform: translateY(-8px); opacity: 0.8; }
+  50%  { transform: translateY(0); opacity: 1; }
+  75%  { transform: translateY(-4px); opacity: 0.9; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeSlide {
+  0%   { transform: translateX(-30px); opacity: 0; }
+  50%  { transform: translateX(5px); opacity: 0.8; }
+  100% { transform: translateX(0); opacity: 1; }
+} 
+*/
+
+
+/* Combined Wipe + Bounce Animation */
+@keyframes wipeBounce {
+  0% {
+    transform: translateX(-80px) scale(0.95);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(10px) scale(1.05);
+    opacity: 0.8;
+  }
+  70% {
+    transform: translateX(-5px) scale(1.1);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+/* <<<<<<<<<<<<<--------Hero Section------>>>>>>>>>>> */
+/* ===== Product Card Enhancements ===== */
+
+.product-card {
+  background: #fff;
+  border-radius: 18px;
+  /* padding: 1px; */
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Price */
+.price {
+  margin: 8px 0;
+}
+
+.price strong {
+  font-size: 20px;
+  color: #e53935;
+}
+
+.kg-price {
+  display: block;
+  font-size: 16px;
+  color: #777;
+}
+
+/* Quantity box */
+.qty-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 5px 0;
+}
+
+.qty-box input {
+  width: 70px;
+  padding: 6px;
+  text-align: center;
+  border-radius: 8px;
+  border: 2px solid #0e0c0c;
+}
+
+.qty-box .unit {
+  font-weight: bold;
+  /* font-size: 10px; */
+}
+
+/* Add to Cart Button */
+.add-cart-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, #f09f86, #f0754f);
+  color: #ececec;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-cart-btn:hover {
+  background: linear-gradient(135deg, #ff5722, #e53935);
+  transform: scale(1.03);
+}
+/* ..................................User Logout Button........................ */
+/* Popup Background */
+.logout-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Popup Box */
+.logout-box {
+  background: white;
+  padding: 25px;
+  width: 320px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: popupFade 0.3s ease;
+}
+
+@keyframes popupFade {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Buttons */
+.logout-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-btn {
+  background: #999;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.confirm-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.confirm-btn:hover {
+  background: #d93636;
+}
+
+/* Logout Button in Header */
+/* .logout-btn {
+  background: #ff4d4d;
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.logout-btn:hover {
+  background: #d93636;
+} */
+
+/* .custom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+  background-color: #e9375e; 
+  position: relative;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-img {
+  width: 120px;
+  height: auto;
+  border-radius: 20%;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-center {
+  flex: 1;
+  text-align: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-right .user-badge {
+  position: relative;
+  top: 0;
+  right: 0;
+}
+
+
+.logout-btn {
+  position: fixed;
+  top: 15px;
+  right: 10px;
+  background: #ff4d4d;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.logout-btn:hover {
+  background: #d93636;
+  transform: scale(1.05);
+} */
+
+.custom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e9375e;
+  color: rgb(219, 219, 219);
+  padding: 10px 25px; /* reduced padding so logo+center fits */
+  position: relative;
+}
+
+/* Left logo */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+/* Center heading stays perfectly centered */
+.header-center {
+  flex: 1;
+  text-align: center;
+  margin-left: -250px; /* Adjust to center after adding left logo */}
+
+/* Right badge */
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Floating logout */
+.logout-btn {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  background: #ff4d4d;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.logout-btn:hover {
+  background: #d93636;
+  transform: scale(1.05);
+}
+
+.highlight {
+  background-color: yellow;
+  padding: 2px;
+  border-radius: 3px;
+}
+
+/* suggestions  */
+/* .suggestions-box {
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  z-index: 999;
+}
+
+.suggestions-box div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggestions-box div:hover {
+  background: #f5f5f5;
+}
+
+#voiceBtn {
+  border: none;
+  background: #ff4d4d;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+#voiceBtn.listening {
+  background: #28a745;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(40,167,69,.5); }
+  100% { box-shadow: 0 0 0 10px rgba(40,167,69,0); }
+} */
+/* 🔥 Wrapper is MOST IMPORTANT */
+
+/* Input container */
+/* ===== SEARCH WRAPPER ===== */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* margin: 20px 0; */
+}
+
+/* ===== SEARCH BOX ===== */
+/* ===== SEARCH BOX WIDTH & CENTER ===== */
+.search-box {
+  position: relative;
+  width: 700px;
+  max-width: 95%;
+  /* margin: 40px auto; */
+}
+
+/* ===== INPUT ===== */
+#searchInput {
+  width: 100%;
+  height: 52px;
+  padding:5px 10px;   /* 🔥 space for icons */
+  border-radius: 40px;
+  border: 2px solid #ff4d4d;
+  font-size: 16px;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: 0.3s ease;
+}
+
+/* ===== COMMON ICON STYLE ===== */
+.icon-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.85;
+  /* transition: 0.25s ease; */
+  user-select: none;
+}
+.icon-btn.clear {
+  right: 60px;
+  display: none;            /* only when typing */
+  color: #ff4d4d;
+}
+
+/* 🔍 SEARCH */
+#searchBtn { right: 90px; }
+#searchBtn:hover {
+  transform: translateY(-50%) scale(1.15);
+  opacity: 1;
+}
+
+/* ❌ CLEAR — NO HOVER EFFECT */
+#clearBtn {
+  right: 65px;
+  display: none;
+  
+}
+#clearBtn:hover {
+  opacity: 0.8;
+  transform: translateY(-50%);
+}
+
+/* 🎤 MIC */
+#voiceBtn {
+  right: 18px;
+  background: #ff4d4d;
+  color: #fff;
+  padding: 6px 9px;
+  border-radius: 50%;
+}
+#voiceBtn:hover {
+  background: #e63b3b;
+  transform: translateY(-50%) scale(1.15);
+}
+
+/* 🎤 Listening */
+#voiceBtn.listening {
+  background: #28a745;
+  animation: pulse 1.2s infinite;
+}
+
+
+/* ===== SUGGESTIONS ===== */
+.suggestions-box {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 0 0 12px 12px;
+  border: 1px solid #ddd;
+  border-top: none;
+  max-height: 220px;
+  overflow-y: auto;
+  display: none;
+  z-index: 9999;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.suggestions-box div {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.suggestions-box div:hover {
+  background: #f7f7f7;
+}
+
+/* ===== Highlight ===== */
+.highlight {
+  background: #ffe066;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+/* ===== Mic Pulse ===== */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(40,167,69,.5); }
+  100% { box-shadow: 0 0 0 14px rgba(40,167,69,0); }
+}
+
+/* highlight */
+.highlight {
+  background-color: yellow;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+/* bell notification */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.bell {
+  font-size: 22px;
+}
+
+.bell-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  display: none;
+}
+
+.notification-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 12px;
+  display: none;
+  z-index: 9999;
+}
+#notificationPanel {
+  display: none;
+  position: fixed !important;
+  top: 70px !important;
+  right: 20px !important;
+  width: 300px;
+  background: #fff;
+  z-index: 99999 !important;
+}
+
+.notification-panel h4 {
+  margin: 0 0 8px;
+}
+
+.notification-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+
+.notification-item small {
+  color: #777;
+}
+
+/* Floating Bell Icon */
+.floating-bell {
+  position: fixed;
+  top: 20px;           /* logout btn सारखं height */
+  right: 110px;        /* logout च्या डाव्या बाजूला */
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 9999;
+  display: inline-block;
+}
+
+/* Bell Dot Fix */
+.floating-bell .bell-dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 9px;
+  height: 9px;
+  background: red;
+  border-radius: 50%;
+  display: none;
+}
+.notification-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 320px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+.notification-panel.hidden {
+  display: none;
+}
+
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.notif-close {
+  cursor: pointer;
+}
+
+.notif-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.notif-item {
+  padding: 8px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+}
+
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+.notif-time {
+  font-size: 11px;
+  color: #777;
+}
+
+.notif-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-top: 1px solid #eee;
+}
+
+.notif-footer button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+/* .notification-panel{
+  position: fixed;
+  top: 60px;
+  right: 110px;
+  width: 320px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.2);
+  display: none;
+  z-index: 9999;
+}
+
+.view-all{
+  display:block;
+  text-align:center;
+  padding:10px;
+  font-weight:600;
+  border-top:1px solid #eee;
+  text-decoration:none;
+}
+
+/* notifiaction cross mark  */
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notif-close {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+}
+
+.notif-close:hover {
+  color: red;
+} */
+
+/*  stock status  */
+.in-stock {
+  color: green;
+  font-weight: bold;
+}
+
+.out-stock {
+  color: red;
+  font-weight: bold;
+}
+
+.add-cart-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+/* ================= MOBILE RESPONSIVE FIX ================= */
+
+/* ---------- TABLET & MOBILE ---------- */
+@media (max-width: 768px) {
+
+  /* ===== HEADER FIX ===== */
+  .custom-header {
+    flex-direction: column;
+    padding: 15px 10px;
+    text-align: center;
+  }
+
+  .header-left {
+    justify-content: center;
+  }
+
+  .logo-img {
+    width: 90px;
+    height: auto;
+  }
+
+  .header-center {
+    margin-left: 0 !important;
+  }
+
+  .header-center h1 {
+    font-size: 26px;
+  }
+
+  .header-center p {
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  /* ===== USER BADGE & FLOATING ICONS ===== */
+  .user-badge img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .user-id {
+    font-size: 12px;
+  }
+
+  .logout-btn {
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .floating-bell {
+    top: 14px;
+    right: 70px;
+    font-size: 20px;
+  }
+
+  /* ===== SEARCH BAR ===== */
+  .search-wrapper {
+    padding: 0 10px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  #searchInput {
+    height: 46px;
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  /* ===== PRODUCT GRID : 2 ITEMS PER ROW ===== */
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .product-card {
+    width: 100%;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: 120px;
+    margin: 0 auto 6px;
+    display: block;
+    object-fit: contain;
+
+  }
+
+  .product-card h3 {
+    font-size: 16px;
+  }
+
+  .product-card p {
+    font-size: 14px;
+  }
+
+  .price strong {
+    font-size: 16px;
+  }
+
+  .kg-price {
+    font-size: 13px;
+  }
+
+  .add-cart-btn {
+    font-size: 15px;
+    padding: 8px;
+  }
+
+  /* ===== CATEGORY BUTTONS ===== */
+  .category-navbar {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .category-navbar button {
+    flex: 1 1 45%;
+    font-size: 14px;
+    padding: 10px;
+    min-width: auto;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+/* ---------- VERY SMALL MOBILE ---------- */
+@media (max-width: 480px) {
+
+  .product-card img {
+    height: 100px;
+  }
+
+  .header-center h1 {
+    font-size: 22px;
+  }
+
+  .header-center p {
+    font-size: 12px;
+  }
+
+  .logout-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
+
+/* ================= END MOBILE FIX ================= */
+/* ================= MOBILE VISUAL FIX ================= */
+@media (max-width: 768px) {
+
+  /* 🌈 PAGE BACKGROUND */
+  body {
+    background: #f6f7f9;
+  }
+
+  main {
+    padding: 10px 8px;
+  }
+
+  /* ===== PRODUCT GRID ===== */
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 10px 6px;
+  }
+
+  /* ===== PRODUCT CARD ===== */
+  .product-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center ;
+    min-height: 100%;
+  }
+
+  /* 🖼️ IMAGE */
+  .product-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: contain;
+    margin: 0 auto 8px;
+    border-radius: 10px;
+    background: #fafafa;
+  }
+
+  /* 🏷️ TITLE */
+  .product-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 6px 0 4px;
+    line-height: 1.2;
+  }
+
+  /* 📄 DESCRIPTION */
+  .product-card p {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 6px;
+    line-height: 1.3;
+  }
+
+  /* 💰 PRICE */
+  .price strong {
+    font-size: 16px;
+    color: #e53935;
+  }
+
+  .kg-price {
+    font-size: 12px;
+    color: #888;
+  }
+
+  /* 📦 STOCK */
+  .in-stock,
+  .out-stock {
+    font-size: 12px;
+    margin: 4px 0;
+  }
+
+  /* ⚖️ QTY */
+  .qty-box input {
+    width: 60px;
+    padding: 5px;
+    font-size: 13px;
+  }
+
+  /* 🛒 ADD TO CART */
+  .add-cart-btn {
+    margin-top: 8px;
+    padding: 9px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+}
+
+/* ================= END VISUAL FIX ================= */
+/* 🔥 FORCE MOBILE PRODUCT LAYOUT */
+/* @media (max-width: 768px) {
+
+  body {
+    background: #f6f7f9 !important;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    padding: 12px !important;
+  }
+
+  .product-card {
+    width: 100% !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 12px !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08) !important;
+  }
+
+  .product-card img {
+    width: 100% !important;
+    height: 140px !important;
+    margin: 0 auto 8px !important;
+    display: block !important;
+  }
+
+  .add-cart-btn {
+    font-size: 14px !important;
+    padding: 9px !important;
+  }
+} */
+
+  </style>
+</head>
+<body>
+<header class="custom-header">
+
+  <!-- Left -->
+  <div class="header-left">
+    <img src="viru_masala_logo-removebg-preview.png" class="logo-img">
+    <div class="logo-text">
+      <div class="brand-name">Viraj Masale</div>
+      <div class="tagline">Traditional Taste With Modern Touch</div>
+    </div>
+  </div>
+
+  <!-- Center -->
+  <div class="header-center">
+    <h1>Viraj Masale</h1>
+    <p id="welcomeText">Welcome!</p>
+  </div>
+
+  <!-- Right -->
+  <div class="header-right">
+
+    <!-- User -->
+    <div class="user-badge" id="userBadge">
+      <img src="viraj_shop_1.png">
+      <div class="user-id" id="badgeCustomerId">Loading...</div>
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ⬇️ BELL moved here (left of logout btn) -->
+<div style="position: fixed; top: 15px; right: 120px; z-index: 9999;">
+    <div id="bell" class="bell" onclick="toggleNotifications()">
+      🔔
+      <span id="bellDot" class="bell-dot"></span>
+    </div>
+    
+</div>
+
+<!-- 🔔 Notification Panel -->
+ <div id="notificationPanel" class="notification-panel hidden">
+  <div class="notif-header">
+    <h4>🔔 Notifications</h4>
+    <span class="notif-close" onclick="toggleNotifications()">✖</span>
+  </div>
+
+  <div id="notificationList" class="notif-list">
+    <!-- notifications inject here -->
+  </div>
+
+  <div class="notif-footer">
+    <!-- <button onclick="clearNotifications()">Clear all</button> -->
+    <a href="notifications.html">View all →</a>
+  </div>
+</div>
+
+<audio id="soundAccepted" preload="auto">
+  <source src="bell.wav" type="audio/mpeg">
+</audio>
+
+<audio id="soundDelivered" preload="auto">
+  <source src="bell_2.wav" type="audio/mpeg">
+</audio>
+
+
+<!-- <div id="notificationPanel" class="notification-panel">
+  <div class="notif-header">
+    <h4>Notifications</h4>
+    <span class="notif-close" onclick="toggleNotifications()">✖</span>
+  </div>
+
+  <div id="notificationList"></div>
+
+  <a href="notifications.html" class="view-all">
+    View all notifications →
+  </a>
+</div> -->
+
+<!-- <div id="notificationPanel" style="
+  display:none;
+  position:fixed;
+  top:70px;
+  right:20px;
+  width:320px;
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 15px 40px rgba(0,0,0,.2);
+  z-index:9999;
+">
+
+  <div style="padding:14px;font-weight:700;border-bottom:1px solid #eee">
+    🔔 Notifications
+  </div>
+
+  <div id="notificationList" style="max-height:320px;overflow:auto"></div>
+
+  <div style="padding:10px;text-align:center;border-top:1px solid #eee">
+    <button onclick="clearNotifications()">Clear all</button>
+  </div>
+</div> -->
+
+<!-- Floating Logout button -->
+<button class="logout-btn" onclick="openLogoutModal()">Logout</button>
+
+<!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="logout-modal">
+  <div class="logout-box">
+    <h3>Logout Confirmation</h3>
+    <p>Are you sure you want to logout from <b>Viraj Masale</b>?</p>
+
+    <div class="logout-actions">
+      <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+      <button class="confirm-btn" onclick="performLogout()">Yes, Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- <header class="custom-header">
+
+  <div class="header-left">
+    <img src="viru_masala_logo-removebg-preview.png" class="logo-img">
+    <div class="logo-text">
+      <div class="brand-name">Viraj Masale</div>
+      <div class="tagline">Traditional Taste With Modern Touch</div>
+    </div>
+  </div>
+
+  <div class="header-center">
+    <h1>Viraj Masale</h1>
+    <p id="welcomeText">Welcome!</p>
+  </div>
+
+  <div class="header-right">
+
+    <div id="bell" class="bell" onclick="toggleNotifications()">
+      🔔
+      <span id="bellDot" class="bell-dot"></span>
+    </div>
+
+    <div class="user-badge" id="userBadge">
+      <img src="ganpati.png">
+      <div class="user-id" id="badgeCustomerId">Loading...</div>
+    </div>
+
+  </div>
+
+</header>
+<div id="notificationPanel">
+  <div class="notification-header">Notifications</div>
+  <div id="notificationList"></div>
+</div>
+
+<button class="logout-btn" onclick="openLogoutModal()">Logout</button>
+
+<div id="logoutModal" class="logout-modal">
+  <div class="logout-box">
+    <h3>Logout Confirmation</h3>
+    <p>Are you sure you want to logout from <b>Viraj Masale</b>?</p>
+
+    <div class="logout-actions">
+      <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+      <button class="confirm-btn" onclick="performLogout()">Yes, Logout</button>
+    </div>
+  </div>
+</div> -->
+
+<!-- 
+  </div>
+    <div class="user-badge" id="userBadge" title="Customer Info">
+    <img src="https://i.ibb.co/X54kBN8/user-icon.png" alt="User" />
+    <div class="user-id" id="badgeCustomerId">Loading...</div>
+  </div> -->
+
+  <!-- <nav class="nav-bar">
+    <a href="products.html">🧂 Products</a>
+    <a href="shop.html">🏠 Shop</a>
+    <a href="contact.html">📞 Contact</a>
+    <a href="login_supa.html">🔑 Login</a>
+    <a href="registration_supa.html">📝 Register</a>
+    <a href="about.html">📖 About Us</a>
+    <a href="whatsapp_order.html">🔥 Order</a>
+    <a href="order_details.html">📦 Order Details</a>
+    <div class="cart-wrapper">
+     <a href="add_cart.html">🛒 Cart </a> 
+    <a href="add_cart.html">🛒 Cart <span id="cartCount">0</span></a>
+
+      <div class="cart-preview" id="cartPreview">
+        <div id="previewItems">Loading...</div>
+         <div id="previewItems">Loading...</div> 
+        <div><a href="customer_profil.html">👤 My Profile</a></div>
+      </div>
+    </div>
+    <a href="https://maps.app.goo.gl/QTTz9UxGqGGC9iCj6" target="_blank">📍 Location</a>
+    <a href="help.html">❓ Help</a>
+    <a href="customer_profil.html">👤 My Profile</a>
+  </nav> -->
+<nav class="nav-bar">
+    <a href="products.html">🧂 Products</a>
+    <a href="shop.html">🏠 Shop</a>
+    <a href="contact.html">📞 Contact</a>
+
+    <a href="login_supa.html" id="loginBtn">🔑 Login</a>
+    <a href="registration_supa.html" id="registerBtn">📝 Register</a>
+
+    <a href="about.html">📖 About Us</a>
+    <!-- <a href="whatsapp_order.html" id="ordersBtn">🔥 Order</a> -->
+
+    <a href="my_orders.html" id="orderDetailsBtn">📦 Order Details</a>
+
+    <div class="cart-wrapper" id="cartSection">
+      <a href="add_cart.html">🛒 Cart <span id="cartCount">0</span></a>
+
+      <div class="cart-preview" id="cartPreview">
+        <div id="previewItems">Loading...</div>
+      </div>
+    </div>
+
+    <a href="https://maps.app.goo.gl/QTTz9UxGqGGC9iCj6" target="_blank">📍 Location</a>
+    <a href="help-bot/help.html">❓ Help</a>
+
+   <a href="customer_profil.html" id="profileBtn">👤 My Profile</a>
+   <a href="notifications.html" id="notificationBtn">🔔notification</a>
+</nav>
+
+
+
+  <main>
+    <div class="search-wrapper">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search spices...">
+    
+        <span id="searchBtn" class="icon-btn">🔍</span>
+        <span id="clearBtn" class="icon-btn">❌</span>
+        <span id="voiceBtn" class="icon-btn mic">🎤</span>
+    
+        <!-- Suggestions Dropdown -->
+        <div id="liveSuggestions" class="suggestions-box"></div>
+      </div>
+    
+      <!-- Did you mean -->
+      <!-- <div id="searchSuggestion" style="display:none; margin-top:8px;">
+        <p><b>No exact results found.</b></p>
+        <p>Did you mean:</p>
+        <div id="suggestionList"></div>
+      </div> -->
+    </div>
+    
+
+    <div class="category-navbar">
+      <button data-category="all" onclick="showCategory('all')">📦 All</button>
+      <button data-category="basic" onclick="showCategory('basic_spices')">🧂 Basic Spices</button>
+      <button data-category="blended" onclick="showCategory('blended_masalas')">🥣 Blended Masalas</button>
+      <button data-category="regional" onclick="showCategory('regional_masalas')">🏞️ Regional Specialties</button>
+      <button data-category="nonveg" onclick="showCategory('nonveg_masalas')">🍗 Non-Veg Masalas</button>
+      <button data-category="tasty" onclick="showCategory('tasty_masalas')">😋 Tasty Masalas</button>
+      <button data-category="whole" onclick="showCategory('whole_spices')">⚫ Whole Spices</button>
+    </div>
+    
+    <!-- 🌿 Basic Spices (मूलभूत मसाले) -->
+<section id="basic_spices" class="category-section">
+  <h2>🧂 Basic Spices (मूलभूत मसाले)</h2>
+  <div class="product-grid">
+
+  </div>
+</section>
+
+<!-- 🥣 Blended Masalas (मिश्रित मसाले) -->
+<section id="blended_masalas" class="category-section">
+  <h2>🥣 Blended Masalas (मिश्रित मसाले)</h2>
+  <div class="product-grid">
+    
+  </div>
+</section>
+
+<!-- 🟤 Regional Specialties (प्रादेशिक मसाले) -->
+<section id="regional_masalas" class="category-section">
+  <h2>🏞️ Regional Specialties (प्रादेशिक मसाले)</h2>
+  <div class="product-grid">
+    
+  </div>
+</section>
+
+<!-- 🔴 Non-Veg Masalas (मांसाहारी मसाले) -->
+<section id="nonveg_masalas" class="category-section">
+  <h2>🍗 Non-Veg Masalas (मांसाहारी मसाले)</h2>
+  <div class="product-grid">
+    
+  </div>
+</section>
+
+
+<section id="tasty_masalas" class="category-section">
+  <h2> 😋 Tasty Masalas</h2>
+  <div class="product-grid">
+    
+  </div>
+</section>
+
+<!-- ⚫ Whole Spices (संपूर्ण मसाले) -->
+<section id="whole_spices" class="category-section">
+  <h2>⚫ Whole Spices (संपूर्ण मसाले)</h2>
+  <div class="product-grid">
+
+  </div>
+</section>
+   
+    <div class="action-buttons">
+      <a class="whatsapp" href="whatsapp_order.html" target="_blank">📲 Order on WhatsApp</a>
+      <a class="view-products" href="products.html">🔍 View All Products</a>
+      <a class="view-products" href="add_cart.html">🛒 View Cart</a>
+    </div>
+  </main>
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>Viraj Masale</h3>
+      <p>Authentic Indian spices crafted with tradition, purity, and unmatched taste. Bringing joy to your kitchen since 2025.</p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="products.html">🧂 Products</a></li>
+        <li><a href="shop.html">🛒 Shop Now</a></li>
+        <!-- <li><a href="offers.html">🔥 Offers</a></li> -->
+        <li><a href="about.html">📖 About Us</a></li>
+        <li><a href="contact.html">📞 Contact</a></li>
+        <li><a href="#"></a>📍Location</li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contact Us</h4>
+      <p><strong>📍 Address:</strong> Sanswadi, Shirur, Pune, India</p>
+      <p><strong>📞 Phone:</strong> +91 9322789195 / 9168079195</p>
+      <p><strong>📧 Email:</strong> support@virajmasale.com</p>
+    </div>
+
+    <div class="footer-social">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Viraj Masale | All Rights Reserved | Made with ❤️ in Maharashtra</p>
+  </div>
+</footer>
+
+
+
+  <!-- user inter only they login  -->
+  <!-- Supabase Client -->
+<!-- Supabase SDK (MUST BE FIRST) -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+
+async function requireLogin() {
+  const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+  if (error || !session) {
+    alert("🔒 Please login first.");
+    window.location.replace("login_supa.html"); // 🔥 better than href
+    return null;
+  }
+
+  return session.user; // ✅ logged in user
+}
+  // 1. Initialize Supabase with your keys
+    // Supabase Client
+  
+
+  
+  // Fetch user details
+  // async function loadUser() {
+  //  const cid = localStorage.getItem("loggedInCustomerId");
+  //  if (!cid) return;
+ 
+  //  const { data, error } = await supabaseClient
+  //    .from("customers")
+  //    .select("full_name")
+  //    .eq("customer_id", cid)
+  //    .single();
+ 
+  //  if (error) {
+  //    console.error(error);
+  //    return;
+  //  }
+ 
+  //  if (data) {
+  //    document.querySelector("header p").innerHTML =
+  //      `Welcome, <b>${data.name}</b>! Explore our premium spices`;
+  //    document.getElementById("badgeCustomerId").innerText = data.customer_id;
+  //  }
+  
+  //   if (error || !data) {
+  //     alert("⚠️ User not found, please login again.");
+  //     localStorage.clear();
+  //     window.location.href = "login_supa.html";
+  //     return;
+  //   }
+  
+  //   const headerP = document.querySelector("header p");
+  //   if (headerP) {
+  //     headerP.innerHTML = `Welcome, <b>${data.name}</b>! Explore our premium spices below.`;
+  //   }
+  // }
+  
+  // loadUser();
+  
+// </script>
+// <script>
+
+  ///.................................confirm comment part................................/////
+
+//   (function hardFixCart() {
+//   let cart = JSON.parse(localStorage.getItem("cart"));
+
+//   // ❌ If cart is corrupted or old → RESET
+//   if (
+//     !Array.isArray(cart) ||
+//     cart.some(item => item.qty !== undefined)
+//   ) {
+//     console.warn("🧹 Old cart detected → resetting cart");
+//     localStorage.setItem("cart", JSON.stringify([]));
+//   }
+// })();
+
+//   (function migrateCartOnce() {
+//   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+//   let migrated = false;
+
+//   if (!Array.isArray(cart)) {
+//     localStorage.setItem("cart", JSON.stringify([]));
+//     return;
+//   }
+
+//   cart = cart.map(item => {
+//     // OLD format detected
+//     if (item.qty !== undefined && item.grams === undefined) {
+//       migrated = true;
+//       return {
+//         id: item.id,
+//         name: item.name,
+//         pricePerGram: Number(item.pricePerGram),
+//         grams: Number(item.qty),   // qty → grams
+//         quantity: 1                // default quantity
+//       };
+//     }
+//     return item;
+//   });
+
+//   if (migrated) {
+//     console.warn("🟡 Cart migrated to new structure");
+//     localStorage.setItem("cart", JSON.stringify(cart));
+//   }
+// })();
+// function addToCartDB(id, name, pricePerGram) {
+//   const grams = Number(document.getElementById(`qty-${id}`).value);
+
+//   if (!grams || grams <= 0) {
+//     alert("Please select quantity in grams");
+//     return;
+//   }
+
+//   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+//   const existing = cart.find(item => item.id === id);
+
+//   if (existing) {
+//     existing.grams = grams;
+//     existing.quantity += 1;
+//   } else {
+//     cart.push({
+//       id,
+//       name,
+//       pricePerGram: Number(pricePerGram),
+//       grams,
+//       quantity: 1
+//     });
+//   }
+
+//   localStorage.setItem("cart", JSON.stringify(cart));
+//   updateCartCount();
+// }
+
+
+// function updateCartCount() {
+//   const badge = document.getElementById("cartCount");
+//   if (!badge) return;
+
+//   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+//   if (!Array.isArray(cart)) {
+//     cart = [];
+//   }
+
+//   badge.textContent = cart.length;
+// }
+
+
+
+</script>
+
+<!-- 
+<script>
+  const badgeCid = localStorage.getItem("loggedInCustomerId");
+  if (badgeCid) {
+    document.getElementById("badgeCustomerId").textContent = badgeCid;
+  } else {
+    document.getElementById("userBadge").style.display = "none";
+  }
+</script> -->
+
+<script>
+  function toggleCategory(id) {
+    const section = document.getElementById(id);
+    if (section.classList.contains('hidden')) {
+      section.classList.remove('hidden');
+    } else {
+      section.classList.add('hidden');
+    }
+  }
+</script> 
+ 
+  <!-- ...........................................Search Input........................................ -->
+<!-- <script>
+document.getElementById("searchBtn").addEventListener("click", function () {
+  const input = document.getElementById("searchInput");
+  const filter = input.value.toLowerCase();
+
+  const items = document.querySelectorAll(".product-card, .category-box");
+  let firstMatch = null;
+   if (!filter) {
+  alert("Please enter something to search");
+  return;
+  }
+
+  items.forEach((item) => {
+    const text = item.innerText.toLowerCase();
+    const match = text.includes(filter);
+
+    item.style.display = match ? "" : "none";
+
+    if (match && !firstMatch) {
+      firstMatch = item;
+    }
+  });
+  
+  // 🔽 Scroll to first result
+  if (firstMatch) {
+    firstMatch.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+});
+</script> -->
+<script>
+/* 🟡 Remove Old Highlights */
+function removeHighlights(container) {
+  container.querySelectorAll(".highlight").forEach(span => {
+    span.replaceWith(span.textContent);
+  });
+}
+
+/* 🟡 Add yellow highlight */
+function highlightText(container, keywords) {
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+  let node;
+
+  while ((node = walker.nextNode())) {
+    const text = node.nodeValue;
+    let replaced = text;
+    let matched = false;
+
+    keywords.forEach(word => {
+      const regex = new RegExp(`(${word})`, "gi");
+      if (regex.test(replaced)) {
+        replaced = replaced.replace(regex, `<span class="highlight">$1</span>`);
+        matched = true;
+      }
+    });
+
+    if (matched) {
+      const span = document.createElement("span");
+      span.innerHTML = replaced;
+      node.parentNode.replaceChild(span, node);
+    }
+  }
+}
+
+/* 🟡 Similarity for "Did you mean" */
+function similarity(a, b) {
+  let longer = a.length > b.length ? a : b;
+  let shorter = a.length > b.length ? b : a;
+  let same = 0;
+
+  for (let i = 0; i < shorter.length; i++) {
+    if (longer.includes(shorter[i])) same++;
+  }
+  return same / longer.length;
+}
+
+/* 🟡 MAIN SEARCH (Option C) */
+function performSearch() {
+  const input = document.getElementById("searchInput");
+  const query = input.value.trim().toLowerCase();
+  const keywords = query.split(/\s+/);
+
+  const cards = document.querySelectorAll(".product-card");
+  const suggestionBox = document.getElementById("searchSuggestion");
+  const suggestionList = document.getElementById("suggestionList");
+
+  let firstMatch = null;
+  let matchCount = 0;
+  let suggestions = [];
+
+  cards.forEach(card => {
+    removeHighlights(card);
+    const name = card.dataset.name.toLowerCase();
+    const category = card.closest(".category-section");
+
+    card.style.display = "none";
+
+    const match = keywords.every(word => name.includes(word));
+
+    if (match) {
+      matchCount++;
+      card.style.display = "";
+
+      highlightText(card, keywords);
+
+      if (!firstMatch) {
+        firstMatch = card;
+
+        // 🔥 Auto-open category
+        document.querySelectorAll(".category-section")
+          .forEach(sec => (sec.style.display = "none"));
+
+        category.style.display = "block";
+      }
+    } else {
+      const score = similarity(query, name);
+      if (score > 0.5) suggestions.push(name);
+    }
+  });
+
+  /* 🟥 No exact match → Suggest */
+  if (matchCount === 0 && suggestions.length) {
+    suggestionBox.style.display = "block";
+    suggestionList.innerHTML = "";
+
+    [...new Set(suggestions)].slice(0, 5).forEach(word => {
+      let btn = document.createElement("button");
+      btn.textContent = word;
+      btn.onclick = () => {
+        input.value = word;
+        suggestionBox.style.display = "none";
+        performSearch();
+      };
+      suggestionList.appendChild(btn);
+    });
+  } else {
+    suggestionBox.style.display = "none";
+  }
+
+  /* 🟢 Auto-scroll */
+  if (firstMatch) {
+    firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  // 🧹 Auto-clear search input AFTER search
+  setTimeout(() => {
+    document.getElementById("searchInput").value = "";
+  }, 300);
+}
+
+
+/* 🔍 SEARCH BUTTON */
+document.getElementById("searchBtn").addEventListener("click", performSearch);
+
+/* ⌨ ENTER KEY */
+document.getElementById("searchInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") performSearch();
+});
+
+/* ❌ CLEAR */
+document.getElementById("clearBtn").addEventListener("click", () => {
+  document.getElementById("searchInput").value = "";
+  document.querySelectorAll(".product-card").forEach(card => {
+    removeHighlights(card);
+    card.style.display = "";
+  });
+
+  document.getElementById("searchSuggestion").style.display = "none";
+});
+
+// ..................................Live Search Suggestions...................................... //
+const searchInput = document.getElementById("searchInput");
+const suggestionBox = document.getElementById("liveSuggestions");
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.trim().toLowerCase();
+  suggestionBox.innerHTML = "";
+
+  if (query.length < 2) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+
+  const matches = [];
+
+  document.querySelectorAll(".product-card").forEach(card => {
+    const name = card.dataset.name;
+
+    if (name.includes(query)) {
+      matches.push(name);
+    }
+  });
+
+  const unique = [...new Set(matches)].slice(0, 6);
+
+  if (!unique.length) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+
+  unique.forEach(text => {
+    const div = document.createElement("div");
+    div.textContent = text;
+    div.onclick = () => {
+      searchInput.value = text;
+      suggestionBox.style.display = "none";
+      performSearch(); // 🔥 final search
+    };
+    suggestionBox.appendChild(div);
+  });
+
+  suggestionBox.style.display = "block";
+});
+
+// Hide suggestions on Enter
+searchInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    suggestionBox.style.display = "none";
+    performSearch();
+  }
+});
+// Hide suggestions on outside click
+document.addEventListener("click", e => {
+  if (!e.target.closest(".search-wrapper")) {
+    suggestionBox.style.display = "none";
+  }
+});
+
+const voiceBtn = document.getElementById("voiceBtn");
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+  voiceBtn.style.display = "none"; // browser support नसेल तर hide
+}
+
+const recognition = new SpeechRecognition();
+recognition.lang = "en-IN"; // English + Indian accent
+recognition.continuous = false;
+recognition.interimResults = false;
+
+voiceBtn.addEventListener("click", () => {
+  recognition.start();
+  voiceBtn.classList.add("listening");
+});
+
+recognition.onresult = (event) => {
+  let text = event.results[0][0].transcript;
+
+  // 🧼 Remove full stop and extra symbols
+  text = text.replace(/[.?!,]/g, "").trim();
+
+  searchInput.value = text;
+  voiceBtn.classList.remove("listening");
+  performSearch(); // 🔥 same logic reused
+};
+
+// recognition.onresult = (event) => {
+//   const text = event.results[0][0].transcript;
+//   searchInput.value = text;
+//   voiceBtn.classList.remove("listening");
+//   performSearch(); // 🔥 reuse search logic
+// };
+
+recognition.onerror = () => {
+  voiceBtn.classList.remove("listening");
+};
+
+recognition.onend = () => {
+  voiceBtn.classList.remove("listening");
+};
+
+</script>
+ <!--  ............................Show all category at index ...................................... -->
+<script>
+  function showCategory(categoryId) {
+    const sections = document.querySelectorAll(".category-section");
+
+    sections.forEach(section => {
+      if (categoryId === "all") {
+        section.style.display = "block";
+      } else {
+        section.style.display = (section.id === categoryId) ? "block" : "none";
+      }
+    });
+
+    const buttons = document.querySelectorAll(".category-navbar button");
+    buttons.forEach(btn => btn.classList.remove("active-category"));
+    const activeBtn = document.querySelector(`.category-navbar button[data-category="${categoryId}"]`);
+    if (activeBtn) activeBtn.classList.add("active-category");
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    showCategory("all");
+  });
+</script> 
+
+
+<script>
+/* ===========================
+   SUPABASE INIT
+=========================== */
+const SUPABASE_URL = "https://uibdyfebaqabjwkctotg.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI";
+const supabaseClient= window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+/* ===========================
+   BLOCK ADMIN FROM INDEX PAGE
+=========================== */
+
+async function blockAdminFromIndex() {
+  // ❗ Use existing supabaseClient (do NOT create new)
+  const { data:{session} } = await supabaseClient.auth.getSession();
+  if (!session) return;  // guest allowed
+
+  const ADMIN_EMAILS = [
+    "virajmasale07@gmail.com",
+    "owner@virajmasale.com"
+  ];
+
+  const email = session.user.email.toLowerCase();
+
+  if (ADMIN_EMAILS.includes(email)) {
+    alert("Admins cannot access customer page!");
+    window.location.replace("admin_orders.html");
+  }
+}
+
+// Run this FIRST
+blockAdminFromIndex();
+
+// async function requireLogin() {
+//   const { data: { user }, error } = await supabaseClient.auth.getUser();
+
+//   if (error || !user) {
+//     alert("🔒 Please login first.");
+//     window.location.href = "login_supa.html";
+//     return null;
+//   }
+
+//   return user; // 🔑 IMPORTANT
+// }
+async function requireLogin() {
+  const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+  if (error || !session) {
+    window.location.replace("login_supa.html"); // 🔥 better than href
+    return null;
+  }
+
+  return session.user; // ✅ logged in user
+}
+
+ /* ===========================
+   LOAD USER     ,,,,,,,,,,,,,,,,,,,,,,,,,completly comment to avoid error,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+=========================== */
+
+// async function loadLoggedInUser() {
+//   const { data: { user }, error } = await supabaseClient.auth.getUser();
+
+//   if (error || !user) {
+//     document.getElementById("previewUser").textContent = "Guest User";
+//     return;
+//   }
+
+//   // 🔥 user table (example: registration)
+//   const { data, error: dbError } = await supabaseClient
+//     .from("customers")
+//     .select("full_name")
+//     .eq("id", user.id)
+//     .single();
+
+//   if (dbError || !data) {
+//     document.getElementById("previewUser").textContent = "User";
+//     return;
+//   }
+
+//   document.getElementById("previewUser").textContent =
+//     `👤 ${data.name} (${data.customer_id})`;
+// }
+
+/* =============================
+   LOAD LOGGED IN USER
+============================= */
+
+
+
+/* ===========================
+   LOAD USER     ,,,,,,,,,,,,,,,,,,,,,,,,,completly comment to avoid error,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+=========================== */
+// async function loadUser() {
+//   const cid = localStorage.getItem("loggedInCustomerId");
+//   if (!cid) return;
+
+//   const { data } = await supabaseClient
+//     .from("users")
+//     .select("*")
+//     .eq("customer_id", cid)
+//     .single();
+
+//   if (data) {
+//     document.querySelector("header p").innerHTML =
+//       `Welcome, <b>${data.name}</b>! Explore our premium spices`;
+//     document.getElementById("badgeCustomerId").innerText = data.customer_id;
+//   }
+// }
+// document.addEventListener("DOMContentLoaded", () => {
+//     loadUserInfo();
+// });
+
+// async function loadUserInfo() {
+//     const { data: { user }, error } = await supabaseClient.auth.getUser();
+
+//     if (!user) {
+//         document.querySelector(".header-center p").innerHTML =
+//             `Welcome! Please login to continue.`;
+//         document.getElementById("badgeCustomerId").innerText = "Guest";
+//         return;
+//     }
+
+//     const { data, error: rowError } = await supabaseClient
+//         .from("customers")
+//         .select("full_name")
+//         .eq("id", user.id)
+//         .single();
+
+//     if (rowError || !data) {
+//         document.querySelector(".header-center p").innerHTML =
+//             `Welcome, viru `;
+//         document.getElementById("badgeCustomerId").innerText = "viru";
+//         return;
+//     }
+
+//     // 🟢 Update UI with customer's full name
+//     document.querySelector(".header-center p").innerHTML =
+//         `Welcome, <b>${data.full_name}</b>! Explore our premium spices`;
+
+//     // If you want to show ID, use user.id
+//     document.getElementById("badgeCustomerId").innerText = user.id.slice(0, 8);
+// }
+
+// async function loadUserInfo() {
+//     // 1️⃣ Active session load करा
+//     const { data: { session } } = await supabaseClient.auth.getSession();
+
+//     if (!session) {
+//         document.querySelector(".header-center p").innerHTML =
+//             "Welcome! Please login to continue.";
+//         document.getElementById("badgeCustomerId").innerText = "Guest";
+//         return;
+//     }
+//     const user = session.user;
+
+//     // 2️⃣ Customers table मधून user fetch करा
+//     const { data, error } = await supabaseClient
+//         .from("customers")
+//         .select("full_name, email")
+//         .eq("email", user.email)    // 🔥 CORRECT COLUMN
+//         .single();
+//     // 3️⃣ Customer record नसेल तर fallback
+//     if (error || !data) {
+//         document.querySelector(".header-center p").innerHTML =
+//             `Welcome, ${user.email}`;
+//         document.getElementById("badgeCustomerId").innerText =
+//             user.email.slice(0, 5);
+//         return;
+//     }
+//     // 4️⃣ UI update
+//     document.querySelector(".header-center p").innerHTML =
+//         `Welcome, <b>${data.full_name}</b>! Explore our premium spices`;
+
+//     document.getElementById("badgeCustomerId").innerText =
+//         data.email.slice(0, 29);
+// }
+async function loadUserInfo() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    document.querySelector(".header-center p").innerText =
+      "Welcome! Browse our products as Guest";
+    document.getElementById("badgeCustomerId").innerText = "Guest";
+    return;
+  }
+
+  const user = session.user;
+
+  const { data, error } = await supabaseClient
+    .from("customers")
+    .select("full_name, email")
+    .eq("email", user.email)
+    .single();
+
+  if (error || !data) {
+    document.querySelector(".header-center p").innerHTML =
+      `Welcome, ${user.email}`;
+    document.getElementById("badgeCustomerId").innerText =
+      user.email.slice(0, 8);
+    return;
+  }
+
+  // Customer record found
+  document.querySelector(".header-center p").innerHTML =
+    `Welcome, <b>${data.full_name}</b>! Explore our premium spices`;
+
+  document.getElementById("badgeCustomerId").innerText =
+    data.email.slice(0, 29);
+}
+
+// for guest and login users mode  
+async function applyUserModeUI() {
+  const mode = localStorage.getItem("mode"); // 🔥 NEW LINE
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  const cart = document.getElementById("cartSection");
+  const orders = document.getElementById("ordersBtn");
+  const profile = document.getElementById("profileBtn");
+  const ordersdetails = document.getElementById("orderDetailsBtn");
+  const notification = document.getElementById("notificationBtn");
+  const notbell=document.getElementById("bell");
+
+  const loginBtn = document.getElementById("loginBtn");
+  const registerBtn = document.getElementById("registerBtn");
+
+  /* ======================================================
+     1️⃣ GUEST MODE → FULL FORCE GUEST
+     ====================================================== */
+  if (mode === "guest") {
+    if (cart) cart.style.display = "none";
+    if (orders) orders.style.display = "none";
+    if (profile) profile.style.display = "none";
+    if (ordersdetails) ordersdetails.style.display = "none";
+    if (notification) notification.style.display = "none";
+    if(notbell) notbell.style.display="none";
+
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (registerBtn) registerBtn.style.display = "inline-block";
+
+    return;
+  }
+
+  /* ======================================================
+     2️⃣ NOT GUEST → Check if session exists
+     ====================================================== */
+  if (!session) {
+    // Not guest & no session → default guest
+    if (cart) cart.style.display = "none";
+    if (orders) orders.style.display = "none";
+    if (profile) profile.style.display = "none";
+    if (ordersdetails) ordersdetails.style.display = "none";
+    if (notification) notification.style.display = "none";
+    if(notbell) notbell.style.display="none";
+
+
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (registerBtn) registerBtn.style.display = "inline-block";
+
+    return;
+  }
+
+  /* ======================================================
+     3️⃣ LOGGED IN MODE → SHOW EVERYTHING
+     ====================================================== */
+  if (cart) cart.style.display = "inline-block";
+  if (orders) orders.style.display = "inline-block";
+  if (profile) profile.style.display = "inline-block";
+  if (ordersdetails) ordersdetails.style.display = "inline-block";
+  if (notification) notification.style.display = "inline-block";
+  if(notbell) notbell.style.display="inline-block";
+  
+
+  if (loginBtn) loginBtn.style.display = "none";
+  if (registerBtn) registerBtn.style.display = "none";
+
+  // set mode
+  localStorage.setItem("mode", "customer");
+}
+
+
+// loadUser();
+
+/* ===========================
+   FETCH PRODUCTS
+=========================== */
+async function loadAllProducts() {
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select("*")
+    .eq("is_active", true)
+    .order("name");
+
+  if (!error) renderProductsByCategory(data);
+}
+
+/* ===========================
+   RENDER PRODUCTS BY CATEGORY
+=========================== */
+function renderProductsByCategory(products) {
+  document.querySelectorAll(".product-grid").forEach(g => g.innerHTML = "");
+
+  products.forEach(p => {
+    const section = document.querySelector(`#${p.category} .product-grid`);
+    if (!section) return;
+
+    const pricePerKg = p.price * 1000;
+
+    // ✅ REAL AVAILABLE STOCK
+    const availableStock = p.stock_quantity - p.reserved_quantity;
+    const isOutOfStock = availableStock <= 0;
+    const stockKg = Math.max(availableStock / 1000, 0).toFixed(1);
+
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    card.dataset.name = p.name.toLowerCase();
+    card.dataset.search = `${p.name} ${p.category}`.toLowerCase();
+
+    card.innerHTML = `
+      <img src="${p.image_url}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p>${p.description || ""}</p>
+
+      <p class="price">
+        <strong>₹${p.price} / gm</strong>
+        <span class="kg-price">(₹${pricePerKg} / kg)</span>
+      </p>
+
+      <p class="stock-info">
+        ${
+          isOutOfStock
+            ? `<span class="out-stock">❌ Out of Stock</span>`
+            : `<span class="in-stock">✅ Available Stock: ${stockKg} Kg</span>`
+        }
+      </p>
+
+      <div class="qty-box">
+        <input
+          type="number"
+          min="50"
+          step="50"
+          value="100"
+          id="qty-${p.id}"
+          ${isOutOfStock ? "disabled" : ""}
+        >
+        <span class="unit">gm</span>
+      </div>
+
+      <button
+        class="add-cart-btn"
+        ${isOutOfStock ? "disabled" : ""}
+        onclick="addToCartDB(
+          '${p.id}',
+          '${p.name}',
+          ${p.price},
+          ${p.stock_quantity},
+          ${p.reserved_quantity}
+        )"
+      >
+        ${isOutOfStock ? "Out of Stock" : "➕ Add to Cart"}
+      </button>
+    `;
+
+    section.appendChild(card);
+  });
+}
+
+// function renderProductsByCategory(products) {
+//   document.querySelectorAll(".product-grid").forEach(g => g.innerHTML = "");
+
+//   products.forEach(p => {
+//     const section = document.querySelector(`#${p.category} .product-grid`);
+//     if (!section) return;
+
+//     const pricePerKg = p.price * 1000;
+//     const isOutOfStock = p.stock_quantity === 0;
+
+//     const stockKg = ((p.stock_quantity - p.reserved_quantity) / 1000).toFixed(1);
+
+//     const card = document.createElement("div");
+//     card.className = "product-card";
+
+//     // 🔍 search support (unchanged)
+//     card.dataset.name = p.name.toLowerCase();
+//     card.dataset.search = `${p.name} ${p.category}`.toLowerCase();
+
+//     card.innerHTML = `
+//       <img src="${p.image_url}" alt="${p.name}">
+//       <h3>${p.name}</h3>
+//       <p>${p.description || ""}</p>
+
+//       <p class="price">
+//         <strong>₹${p.price} / gm</strong>
+//         <span class="kg-price">(₹${pricePerKg} / kg)</span>
+//       </p>
+
+//       <p class="stock-info">
+//         ${
+//           isOutOfStock
+//             ? `<span class="out-stock">❌ Out of Stock</span>`
+//             : `<span class="in-stock">✅ Available Stock: ${stockKg}Kg</span>`
+//         }
+//       </p>
+
+//       <div class="qty-box">
+//         <input
+//           type="number"
+//           min="50"
+//           step="50"
+//           value="100"
+//           id="qty-${p.id}"
+//           ${isOutOfStock ? "disabled" : ""}
+//         >
+//         <span class="unit">gm</span>
+//       </div>
+
+//       <button
+//         class="add-cart-btn"
+//         ${isOutOfStock ? "disabled" : ""}
+//         onclick="addToCartDB('${p.id}', '${p.name}', ${p.price}, ${p.stock_quantity})"
+//       >
+//         ${isOutOfStock ? "Out of Stock" : "➕ Add to Cart"}
+//       </button>
+//     `;
+
+//     section.appendChild(card);
+//   });
+// }
+
+
+/* ===========================
+   CART (FINAL FIXED FORMAT)
+=========================== */
+// function addToCartDB(id, name, pricePerGram) {
+//   const grams = Number(document.getElementById(`qty-${id}`).value);
+
+//   if (!grams || grams <= 0) {
+//     alert("Please select quantity in grams");
+//     return;
+//   }
+
+//   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+//   let item = cart.find(i => i.id === id);
+
+//   if (item) {
+//     item.grams = grams;
+//     item.quantity += 1;
+//   } else {
+//     cart.push({
+//       id,
+//       name,
+//       pricePerGram: Number(pricePerGram),
+//       grams: grams,
+//       quantity: 1
+//     });
+//   }
+
+//   localStorage.setItem("cart", JSON.stringify(cart));
+//   updateCartCount();
+// }
+
+const GRAM_STEP = 50;
+async function addToCartDB(
+  id,
+  name,
+  pricePerGram,
+  stock_quantity,
+  reserved_quantity
+) {
+
+  // ✅ REAL AVAILABLE STOCK
+  const availableStock = stock_quantity - reserved_quantity;
+
+  if (availableStock <= 0) {
+    alert("❌ This product is out of stock");
+    return;
+  }
+
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    alert("❌ Please login to add items to cart");
+    return;
+  }
+
+  const grams = Number(document.getElementById(`qty-${id}`).value);
+
+  if (!grams || grams < 50 || grams % 50 !== 0) {
+    alert("❌ Quantity must be in multiples of 50 grams");
+    return;
+  }
+
+  const cartKey = getCartKey(session);
+  let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+  const item = cart.find(i => i.id === id);
+  const existingGrams = item ? item.grams * item.quantity : 0;
+  const newTotalGrams = existingGrams + grams;
+
+  // 🔥 FINAL STOCK CHECK
+  if (newTotalGrams > availableStock) {
+    alert(`❌ Only ${(availableStock / 1000).toFixed(2)} kg available`);
+    return;
+  }
+
+  if (item) {
+    item.quantity += 1;
+    item.grams = grams;
+  } else {
+    cart.push({
+      id,
+      name,
+      pricePerGram,
+      grams,
+      quantity: 1
+    });
+  }
+
+  localStorage.setItem(cartKey, JSON.stringify(cart));
+  updateCartCount();
+  updateCartPreview();
+
+  alert("✅ Product added to cart");
+}
+
+// async function addToCartDB(id, name, pricePerGram, stock_quantity) {
+
+//   // 🛑 1️⃣ Out of stock
+//   if (stock_quantity <= 0) {
+//     alert("❌ This product is out of stock");
+//     return;
+//   }
+
+//   // 🔐 2️⃣ Login check
+//   const { data: { session } } = await supabaseClient.auth.getSession();
+//   if (!session) {
+//     alert("❌ Please login to add items to cart");
+//     return;
+//   }
+
+//   // 🧮 3️⃣ Selected grams
+//   const grams = Number(document.getElementById(`qty-${id}`).value);
+
+//   if (!grams || grams < 10 || grams % 10 !== 0) {
+//   alert("❌ Quantity must be in multiples of 50 grams");
+//   return;
+//   }
+
+//   // 🧹 5️⃣ CLEAR SEARCH AFTER SUCCESSFUL ADD
+//   const searchInput = document.getElementById("searchInput");
+//   const searchSuggestion = document.getElementById("searchSuggestion");
+//   const liveSuggestions = document.getElementById("liveSuggestions");
+
+//   if (searchInput) searchInput.value = "";
+//   if (searchSuggestion) searchSuggestion.style.display = "none";
+//   if (liveSuggestions) liveSuggestions.style.display = "none";
+
+//   const cartKey = getCartKey(session);
+//   let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+//   // 🔍 4️⃣ Find existing item
+//   let item = cart.find(i => i.id === id);
+
+//   // 🧠 5️⃣ Calculate total grams AFTER add
+//   const existingGrams = item ? item.grams * item.quantity : 0;
+//   const newTotalGrams = existingGrams + grams;
+
+//   // 🚫 6️⃣ STOCK LIMIT CHECK (MAIN LOGIC)
+//   if (newTotalGrams > stock_quantity) {
+//     alert(`❌ Only ${stock_quantity} grams available in stock`);
+//     return;
+//   }
+
+//   // ✅ 7️⃣ Add to cart
+//   if (item) {
+//     item.quantity += 1;
+//     item.grams = grams; // per-unit grams
+//   } else {
+//     cart.push({
+//       id,
+//       name,
+//       pricePerGram: Number(pricePerGram),
+//       grams: grams,
+//       quantity: 1
+//     });
+//   }
+
+//   localStorage.setItem(cartKey, JSON.stringify(cart));
+//   updateCartCount();
+//   updateCartPreview();
+
+//   alert("✅ Product added to cart");
+// }
+
+// async function addToCartDB(id, name, pricePerGram) {
+// // 🔐 LOGIN CHECK (UPDATED FOR GUEST ALERT)
+//   const { data: { session } } = await supabaseClient.auth.getSession();
+
+//   if (!session) {
+//     alert("❌ Guest users cannot add items to cart. Please login!");
+//     return;   // 🔥 STOP for guest
+//   }
+
+//   const user = session.user; // Logged-in user
+//   const grams = Number(document.getElementById(`qty-${id}`).value);
+
+//   if (!grams || grams <= 0) {
+//     alert("Please select quantity in grams");
+//     return;
+//   }
+//   const cartKey = getCartKey(session);
+
+//   let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+//   let item = cart.find(i => i.id === id);
+
+//   if (item) {
+//     item.grams = grams;
+//     item.quantity += 1;
+//   } else {
+//     cart.push({
+//       id,
+//       name,
+//       pricePerGram: Number(pricePerGram),
+//       grams: grams,
+//       quantity: 1
+//     });
+//   }
+//   localStorage.setItem(cartKey, JSON.stringify(cart));
+//   updateCartCount();
+//   updateCartPreview(); 
+//     // ✅ SUCCESS ALERT
+//   alert("✅ Product added to cart successfully");
+// }
+
+/* ===========================
+   CART BADGE COUNT
+=========================== */
+// function updateCartCount() {
+//   const badge = document.getElementById("cartCount");
+//   if (!badge) return;
+
+//   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+//   badge.textContent = cart.length;
+// }
+async function updateCartCount() {
+  const badge = document.getElementById("cartCount");
+  if (!badge) return;
+
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  const cartKey = getCartKey(session);
+
+  let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+  badge.textContent = cart.length;
+}
+
+
+// function updateCartPreview() {
+//   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+//   document.getElementById("cartCount").textContent = cart.length;
+
+//   const preview = document.getElementById("previewItems");
+//   preview.innerHTML = "";
+
+//   if (cart.length === 0) {
+//     preview.innerHTML = "<em>Cart is empty</em>";
+//     return;
+//   }
+
+//   cart.forEach(item => {
+//     if (!item.name || !item.grams) return;
+
+//     const div = document.createElement("div");
+//     div.textContent = `🧂 ${item.name} - ${item.grams} gm`;
+//     preview.appendChild(div);
+//   });
+// }
+async function updateCartPreview() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  const cartKey = getCartKey(session);
+
+  const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+  document.getElementById("cartCount").textContent = cart.length;
+
+  const preview = document.getElementById("previewItems");
+  preview.innerHTML = "";
+
+  if (cart.length === 0) {
+    preview.innerHTML = "<em>Cart is empty</em>";
+    return;
+  }
+
+  cart.forEach(item => {
+    const div = document.createElement("div");
+    div.textContent = `🧂 ${item.name} - ${item.grams} gm`;
+    preview.appendChild(div);
+  });
+}
+
+function getCartKey(session) {
+  if (!session) {
+    return "cart_guest"; // Guest cart key
+  }
+  return `cart_${session.user.id}`; // Logged-in user cart key
+}
+/* ===========================
+   CATEGORY FILTER
+=========================== */
+// function showCategory(categoryId) {
+//   document.querySelectorAll(".category-section").forEach(sec => {
+//     sec.style.display =
+//       (categoryId === "all" || sec.id === categoryId) ? "block" : "none";
+//   });
+// }
+
+/* ===========================
+   INIT LOAD
+=========================== */
+
+// 🛑 FORCE LOGOUT if guest mode ON
+if (localStorage.getItem("mode") === "guest") {
+  supabaseClient.auth.signOut(); // no await required
+}
+// update DOMContentLoaded event
+document.addEventListener("DOMContentLoaded", async () => {
+
+  // 🔒 Stop flicker
+  document.body.style.visibility = "hidden";
+
+  const mode = localStorage.getItem("mode");
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (mode === "guest" || !session) {
+    // 👀 Guest
+    document.querySelector(".header-center p").innerText =
+      "Welcome Guest! Browse Products";
+    document.getElementById("badgeCustomerId").innerText = "Guest";
+  } else {
+    // 🔐 Logged-in
+    await loadUserInfo();
+  }
+
+  // ✅ common for all
+  loadAllProducts();
+  updateCartCount();
+  updateCartPreview();
+
+  applyUserModeUI();
+
+  // 👁️ show page
+  document.body.style.visibility = "visible";
+});
+
+
+// document.addEventListener("DOMContentLoaded", async () => {
+
+//   const mode = localStorage.getItem("mode");
+
+//   if (mode === "guest") {
+//     // 👀 FORCE GUEST MODE
+//     document.querySelector(".header-center p").innerText =
+//       "Welcome Guest! Browse Products";
+//     document.getElementById("badgeCustomerId").innerText = "Guest";
+//     // hideProtectedPages(); // 🔥 cart, orders hide करणारे function
+//     loadAllProducts();
+//     updateCartCount();
+//     updateCartPreview();
+//     applyUserModeUI();
+
+//   }
+
+
+//   const { data: { session } } = await supabaseClient.auth.getSession();
+
+//   if (session) {
+//     // 🔐 Logged-in user
+//     await loadUserInfo();
+//   } else {
+//     // 👀 Guest user
+//     document.querySelector(".header-center p").innerText =
+//       "Welcome! Browse our products as Guest";
+//     document.getElementById("badgeCustomerId").innerText = "Guest";
+//   }
+
+//   loadAllProducts();      // ✅ Everyone can see products
+//   updateCartCount();
+//   updateCartPreview();
+
+//   applyUserModeUI();      // 🔥 hide cart/order for guest
+// });
+
+
+// function hideProtectedPages() {
+//   const mode = localStorage.getItem("mode");
+
+//   if (mode === "guest") {
+//     document.querySelector("a[href='add_cart.html']").style.display = "none";
+//     document.querySelector("a[href='order_details.html']").style.display = "none";
+//     document.querySelector("a[href='customer_profil.html']").style.display = "none";
+//   }
+// }
+
+
+</script>
+
+
+<!--  <<<<<<<<<<  Hero Section  >>>>>>>>>   -->
+
+<!-- // function renderProductsByCategory(products) {
+//   document.querySelectorAll(".product-grid").forEach(g => g.innerHTML = "");
+
+//   products.forEach(p => {
+//     const section = document.querySelector(`#${p.category} .product-grid`);
+//     if (!section) return;
+
+//     const card = document.createElement("div");
+//     card.className = "product-card";
+
+//     card.innerHTML = `
+//       <img src="${p.image_url}" alt="${p.name}">
+//       <h3>${p.name}</h3>
+//       <p>${p.description || ""}</p>
+//       <p><b>₹${p.price} / gm</b></p>
+
+//       <input type="number" min="1" value="100" id="qty-${p.id}">
+//       <button onclick="addToCartDB(
+//         '${p.id}',
+//         '${p.name}',
+//         ${p.price}
+//       )">➕ Add to Cart</button>
+//     `;
+
+//     section.appendChild(card);
+//   });
+// } -->
+
+
+<!-- ..................logout Modal Script.................. --> 
+<script>
+function openLogoutModal() {
+  document.getElementById("logoutModal").style.display = "flex";
+}
+
+function closeLogoutModal() {
+  document.getElementById("logoutModal").style.display = "none";
+}
+
+async function performLogout() {
+  localStorage.removeItem("mode");
+  await supabaseClient.auth.signOut();
+  window.location.replace("welcome1page.html");
+}
+
+
+const input = document.getElementById("searchInput");
+const clearBtn = document.getElementById("clearBtn");
+
+input.addEventListener("input", () => {
+  clearBtn.style.display = input.value ? "block" : "none";
+});
+
+
+// /* ===============================
+//    🔔 NOTIFICATION STORAGE (ONLY localStorage)
+// ================================ */
+// window.NOTIFICATIONS =
+//   JSON.parse(localStorage.getItem("notifications") || "{}");
+
+// window.UNREAD_COUNT =
+//   Number(localStorage.getItem("unreadCount") || 0);
+
+// let CURRENT_USER = null;
+// let lastOrderStatus = {};
+
+
+// /* ===============================
+//    🔔 ADD NOTIFICATION
+// ================================ */
+// function addNotification(msg){
+//   const id = Date.now(); // unique id
+
+//   window.NOTIFICATIONS[id] = {
+//     msg,
+//     time: new Date().toLocaleString()
+//   };
+
+//   window.UNREAD_COUNT++;
+
+//   localStorage.setItem(
+//     "notifications",
+//     JSON.stringify(window.NOTIFICATIONS)
+//   );
+//   localStorage.setItem(
+//     "unreadCount",
+//     window.UNREAD_COUNT
+//   );
+
+//   refreshBell();
+// }
+
+
+// /* ===============================
+//    🔴 BELL RED DOT
+// ================================ */
+// function refreshBell() {
+//   const dot = document.getElementById("bellDot");
+//   if (!dot) return;
+
+//   dot.style.display =
+//     window.UNREAD_COUNT > 0 ? "block" : "none";
+// }
+
+
+// /* ===============================
+//    📜 TOGGLE NOTIFICATION PANEL
+// ================================ */
+// function toggleNotifications() {
+//   const panel = document.getElementById("notificationPanel");
+//   if (!panel) return;
+
+//   panel.style.display =
+//     panel.style.display === "block" ? "none" : "block";
+
+//   // mark as read
+//   window.UNREAD_COUNT = 0;
+//   localStorage.setItem("unreadCount", 0);
+//   refreshBell();
+// }
+
+
+// /* ===============================
+//    📜 RENDER NOTIFICATIONS (panel)
+// ================================ */
+// function renderNotifications() {
+//   const list = document.getElementById("notificationList");
+//   if (!list) return;
+
+//   const values = Object.values(window.NOTIFICATIONS);
+//   list.innerHTML = "";
+
+//   if (!values.length) {
+//     list.innerHTML =
+//       `<div class="notification-item">No notifications</div>`;
+//     return;
+//   }
+
+//   values.reverse().forEach(n => {
+//     list.innerHTML += `
+//       <div class="notification-item">
+//         ${n.msg}<br>
+//         <small>${n.time}</small>
+//       </div>
+//     `;
+//   });
+// }
+
+
+// /* ===============================
+//    🧹 CLEAR ALL NOTIFICATIONS
+// ================================ */
+// function clearNotifications(){
+//   window.NOTIFICATIONS = {};
+//   window.UNREAD_COUNT = 0;
+
+//   localStorage.removeItem("notifications");
+//   localStorage.removeItem("unreadCount");
+
+//   refreshBell();
+//   renderNotifications();
+// }
+
+
+// /* ===============================
+//    🔥 REALTIME ORDER STATUS
+// ================================ */
+// function attachOrderRealtime() {
+//   supabaseClient
+//     .channel("order-status-index")
+//     .on(
+//       "postgres_changes",
+//       { event: "UPDATE", schema: "public", table: "orders" },
+//       payload => {
+
+//         console.log("🔴 REALTIME PAYLOAD:", payload);
+
+//         if (payload.new.customer_email !== CURRENT_USER.email) return;
+
+//         const orderId = payload.new.id;
+//         const newStatus = payload.new.status;
+//         const oldStatus = lastOrderStatus[orderId];
+
+//         console.log("Order:", orderId, "Old:", oldStatus, "New:", newStatus);
+
+//         // ✅ ACCEPTED
+//         if (newStatus === "accepted" && oldStatus !== "accepted") {
+//           addNotification(`✅ Order #${orderId} accepted`);
+//         }
+
+//         // 🚚 DELIVERED
+//         if (newStatus === "delivered" && oldStatus !== "delivered") {
+//           addNotification(`🚚 Order #${orderId} delivered`);
+//         }
+
+//         lastOrderStatus[orderId] = newStatus;
+//       }
+//     )
+//     .subscribe();
+// }
+
+
+// /* ===============================
+//    📦 LOAD INITIAL ORDER STATUS
+// ================================ */
+// async function loadInitialOrderStatus() {
+//   const { data: orders } = await supabaseClient
+//     .from("orders")
+//     .select("id, status")
+//     .eq("customer_email", CURRENT_USER.email);
+
+//   orders.forEach(o => {
+//     lastOrderStatus[o.id] = o.status;
+//   });
+// }
+
+
+// /* ===============================
+//    🚀 INIT INDEX PAGE
+// ================================ */
+// async function initIndex() {
+//   const { data: { session } } =
+//     await supabaseClient.auth.getSession();
+
+//   if (!session) return;
+
+//   CURRENT_USER = session.user;
+
+//   await loadInitialOrderStatus(); // cache old status
+//   attachOrderRealtime();          // realtime listener
+
+//   refreshBell();
+//   renderNotifications();
+// }
+
+// document.addEventListener("DOMContentLoaded", initIndex);
+
+
+/* ===============================
+   🌍 GLOBAL
+================================ */
+let CURRENT_USER = null;
+let lastOrderStatus = {};
+
+/* ===============================
+   🔑 USER-WISE STORAGE
+================================ */
+function notifKey() {
+  if (!CURRENT_USER) return null;
+  return `notifications_${CURRENT_USER.id}`;
+}
+
+function unreadKey() {
+  if (!CURRENT_USER) return null;
+  return `unreadCount_${CURRENT_USER.id}`;
+}
+
+function getNotifications() {
+  const key = notifKey();
+  if (!key) return {};
+  return JSON.parse(localStorage.getItem(key) || "{}");
+}
+
+function setNotifications(data) {
+  const key = notifKey();
+  if (!key) return;
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function getUnread() {
+  const key = unreadKey();
+  if (!key) return 0;
+  return Number(localStorage.getItem(key) || 0);
+}
+
+function setUnread(count) {
+  const key = unreadKey();
+  if (!key) return;
+  localStorage.setItem(key, count);
+}
+
+
+function notifDateKey() {
+  if (!CURRENT_USER) return null;
+  return `notif_date_${CURRENT_USER.id}`;
+}
+
+/* ===============================
+   🔄 DAILY RESET CHECK
+================================ */
+function checkDailyNotificationReset() {
+  const key = notifDateKey();
+  const notifStorageKey = notifKey();
+
+  if (!key || !notifStorageKey) return;
+
+  const today = new Date().toDateString();
+  const savedDate = localStorage.getItem(key);
+
+  if (savedDate !== today) {
+    // 🔥 clear only notifications, not user or auth
+    localStorage.removeItem(notifStorageKey);
+    localStorage.setItem(unreadKey(), 0);
+    localStorage.setItem(key, today);
+  }
+}
+
+/* ===============================
+   🔔 ADD NOTIFICATION
+================================ */
+function addNotification(msg, type) {
+  const notifications = getNotifications();
+
+  const id = Date.now(); // 🔑 unique + sortable
+  notifications[id] = {
+    msg,
+    time: id // ✅ NUMBER ONLY
+  };
+
+  setNotifications(notifications);
+  setUnread(getUnread() + 1);
+  refreshBell();
+  playNotifSound(type);
+
+  // 🔥 only if function exists
+  if (typeof renderNotifications === "function") {
+    renderNotifications();
+  }
+}
+
+// function addNotification(msg, type) {
+//   const notifications = getNotifications();
+
+//   const id = Date.now();
+//   notifications[id] = {
+//     msg,
+//     time: new Date().toLocaleString()
+//   };
+
+//   setNotifications(notifications);
+//   setUnread(getUnread() + 1);
+//   refreshBell();
+//   playNotifSound(type); // 🔊 HERE
+//   renderNotifications(); // 🔥 IMPORTANT
+
+// }
+
+/* ===============================
+   🔴 BELL DOT
+================================ */
+function refreshBell() {
+  const dot = document.getElementById("bellDot");
+  if (!dot) return;
+  dot.style.display = getUnread() > 0 ? "block" : "none";
+}
+
+/* ===============================
+   📜 PANEL
+================================ */
+function toggleNotifications() {
+  const panel = document.getElementById("notificationPanel");
+  if (!panel) return;
+
+  panel.style.display =
+    panel.style.display === "block" ? "none" : "block";
+
+  setUnread(0);
+  refreshBell();
+}
+
+function renderNotifications() {
+  const list = document.getElementById("notificationList");
+  if (!list) return;
+
+  const notifications =
+    Object.values(getNotifications()).reverse();
+
+  list.innerHTML = "";
+
+  if (!notifications.length) {
+    list.innerHTML =
+      `<div class="notification-item">No notifications</div>`;
+    return;
+  }
+
+  notifications.forEach(n => {
+    list.innerHTML += `
+      <div class="notification-item">
+        ${n.msg}<br>
+        <small>${n.time}</small>
+      </div>
+    `;
+  });
+}
+
+/* ===============================
+   🔥 REALTIME ORDER STATUS
+================================ */
+function attachOrderRealtime() {
+  supabaseClient
+    .channel("order-status-index")
+    .on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "orders" },
+      payload => {
+
+        if (!CURRENT_USER) return;
+        if (payload.new.customer_email !== CURRENT_USER.email) return;
+
+        const orderId = payload.new.id;
+        const newStatus = payload.new.status;
+        const oldStatus = lastOrderStatus[orderId];
+
+        // const status = newStatus.toLowerCase();
+        const status = payload.new.status.toLowerCase();
+
+        if (status === "accepted") {
+          addNotification(`✅ Order #${orderId} accepted`, "accepted");
+        }
+        
+        if (status === "delivered") {
+          addNotification(`🚚 Order #${orderId} delivered`, "delivered");
+        }
+        
+        lastOrderStatus[orderId] = status;
+        
+      }
+    )
+    .subscribe();
+}
+
+function alreadyNotified(orderId, status) {
+  const key = `order_notified_${orderId}_${status}`;
+  if (localStorage.getItem(key)) return true;
+  localStorage.setItem(key, "1");
+  return false;
+}
+
+if (status === "accepted" && !alreadyNotified(orderId, "accepted")) {
+  addNotification(`✅ Order #${orderId} accepted`, "accepted");
+}
+
+if (status === "delivered" && !alreadyNotified(orderId, "delivered")) {
+  addNotification(`🚚 Order #${orderId} delivered`, "delivered");
+}
+
+
+// if (newStatus === "accepted" && oldStatus !== "accepted") {
+//         addNotification(`✅ Order #${orderId} accepted`, "accepted");
+//         }
+        
+//         if (newStatus === "delivered" && oldStatus !== "delivered") {
+//           addNotification(`🚚 Order #${orderId} delivered`, "delivered");
+//         }
+
+//         lastOrderStatus[orderId] = newStatus;
+
+/* ===============================
+   📦 LOAD OLD STATUS
+================================ */
+async function loadInitialOrderStatus() {
+  const { data: orders } = await supabaseClient
+    .from("orders")
+    .select("id, status")
+    .eq("customer_email", CURRENT_USER.email);
+
+  orders.forEach(o => {
+    lastOrderStatus[o.id] = o.status;
+  });
+}
+
+/* ===============================
+   🔊 PLAY SOUND
+================================ */
+
+function playNotifSound(type) {
+  let soundId =
+    type === "accepted"
+      ? "soundAccepted"
+      : type === "delivered"
+      ? "soundDelivered"
+      : null;
+
+  if (!soundId) return;
+
+  const sound = document.getElementById(soundId);
+  if (!sound) return;
+
+  sound.currentTime = 0;
+  sound.play().catch(() => {});
+}
+
+/* ===============================
+   🚀 INIT INDEX
+================================ */
+async function initIndex() {
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
+
+  if (!session) return;
+
+  CURRENT_USER = session.user;
+  
+  checkDailyNotificationReset(); // 🔥 ADD THIS LINE
+
+  await loadInitialOrderStatus();
+  attachOrderRealtime();
+
+  refreshBell();
+  renderNotifications();
+}
+
+document.addEventListener("DOMContentLoaded", initIndex);
+
+/* ===============================
+   🔊 PRELOAD SOUNDS
+================================ */
+
+document.addEventListener("click", () => {
+  ["soundAccepted", "soundDelivered"].forEach(id => {
+    const s = document.getElementById(id);
+    if (s) s.play().then(() => s.pause()).catch(()=>{});
+  });
+}, { once: true });
+
+// window.NOTIFICATIONS = JSON.parse(sessionStorage.getItem("notifications") || "{}");
+// window.UNREAD_COUNT = Number(sessionStorage.getItem("unreadCount") || 0);
+
+// // function addNotification(msg) {
+// //   const id = Date.now(); // unique
+
+// //   window.NOTIFICATIONS.unshift({
+// //     msg,
+// //     time: new Date().toLocaleString()
+// //   });
+
+// //   window.UNREAD_COUNT++;
+
+// //   sessionStorage.setItem("notifications", JSON.stringify(window.NOTIFICATIONS));
+// //   sessionStorage.setItem("unreadCount", window.UNREAD_COUNT);
+
+// //   refreshBell();
+// //   renderNotifications();
+// // }
+// function addNotification(msg){
+//   const id = Date.now(); // unique
+
+//   window.NOTIFICATIONS[id] = {
+//     msg,
+//     time: new Date().toLocaleString()
+//   };
+
+//   window.UNREAD_COUNT++;
+
+//   //sessionStorage.setItem("notifications", JSON.stringify(NOTIFICATIONS));
+//   // sessionStorage.setItem("unreadCount", UNREAD_COUNT);
+//   localStorage.setItem("notifications", JSON.stringify(window.NOTIFICATIONS));
+//   localStorage.setItem("unreadCount", window.UNREAD_COUNT);
+  
+//   refreshBell();
+//   renderNotifications();
+// }
+
+// // function refreshBell() {
+// //   document.getElementById("bellDot").style.display =
+// //     window.UNREAD_COUNT > 0 ? "block" : "none";
+// // }
+// function refreshBell() {
+//   const dot = document.getElementById("bellDot");
+//   if (!dot) return;
+//   dot.style.display = window.UNREAD_COUNT > 0 ? "block" : "none";
+// }
+
+// // function toggleNotifications() {
+// //   const panel = document.getElementById("notificationPanel");
+// //   panel.style.display = panel.style.display === "block" ? "none" : "block";
+
+// //   window.UNREAD_COUNT = 0;
+// //   sessionStorage.setItem("unreadCount", 0);
+// //   refreshBell();
+// // }
+// function toggleNotifications() {
+//   const panel = document.getElementById("notificationPanel");
+//   if (!panel) return;
+
+//   panel.style.display = panel.style.display === "block" ? "none" : "block";
+
+//   window.UNREAD_COUNT = 0;
+//   sessionStorage.setItem("unreadCount", 0);
+//   refreshBell();
+// }
+
+// function renderNotifications() {
+//   const list = document.getElementById("notificationList");
+//   if (!list) return;
+
+//   list.innerHTML = "";
+
+//   if (!window.NOTIFICATIONS.length) {
+//     list.innerHTML = `<div class="notification-item">No notifications</div>`;
+//     return;
+//   }
+
+
+//   Object.values(window.NOTIFICATIONS)
+//   .reverse()
+//   .forEach(n => {
+//     list.innerHTML += `
+//       <div class="notification-item">
+//         ${n.msg}<br>
+//         <small>${n.time}</small>
+//       </div>
+//     `;
+// });
+
+// }
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   refreshBell();
+//   renderNotifications();
+// });
+
+// let lastOrderStatus = {};
+// function attachOrderRealtime() {
+//   supabaseClient
+//     .channel("order-status-index")
+//     .on(
+//       "postgres_changes",
+//       { event: "UPDATE", schema: "public", table: "orders" },
+//       payload => {
+
+//         console.log("🔴 REALTIME PAYLOAD:", payload);
+
+//         if (payload.new.customer_email !== CURRENT_USER.email) return;
+
+//         const orderId = payload.new.id;
+//         const newStatus = payload.new.status;
+//         const oldStatus = lastOrderStatus[orderId];
+
+//         console.log("Order:", orderId, "Old:", oldStatus, "New:", newStatus);
+
+//         if (newStatus === "accepted" && oldStatus !== "accepted") {
+//           addNotification(`✅ Order #${orderId} accepted`);
+//         }
+
+//         if (newStatus === "delivered" && oldStatus !== "delivered") {
+//           addNotification(`🚚 Order #${orderId} delivered`);
+//         }
+
+//         lastOrderStatus[orderId] = newStatus;
+//       }
+//     )
+//     .subscribe();
+// }
+
+
+// async function loadInitialOrderStatus() {
+//   const { data: orders } = await supabaseClient
+//     .from("orders")
+//     .select("id, status")
+//     .eq("customer_email", CURRENT_USER.email);
+
+//   orders.forEach(o => {
+//     lastOrderStatus[o.id] = o.status;
+//   });
+// }
+
+// async function initIndex() {
+//   const { data: { session } } = await supabaseClient.auth.getSession();
+//   if (!session) return;
+
+//   CURRENT_USER = session.user;
+
+//   await loadInitialOrderStatus(); // 👈 cache
+//   attachOrderRealtime();          // 👈 realtime
+//   refreshBell();
+//   renderNotifications();
+// }
+
+// initIndex();
+
+// function clearNotifications(){
+//   window.NOTIFICATIONS = {};
+//   window.UNREAD_COUNT = 0;
+//   sessionStorage.clear();
+//   refreshBell();
+//   renderNotifications();
+// }
+
+//   window.NOTIFICATIONS = [];
+//   window.UNREAD_COUNT = 0;
+
+// function updateBell(){
+//   document.getElementById("bellDot").style.display =
+//     window.UNREAD_COUNT > 0 ? "block" : "none";
+// }
+
+// function openNotifications(){
+//   window.location.href = "notifications.html";
+// }
+// updateBell();
+
+</script>
+
+</body>
+</html>

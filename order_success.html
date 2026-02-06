@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Success | Viraj Masale</title>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabaseClient = supabase.createClient(
+    "https://uibdyfebaqabjwkctotg.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+  );
+</script>
+
+<style>
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg,#f4f7fb,#edf1f7);
+}
+
+.page {
+  max-width: 960px;
+  margin: 30px auto;
+  padding: 10px;
+}
+
+/* ===== HEADER ===== */
+.success-head {
+  background: linear-gradient(135deg,#ffffff,#f9fbff);
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+}
+
+.success-head h1 {
+  color: #2e7d32;
+  margin-bottom: 6px;
+}
+
+.success-head p {
+  color: #555;
+}
+
+.order-meta {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.order-meta div {
+  background: #f1f4f9;
+  padding: 14px 18px;
+  border-radius: 12px;
+  min-width: 180px;
+}
+
+.order-meta span {
+  font-size: 12px;
+  color: #666;
+}
+
+.order-meta b {
+  display: block;
+  margin-top: 4px;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: #fff;
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.07);
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+/* ===== TABLE ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f3f5f8;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.grand-total {
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 14px;
+}
+
+/* ===== STATUS ===== */
+.status.pending {
+  color: #ff9800;
+}
+
+/* ===== TRACKING ===== */
+.tracking {
+  list-style: none;
+  padding: 0;
+}
+
+.tracking li {
+  margin: 8px 0;
+}
+
+.tracking .done {
+  color: #2e7d32;
+}
+
+.tracking .active {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+/* ===== BUTTONS ===== */
+.actions {
+  text-align: center;
+  margin: 25px 0;
+}
+
+.actions button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  cursor: pointer;
+  margin: 5px;
+  color: #fff;
+  background: linear-gradient(135deg,#1976d2,#0d47a1);
+}
+
+.actions .secondary {
+  background: linear-gradient(135deg,#2e7d32,#1b5e20);
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="success-head">
+    <h1>🎉 Order Received</h1>
+    <p>Your order has been successfully placed</p>
+
+    <div class="order-meta">
+      <div>
+        <span>Order ID</span>
+        <b id="orderId">—</b>
+      </div>
+      <div>
+        <span>Order Date</span>
+        <b id="orderDate">—</b>
+      </div>
+      <div>
+        <span>Status</span>
+        <b id="orderStatus" class="status pending">pending</b>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER -->
+  <div class="card">
+    <h3>👤 Customer Details</h3>
+    <p><b>Name:</b> <span id="customerName"></span></p>
+    <p><b>Email:</b> <span id="customerEmail"></span></p>
+  </div>
+
+  <!-- ADDRESS -->
+  <div class="card">
+    <h3>📍 Delivery Address</h3>
+    <p id="deliveryAddress"></p>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="card">
+    <h3>🛒 Ordered Products</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Weight</th>
+          <th>Price / gm</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="itemsBody"></tbody>
+    </table>
+
+    <div class="grand-total">
+      Grand Total: ₹<span id="grandTotal">0</span>
+    </div>
+  </div>
+
+  <!-- TRACKING -->
+  <div class="card">
+    <h3>📦 Order Tracking</h3>
+    <ul class="tracking">
+      <li class="done">✔ Order received</li>
+      <li class="active">⏳ Awaiting admin confirmation</li>
+      <li>⬜ Preparing</li>
+      <li>⬜ Out for delivery</li>
+      <li>⬜ Delivered</li>
+    </ul>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button onclick="location.href='my_orders.html'">View My Orders</button>
+    <button class="secondary" onclick="location.href='index.html'">Continue Shopping</button>
+  </div>
+
+</div>
+
+<!-- bell on index page  -->
+<audio id="soundAccepted" preload="auto">
+  <source src="bell.wav" type="audio/mpeg">
+</audio>
+
+<audio id="soundDelivered" preload="auto">
+  <source src="bell_2.wav" type="audio/mpeg">
+</audio>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const orderId = localStorage.getItem("last_order_id");
+  if (!orderId) {
+    alert("Order not found");
+    return;
+  }
+
+  const { data: order, error } = await supabaseClient
+    .from("orders")
+    .select(`
+      id,
+      created_at,
+      status,
+      total_amount,
+      address,
+      customer_name,
+      customer_email,
+      order_items (
+        quantity,
+        grams,
+        price_per_gram,
+        product_name
+      )
+    `)
+    .eq("id", orderId)
+    .single();
+
+  if (error || !order) {
+    alert("Order not found");
+    return;
+  }
+
+  document.getElementById("orderId").innerText = order.id;
+  document.getElementById("orderDate").innerText =
+    new Date(order.created_at).toLocaleString();
+
+  document.getElementById("orderStatus").innerText = order.status;
+  document.getElementById("customerName").innerText = order.customer_name;
+  document.getElementById("customerEmail").innerText = order.customer_email;
+  document.getElementById("deliveryAddress").innerText = order.address;
+
+  let total = 0;
+  const tbody = document.getElementById("itemsBody");
+
+  order.order_items.forEach(item => {
+    const itemTotal =
+      item.quantity * item.grams * item.price_per_gram;
+
+    total += itemTotal;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${item.product_name}</td>
+      <td>${item.quantity}</td>
+      <td>${item.grams} gm</td>
+      <td>₹${item.price_per_gram.toFixed(2)}</td>
+      <td>₹${itemTotal.toFixed(2)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("grandTotal").innerText = total.toFixed(2);
+});
+</script>
+
+<script src="notifications.js"></script>
+
+</body>
+</html>

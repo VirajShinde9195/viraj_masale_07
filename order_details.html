@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order_Details - Viraj Masale</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f4ef;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      animation: fadeIn 1s ease;
+    }
+
+    header {
+      background: #d91440;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    nav {
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 12px 0;
+      font-weight: bold;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #111;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .thankyou-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      color: #25D366;
+      animation: bounce 1s ease infinite alternate;
+    }
+
+    h2 {
+      color: #d91440;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .summary {
+      margin: 20px 0;
+      font-size: 18px;
+      line-height: 1.6;
+      text-align: left;
+      background: #fdf5f5;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .summary b {
+      color: #d91440;
+    }
+
+    .delivery-info {
+      background: #f7ffe5;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+      color: #2f7c0b;
+      font-size: 16px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-back {
+      background: #d91440;
+      color: white;
+      margin-right: 15px;
+    }
+
+    .btn-back:hover {
+      background: #b31236;
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: white;
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #1eb152;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 40px;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .user-badge {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  text-align: center;
+  z-index: 999;
+}
+
+.user-badge img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #25D366;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.user-badge img:hover {
+  transform: scale(1.1);
+}
+
+.user-id {
+  background: #d91440;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 13px;
+  margin-top: 5px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  
+}
+
+nav a:hover {
+  background-color: #d91440;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="user-badge" id="userBadge" title="Customer Info">
+  <img src="https://i.ibb.co/X54kBN8/user-icon.png" alt="User" />
+  <div class="user-id" id="badgeCustomerId">Loading...</div>
+</div>
+
+
+  <header>
+    <h1>Viraj Masale</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="products.html">Products</a>
+    <a href="add_cart.html">🛒 Cart</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div class="container">
+    <div class="thankyou-icon">✅</div>
+    <h2>Thank You, <span id="custName">Customer</span>!</h2>
+    <p>Your order has been placed successfully.</p>
+
+    <div class="summary" id="orderSummary">
+      <b>Order Details:</b><br>
+      Loading...
+    </div>
+
+    <div class="delivery-info">
+      📦 Estimated Delivery: <span id="deliveryDate">Tomorrow</span>
+    <!-- </div>
+
+    <a href="index.html" class="btn btn-back">⬅️ Continue Shopping</a>
+    <a id="whatsappBtn" class="btn btn-whatsapp" target="_blank">📲 View on WhatsApp</a>
+  </div> -->
+  <a href="order_tracker.html" class="btn btn-back">📦 Track Order Status</a>
+
+
+  <footer>
+    &copy; 2025 Viraj Masale
+  </footer>
+ <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCRaPf-khd5b9xr-F_3liPnB8asJnQcw-0",
+    authDomain: "virajmasale9195.firebaseapp.com",
+    projectId: "virajmasale9195",
+    storageBucket: "virajmasale9195.appspot.com",
+    messagingSenderId: "257333053440",
+    appId: "1:257333053440:web:08e92a23f14a1617ba70e5"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const cid = localStorage.getItem("loggedInCustomerId");
+  if (!cid) {
+    alert("🔒 Please login first.");
+    window.location.href = "login.html";
+  }
+
+  window.onload = async () => {
+    try {
+      // Get user data from Firebase
+      const snapshot = await db.collection("registration")
+        .where("customerId", "==", cid)
+        .get();
+
+      if (snapshot.empty) {
+        alert("⚠️ Invalid login session. Please login again.");
+        localStorage.clear();
+        window.location.href = "login.html";
+        return;
+      }
+
+      const userData = snapshot.docs[0].data();
+      const name = userData.name;
+      const address = userData.village + ", " + userData.taluka + ", " + userData.district;
+      const date = new Date().toLocaleDateString();
+
+      const summary = localStorage.getItem("lastOrderSummary") || "No order summary available.";
+      const total = localStorage.getItem("lastOrderTotal") || "0.00";
+      const phone = "9322789195";
+
+      document.getElementById("custName").textContent = name;
+
+      document.getElementById("orderSummary").innerHTML = `
+        <b>Order Details:</b><br>
+        👤 Name: ${name}<br>
+        🆔 Customer ID: ${cid}<br>
+        🏠 Address: ${address}<br>
+        📅 Order Date: ${date}<br><br>
+        ${summary.replace(/\n/g, "<br>")}
+        <br><br><b>Total:</b> ₹${total}
+      `;
+
+      const delivery = new Date(Date.now() + 86400000).toDateString();
+      document.getElementById("deliveryDate").textContent = delivery;
+
+      const whatsappMessage = encodeURIComponent(
+        `🛒 *Viraj Masale Order Confirmation*\n👤 Name: ${name}\n🆔 ID: ${cid}\n🏠 Address: ${address}\n📅 Order Date: ${date}\n\n${summary}\n\n💰 Total: ₹${total}`
+      );
+
+      document.getElementById("whatsappBtn").href = `https://wa.me/${phone}?text=${whatsappMessage}`;
+    } catch (err) {
+      console.error(err);
+      alert("❌ Something went wrong. Please refresh the page.");
+    }
+  };
+</script>
+<script>
+  const badgeCid = localStorage.getItem("loggedInCustomerId");
+  if (badgeCid) {
+    document.getElementById("badgeCustomerId").textContent = badgeCid;
+  } else {
+    document.getElementById("userBadge").style.display = "none";
+  }
+</script>
+
+
+</body>
+</html>

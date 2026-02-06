@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notifications</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: linear-gradient(135deg,#f7f8fb,#eef2f7);
+}
+
+/* ===== Header ===== */
+.header {
+  background: #fff;
+  padding: 16px 20px;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header span {
+  font-size: 22px;
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 0 14px;
+}
+
+/* ===== Notification Card ===== */
+.notification {
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+  animation: slideUp .3s ease;
+}
+
+.notification.accepted {
+  border-left: 5px solid #3b82f6;
+}
+
+.notification.delivered {
+  border-left: 5px solid #22c55e;
+}
+
+.notification .msg {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.notification .time {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ===== Empty ===== */
+.empty {
+  background: #fff;
+  padding: 40px;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+  font-size: 16px;
+}
+
+/* ===== Animation ===== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Controls ===== */
+.controls {
+  max-width: 700px;
+  margin: 12px auto 0;
+  padding: 0 14px;
+  display: flex;
+  gap: 10px;
+}
+
+.controls input[type="date"] {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  background: #fff;
+}
+
+.clear-btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg,#ef4444,#dc2626);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(239,68,68,0.3);
+}
+
+.clear-btn:hover {
+  opacity: 0.9;
+}
+
+/* ===== Day Divider ===== */
+.day-divider {
+  margin: 20px 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4b5563;
+}
+
+/* ===== Header Layout Upgrade ===== */
+.header {
+  position: relative;
+  justify-content: space-between;
+}
+
+/* Title center fix */
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Header buttons */
+.nav-btn {
+  background: linear-gradient(135deg,#3b82f6,#eb7b25ec);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.nav-btn:hover {
+  background: #f05f5f;
+}
+
+/* Primary (My Orders) */
+.nav-btn.primary {
+  background: linear-gradient(135deg,#3b82f6,#eb7b25ec);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(59,130,246,0.35);
+}
+
+.nav-btn.primary:hover {
+  opacity: 0.9;
+  background: #f05f5f;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <!-- Left -->
+  <button class="nav-btn" onclick="location.href='index.html'">
+    ← Home
+  </button>
+
+  <!-- Center -->
+  <div class="header-title">
+    🔔 Notifications
+  </div>
+
+  <!-- Right -->
+  <button class="nav-btn primary" onclick="location.href='my_orders.html'">
+    📦 My Orders
+  </button>
+</div>
+
+
+
+<div class="controls">
+  <input type="date" id="dateFilter" />
+  <button class="clear-btn" onclick="clearHistory()">🧹 Clear History</button>
+</div>
+
+<div class="container" id="list"></div>
+<!-- 
+<script>
+const notifications =
+  JSON.parse(sessionStorage.getItem("notifications") || "[]");
+
+// mark all as read
+sessionStorage.setItem("unreadCount", 0);
+
+const list = document.getElementById("list");
+
+if (!notifications.length) {
+  list.innerHTML = `
+    <div class="empty">
+      😕 No notifications yet
+    </div>
+  `;
+} else {
+  notifications.forEach(n => {
+    const type =
+      n.msg.includes("accepted") ? "accepted" :
+      n.msg.includes("delivered") ? "delivered" : "";
+
+    list.innerHTML += `
+      <div class="notification ${type}">
+        <div class="msg">${n.msg}</div>
+        <div class="time">🕒 ${n.time}</div>
+      </div>
+    `;
+  });
+}
+</script> -->
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<!-- 2️⃣ Supabase init (IMPORTANT) -->
+<script>
+  const SUPABASE_URL = "https://uibdyfebaqabjwkctotg.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI";
+
+  window.supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+/* ===============================
+   🌍 GLOBAL
+================================ */
+let CURRENT_USER = null;
+
+/* ===============================
+   🔑 USER-WISE STORAGE
+================================ */
+function notifKey() {
+  if (!CURRENT_USER) return null;
+  return `notifications_${CURRENT_USER.id}`;
+}
+
+
+function unreadKey() {
+  if (!CURRENT_USER) return null;
+  return `unreadCount_${CURRENT_USER.id}`;
+}
+
+function getNotifications() {
+  const key = notifKey();
+  if (!key) return {};
+  return JSON.parse(localStorage.getItem(key) || "{}");
+}
+
+function setUnread(count) {
+  const key = unreadKey();
+  if (!key) return;
+  localStorage.setItem(key, count);
+}
+
+function getUnread() {
+  const key = unreadKey();
+  if (!key) return 0;
+  return Number(localStorage.getItem(key) || 0);
+}
+
+
+
+/* ===============================
+   🔴 BELL DOT
+================================ */
+function refreshBell() {
+  const dot = document.getElementById("bellDot");
+  if (!dot) return;
+  dot.style.display = getUnread() > 0 ? "block" : "none";
+}
+
+
+function renderNotificationList() {
+  const list = document.getElementById("list");
+  if (!list) return;
+
+  const all = Object.values(getNotifications())
+    .sort((a, b) => b.time - a.time);
+
+  list.innerHTML = "";
+
+  if (!all.length) {
+    list.innerHTML =
+      `<div class="empty">😕 No notifications yet</div>`;
+    return;
+  }
+
+  const filterInput = document.getElementById("dateFilter");
+  const selectedDate =
+    filterInput && filterInput.value
+      ? filterInput.value
+      : null;
+
+  let found = false;
+  let lastDay = "";
+
+  all.forEach(n => {
+    const d = new Date(n.time);
+    if (isNaN(d)) return;
+
+    const dayKey = d.toLocaleDateString("en-CA"); 
+    // gives YYYY-MM-DD in LOCAL timezone
+
+
+    // 🔥 FILTER
+    if (selectedDate && selectedDate !== dayKey) return;
+
+    found = true;
+
+    if (dayKey !== lastDay) {
+      list.innerHTML += `
+        <div class="day-divider">
+          ${d.toDateString()}
+        </div>
+      `;
+      lastDay = dayKey;
+    }
+
+    const type =
+      n.msg.includes("accepted") ? "accepted" :
+      n.msg.includes("delivered") ? "delivered" : "";
+
+    list.innerHTML += `
+      <div class="notification ${type}">
+        <div class="msg">${n.msg}</div>
+        <div class="time">🕒 ${d.toLocaleString()}</div>
+      </div>
+    `;
+  });
+
+  // ❌ NO RESULTS FOR DATE
+  if (!found) {
+    list.innerHTML =
+      `<div class="empty">😕 No notifications for selected date</div>`;
+  }
+}
+
+
+
+/* =============================
+   🧹 CLEAR HISTORY 
+ =============================*/ 
+function clearHistory() {
+  if (!CURRENT_USER) return;
+  if (!confirm("Clear all notifications history?")) return;
+
+  localStorage.removeItem(notifKey());
+  renderNotificationList();
+}
+
+document.getElementById("dateFilter")
+  ?.addEventListener("change", renderNotificationList);
+
+/* ===============================
+   🔥 REALTIME ORDER STATUS
+   (SAME AS INDEX PAGE)
+================================ */
+function attachOrderRealtime() {
+  supabaseClient
+    .channel("order-status-notification")
+    .on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "orders" },
+      payload => {
+
+        if (!CURRENT_USER) return;
+        if (payload.new.customer_email !== CURRENT_USER.email) return;
+
+        const orderId = payload.new.id;
+        const newStatus = payload.new.status;
+
+        if (newStatus === "accepted") {
+          addNotification(`✅ Order #${orderId} accepted`);
+        }
+
+        if (newStatus === "delivered") {
+          addNotification(`🚚 Order #${orderId} delivered`);
+        }
+      }
+    )
+    .subscribe();
+}
+
+/* ===============================
+   📥 LOAD PAST ORDERS 
+================================ */
+async function loadPastOrderNotifications() {
+  if (!CURRENT_USER) return;
+
+  const { data, error } = await supabaseClient
+    .from("orders")
+    .select("id, status, created_at")
+    .eq("customer_email", CURRENT_USER.email);
+
+  if (error || !data) return;
+
+  const key = notifKey();
+  const stored =
+    JSON.parse(localStorage.getItem(key) || "{}");
+
+  data.forEach(order => {
+    const ts = new Date(order.created_at).getTime();
+
+    // ⛔ already exists → skip
+    if (stored[ts]) return;
+
+    let msg = null;
+
+    if (order.status === "accepted") {
+      msg = `✅ Order #${order.id} accepted`;
+    }
+
+    if (order.status === "delivered") {
+      msg = `🚚 Order #${order.id} delivered`;
+    }
+
+    if (msg) {
+      stored[ts] = {
+        msg,
+        time: ts
+      };
+    }
+  });
+
+  localStorage.setItem(key, JSON.stringify(stored));
+}
+
+/* ===============================
+   📜 INIT NOTIFICATION PAGE
+================================ */
+async function initNotificationsPage() {
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
+
+  if (!session) return;
+  CURRENT_USER = session.user;
+
+  // 🔥 load past orders first
+  await loadPastOrderNotifications();
+
+  setUnread(0);
+  refreshBell();
+
+  renderNotificationList();
+  attachOrderRealtime();
+
+  // ✅ date filter listener
+  document.getElementById("dateFilter")
+  ?.addEventListener("change", renderNotificationList);
+
+}
+
+
+// async function initNotificationsPage() {
+//   const { data: { session } } =
+//     await supabaseClient.auth.getSession();
+
+//   if (!session) return;
+//   CURRENT_USER = session.user;
+
+//   setUnread(0);
+//   refreshBell();
+
+//   renderNotificationList(); // initial load
+//   attachOrderRealtime();    // 🔥 realtime
+// }
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  initNotificationsPage
+);
+/* ===============================
+   🔥 RENDER NOTIFICATION LIST
+================================ */
+function addNotification(msg) {
+  const key = notifKey();
+  if (!key) return;
+
+  const data =
+    JSON.parse(localStorage.getItem(key) || "{}");
+
+  const ts = Date.now();
+
+  data[ts] = {
+    msg,
+    time: ts
+  };
+  
+
+  localStorage.setItem(key, JSON.stringify(data));
+
+  // 🔴 increase unread
+  setUnread(getUnread() + 1);
+  refreshBell();
+
+  // 🔥 update UI if page is open
+  renderNotificationList();
+}
+
+// function addNotification(msg) {
+//   const key = notifKey();
+//   if (!key) return;
+
+//   const data =
+//     JSON.parse(localStorage.getItem(key) || "{}");
+
+//   data[Date.now()] = {
+//     msg,
+//     time: new Date().toLocaleString()
+//   };
+
+//   localStorage.setItem(key, JSON.stringify(data));
+
+//   // 🔥 DIRECT UI UPDATE
+//   renderNotificationList();
+// }
+</script>
+
+<!-- <script>
+/* ===============================
+   🔔 LOAD NOTIFICATIONS (OBJECT → ARRAY)
+================================ */
+const raw =
+  JSON.parse(localStorage.getItem("notifications") || "{}");
+
+// mark all as read
+localStorage.setItem("unreadCount", 0);
+
+const notifications = Object.values(raw).reverse();
+const list = document.getElementById("list");
+
+if (!notifications.length) {
+  list.innerHTML = `
+    <div class="empty">
+      😕 No notifications yet
+    </div>
+  `;
+} else {
+  notifications.forEach(n => {
+    const type =
+      n.msg.includes("accepted") ? "accepted" :
+      n.msg.includes("delivered") ? "delivered" : "";
+
+    list.innerHTML += `
+      <div class="notification ${type}">
+        <div class="msg">${n.msg}</div>
+        <div class="time">🕒 ${n.time}</div>
+      </div>
+    `;
+  });
+}
+</script> -->
+
+
+</body>
+</html>

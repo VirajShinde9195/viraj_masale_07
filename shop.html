@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shop - Viraj Masale</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff8f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #555;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+
+    nav {
+      background: white;
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      font-weight: bold;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #111;
+    }
+
+    .image-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .image-grid img {
+      width: 22%;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .shop-section {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .shop-section h2 {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .shop-section a {
+      background: #25D366;
+      padding: 12px 25px;
+      border-radius: 6px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .shop-details {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .image-grid img {
+        width: 45%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .image-grid img {
+        width: 90%;
+      }
+    }
+    .user-badge {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  text-align: center;
+  z-index: 999;
+}
+
+.user-badge img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #25D366;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.user-badge img:hover {
+  transform: scale(1.1);
+}
+
+.user-id {
+  background: #d91440;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 13px;
+  margin-top: 5px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: sticky;       /* 👈 Makes it sticky */
+  top: 0;                 /* 👈 Sticks to top */
+  z-index: 1000;          /* 👈 Keeps it above other content */
+}
+
+nav a:hover {
+  background-color: #d91440;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+}
+
+  </style>
+</head>
+<body>
+  <!-- Ganpati Logo at Top-Left -->
+  <div style="position: absolute; top: 20px; left: 20px; z-index: 999;">
+    <img src="ganpati.png" alt="Viraj Masale Logo" style="width: 100px; height: 100px; border-radius: 50%; animation: pulse 3s infinite ease-in-out;" />
+  </div>
+  
+  <div class="user-badge" id="userBadge" title="Customer Info">
+  <img src="https://i.ibb.co/X54kBN8/user-icon.png" alt="User" />
+  <div class="user-id" id="badgeCustomerId">Loading...</div>
+</div>
+  <header>
+    <h1>Order Spices Online</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="shop.html">Shop</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About Us</a>
+    <a href="https://goo.gl/maps/your-shop-location" target="_blank">📍 Location</a>
+  </nav>
+
+  <main>
+    <div class="image-grid">
+      <img src="https://i.imgur.com/zPvNwFs.jpg" alt="Viraj Masale Shop">
+      <img src="https://i.imgur.com/zPvNwFs.jpg" alt="Viraj Masale Shop">
+      <img src="https://i.imgur.com/zPvNwFs.jpg" alt="Viraj Masale Shop">
+      <img src="https://i.imgur.com/zPvNwFs.jpg" alt="Viraj Masale Shop">
+      <img src="https://i.imgur.com/zPvNwFs.jpg" alt="Viraj Masale Shop">
+      <img src="https://i.imgur.com/zPvNwFs.jpg" alt="Viraj Masale Shop">
+      <img src="https://i.imgur.com/zPvNwFs.jpg" alt="Viraj Masale Shop">
+      <img src="https://i.imgur.com/zPvNwFs.jpg" alt="Viraj Masale Shop">
+    </div>
+
+    <div class="shop-section">
+      <h2>Buy directly from WhatsApp</h2>
+      <a href="https://wa.me/91XXXXXXXXXX?text=Hello! I want to order spices from Viraj Masale." target="_blank">
+        📲 Order on WhatsApp
+      </a>
+    </div>
+
+    <div class="shop-details">
+      <p><strong>Shop Name:</strong> Viraj Masale</p>
+      <p><strong>Address:</strong> Near Bus Stand, Village - XYZ, Taluka - ABC, District - Satara, Maharashtra - 415001</p>
+      <p><strong>Owner Contact:</strong> +91 9168079195</p>
+      <p><strong>Working Hours:</strong> 9:00 AM – 7:00 PM (Monday to Saturday)</p>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Viraj Masale
+  </footer>
+</body>
+</html>
+<!-- <script>
+  const cid = localStorage.getItem("loggedInCustomerId");
+  if (!cid) {
+    alert("🔒 Please login first.");
+    window.location.href = "login_firbase.html";
+  }
+</script> -->
+
+<script>
+  const badgeCid = localStorage.getItem("loggedInCustomerId");
+  if (badgeCid) {
+    document.getElementById("badgeCustomerId").textContent = badgeCid;
+  } else {
+    document.getElementById("userBadge").style.display = "none";
+  }
+</script>

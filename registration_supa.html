@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Registration</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffe0b2, #ffcc80, #ffb74d);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Animated floating circles */
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.5;
+      animation: float 6s ease-in-out infinite alternate;
+    }
+    .c1 { width: 300px; height: 300px; background: #ff6f00; top: -80px; left: -80px; }
+    .c2 { width: 250px; height: 250px; background: #ff8f00; bottom: -70px; right: -50px; }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(25px); }
+    }
+
+    .box {
+      width: 400px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #bf360c;
+      letter-spacing: 1px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      /* margin-right: 10px; */
+      border-radius: 8px;
+      border: none;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #ff6f00, #ff8f00);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 10px rgba(255,152,0,0.4);
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="bg-circle c1"></div>
+<div class="bg-circle c2"></div>
+
+<div class="box">
+  <h2>Create Account</h2>
+
+  <input id="full_name" placeholder="Full Name">
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <input id="phone" placeholder="Mobile">
+  <input id="address" placeholder="Address">
+  <input id="city" placeholder="City">
+  <input id="pincode" placeholder="Pincode">
+
+  <button onclick="registerUser()">Register</button>
+</div>
+
+<script>
+const SUPABASE_URL = "https://uibdyfebaqabjwkctotg.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+async function registerUser() {
+  const full_name = document.getElementById("full_name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const phone = document.getElementById("phone").value;
+  const address = document.getElementById("address").value;
+  const city = document.getElementById("city").value;
+  const pincode = document.getElementById("pincode").value;
+
+  const { data, error } = await supabaseClient.auth.signUp({ email, password });
+
+  if (error) return alert(error.message);
+
+  const { error: dbError } = await supabaseClient
+    .from("customers")
+    .insert({
+      user_id: data.user.id,
+      full_name,
+      email,
+      phone,
+      address,
+      city,
+      pincode
+    });
+
+  if (dbError) return alert(dbError.message);
+
+  alert("Registration successful!");
+  window.location.href = "login_supa.html";
+}
+</script>
+
+</body>
+</html>

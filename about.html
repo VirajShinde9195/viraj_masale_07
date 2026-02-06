@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us - Viraj Masale</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .about-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      line-height: 1.8;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .user-badge {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  text-align: center;
+  z-index: 999;
+}
+
+.user-badge img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #25D366;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.user-badge img:hover {
+  transform: scale(1.1);
+}
+
+.user-id {
+  background: #d91440;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 13px;
+  margin-top: 5px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+  </style>
+</head>
+<body>
+  <div class="user-badge" id="userBadge" title="Customer Info">
+  <img src="https://i.ibb.co/X54kBN8/user-icon.png" alt="User" />
+  <div class="user-id" id="badgeCustomerId">Loading...</div>
+</div>
+
+  <header><h1>About Viraj Masale</h1></header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="shop.html">Shop</a>
+    <!-- <a href="gallery.html">Gallery</a> -->
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About Us</a>
+    <a href="https://goo.gl/maps/your-shop-location" target="_blank">📍 Location</a>
+  </nav>
+
+  <main>
+    <div class="about-section">
+      <p><strong>Viraj Masale</strong> is a homegrown spice business delivering purity, authenticity, and flavor to your kitchen. From handpicked raw ingredients to carefully blended masalas, we believe in quality over quantity. We cater to households, restaurants, and shops with premium-quality masalas produced using traditional methods.</p>
+    </div>
+  </main>
+
+  <footer>© 2025 Viraj Masale</footer>
+
+  <script>
+  const badgeCid = localStorage.getItem("loggedInCustomerId");
+  if (badgeCid) {
+    document.getElementById("badgeCustomerId").textContent = badgeCid;
+  } else {
+    document.getElementById("userBadge").style.display = "none";
+  }
+</script>
+
+</body>
+</html>

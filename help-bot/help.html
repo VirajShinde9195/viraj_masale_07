@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Help & Support</title>
+<link rel="stylesheet" href="help.css">
+</head>
+<body>
+
+<div class="chat-container">
+
+  <div class="chat-header">
+    🤖 Viraj Masale Support
+  </div>
+
+  <div class="chat-body" id="chatBody">
+    <div class="bot-msg">
+      नमस्कार 🙏<br>
+      मी तुमची मदत करण्यासाठी आहे.<br>
+      Ask me anything!
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input
+      id="userInput"
+      type="text"
+      placeholder="Type or speak..."
+      onkeydown="if(event.key==='Enter') sendText()"
+    >
+    <button onclick="startVoice()">🎤</button>
+    <button onclick="sendText()">➤</button>
+  </div>
+
+</div>
+
+<script src="knowledgeBase.js"></script>
+<script src="help.js"></script>
+</body>
+</html>

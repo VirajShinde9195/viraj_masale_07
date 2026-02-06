@@ -1,0 +1,54 @@
+<div class="user-badge" id="userBadge" title="Customer Info">
+  <img src="https://i.ibb.co/X54kBN8/user-icon.png" alt="User" />
+  <div class="user-id" id="badgeCustomerId">Loading...</div>
+</div>
+
+
+
+
+.user-badge {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  text-align: center;
+  z-index: 999;
+}
+
+.user-badge img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #25D366;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.user-badge img:hover {
+  transform: scale(1.1);
+}
+
+.user-id {
+  background: #d91440;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 13px;
+  margin-top: 5px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+
+
+
+
+
+<!-- 
+<script>
+  const badgeCid = localStorage.getItem("loggedInCustomerId");
+  if (badgeCid) {
+    document.getElementById("badgeCustomerId").textContent = badgeCid;
+  } else {
+    document.getElementById("userBadge").style.display = "none";
+  }
+</script> -->

@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Login</title>
+
+  <!-- Supabase v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff8c00, #ff4500);
+      overflow: hidden;
+    }
+
+    /* Floating spice particles */
+    .spice {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+      0% {transform: translateY(0);}
+      100% {transform: translateY(-120vh);}
+    }
+
+    /* Glass Card */
+    .box {
+      width: 380px;
+      padding: 30px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      animation: slideUp 0.7s ease;
+      box-shadow: 0 0 25px rgba(0,0,0,0.25);
+    }
+
+    @keyframes slideUp {
+      from {transform: translateY(40px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+
+    .box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 12px;
+      font-size: 15px;
+      outline: none;
+      background: rgba(255,255,255,0.8);
+    }
+
+    .box button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #ff6a00, #ff3d00);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Shine animation */
+    .box button::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      height: 100%;
+      width: 100%;
+      background: rgba(255,255,255,0.3);
+      transform: skewX(-20deg);
+      transition: 0.5s;
+    }
+
+    .box button:hover::after {
+      left: 100%;
+    }
+
+    .forgot {
+      margin-top: 12px;
+      text-align: right;
+    }
+
+    .forgot a {
+      color: white;
+      font-size: 14px;
+      text-decoration: none;
+      opacity: 0.9;
+    }
+
+    .forgot a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Random floating spice particles -->
+<script>
+  for (let i = 0; i < 25; i++) {
+    let dot = document.createElement("div");
+    dot.classList.add("spice");
+    dot.style.left = Math.random() * 100 + "vw";
+    dot.style.top = Math.random() * 100 + "vh";
+    dot.style.animationDuration = 4 + Math.random() * 5 + "s";
+    dot.style.opacity = 0.3 + Math.random();
+    document.body.appendChild(dot);
+  }
+</script>
+
+<div class="box">
+  <h2>Customer Login</h2>
+
+  <input id="email" type="email" placeholder="Email" required>
+  <input id="password" type="password" placeholder="Password" required>
+
+  <button onclick="loginUser()">Login</button>
+
+  <div class="forgot">
+    <a href="forgot_password_supa.html">Forgot password?</a>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = "https://uibdyfebaqabjwkctotg.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  async function loginUser() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!email || !password) {
+    alert("Please enter email and password");
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert("❌ " + error.message);
+    return;
+  }
+
+  // 🔑 ADMIN EMAIL LIST
+  const ADMIN_EMAILS = [
+    "virajmasale07@gmail.com",
+    "owner@virajmasale.com"
+  ];
+  const userEmail = data.user.email.toLowerCase();
+  const isAdmin = ADMIN_EMAILS
+    .map(e => e.toLowerCase())
+    .includes(userEmail);
+
+  alert("✅ Login successful");
+
+  // ❗ mode logic untouched
+  localStorage.setItem("mode", "customer");
+
+  // 🔀 Redirect based on role
+   if (isAdmin) {
+   localStorage.setItem("mode", "admin");
+   window.location.replace("admin_welcome.html");
+ } else {
+   localStorage.setItem("mode", "customer");
+   window.location.replace("index.html");
+ }
+ 
+}
+
+  // async function loginUser() {
+  //   const email = document.getElementById("email").value.trim();
+  //   const password = document.getElementById("password").value.trim();
+
+  //   if (!email || !password) {
+  //     alert("Please enter email and password");
+  //     return;
+  //   }
+
+  //   const { error } = await supabaseClient.auth.signInWithPassword({
+  //     email,
+  //     password
+  //   });
+
+  //   if (error) {
+  //     alert("❌ " + error.message);
+  //     return;
+  //   }
+
+  //   alert("✅ Login successful");
+  //   window.location.href = "index.html";
+
+    
+  //   localStorage.setItem("mode", "customer");
+
+  // }
+
+
+//     async function loginUser() {
+//   const email = document.getElementById("email").value.trim();
+//   const password = document.getElementById("password").value.trim();
+
+//   if (!email || !password) {
+//     alert("Please enter email and password");
+//     return;
+//   }
+
+//   const { data, error } = await supabaseClient.auth.signInWithPassword({
+//     email,
+//     password
+//   });
+
+//   if (error) {
+//     alert("❌ " + error.message);
+//     return;
+//   }
+
+//   // 🔑 ADMIN EMAIL LIST
+//   const ADMIN_EMAILS = [
+//     "virajmasale07@gmail.com",
+//     "owner@virajmasale.com"
+//   ];
+
+//   const userEmail = data.user.email.toLowerCase();
+//   const isAdmin = ADMIN_EMAILS
+//     .map(e => e.toLowerCase())
+//     .includes(userEmail);
+
+//   alert("✅ Login successful");
+
+//   // ⭐ SET MODE CORRECTLY
+//   if (isAdmin) {
+//     localStorage.setItem("mode", "admin");
+//     window.location.replace("admin_orders.html");
+//   } else {
+//     localStorage.setItem("mode", "customer");
+//     window.location.replace("index.html");
+//   }
+// }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Viraj Masale</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #ffe8d6, #d4cfcc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+    }
+    .box {
+      position: relative;
+      width: 320px;
+      height: 440px;
+      background: #1f1f1f;
+      border-radius: 20px;
+      box-shadow: 0 0 50px rgba(255, 145, 77, 0.3);
+      overflow: hidden;
+    }
+    .box::before, .box::after {
+      content: ''; position: absolute; width: 150%; height: 150%;
+      background: linear-gradient(120deg, #ff914d, #ff4c7b);
+      top: -25%; left: -25%; z-index: -1; animation: rotate 6s linear infinite;
+    }
+    .box::after { filter: blur(50px); }
+    @keyframes rotate { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+    .content {
+      position: relative; z-index: 2; width: 100%; height: 100%;
+      background: #1f1f1f; border-radius: 20px; padding: 40px 30px; text-align: center;
+    }
+    .content h2 { color: #fff; margin-bottom: 30px; font-size: 22px; letter-spacing: 1px; }
+    .inputBox { width: 100%; margin-bottom: 20px; position: relative; }
+    .inputBox input {
+      width: 100%; padding: 12px 15px; background: transparent;
+      border: 2px solid #ff914d; border-radius: 10px; color: #fff; font-size: 14px; transition: 0.3s;
+    }
+    .inputBox input:focus { border-color: #ff4c7b; outline: none; }
+    .toggle-password {
+      position: absolute; top: 12px; right: 15px; color: #ccc; cursor: pointer; font-size: 16px;
+    }
+    .btn {
+      width: 100%; padding: 12px; background: #ff914d; border: none; border-radius: 10px;
+      font-size: 15px; color: #000; font-weight: bold; cursor: pointer; transition: 0.3s;
+    }
+    .btn:hover { background: #ff4c7b; color: white; box-shadow: 0 0 10px #ff4c7b; }
+    .links { margin-top: 15px; display: flex; justify-content: space-between; }
+    .links a { font-size: 13px; text-decoration: none; color: #aaa; transition: 0.3s; }
+    .links a:hover { color: #ff4c7b; }
+    .error { color: red; font-size: 13px; margin-top: 10px; text-align: center; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);}
+      50% { transform: scale(1.08); box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);}
+    }
+    .logo-header { position: absolute; top: 20px; left: 20px; display: flex; align-items: center; z-index: 999; }
+    .logo-header img {
+      width: 100px; height: 100px; border-radius: 50%; animation: pulse 3s infinite ease-in-out; margin-right: 12px;
+    }
+    .logo-text .brand-name { font-size: 30px; font-weight: bold; color: #b22222; font-family: Playfair Display; }
+    .logo-text .tagline { font-size: 17px; color: #333; font-style: italic; font-weight: 500; font-family: 'Segoe UI', sans-serif; }
+  </style>
+</head>
+<body>
+  <!-- Logo Header -->
+  <div class="logo-header">
+    <img src="ganpati.png" alt="Viraj Masale Logo" />
+    <div class="logo-text">
+      <div class="brand-name">Viraj Masale</div>
+      <div class="tagline">Traditional Taste,<br><pre>   <b>Modern Touch</b> </pre></div>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="content">
+      <h2>🌶️ LOGIN ❤️</h2>
+      <div class="inputBox">
+        <input type="text" placeholder="Enter Customer ID" id="customerId" />
+      </div>
+      <div class="inputBox">
+        <input type="password" placeholder="Enter Password" id="password" />
+        <span class="toggle-password" onclick="togglePassword()">👁️</span>
+      </div>
+      <button class="btn" onclick="loginUser()">Sign in</button>
+      <div class="error" id="errorMsg"></div>
+      <div class="links">
+        <a href="set_password.html">Forgot Password</a>
+        <a href="registration.html">Registration</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Supabase Config
+    const SUPABASE_URL = "https://wwngkhskblhaimvmlhyu.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3bmdraHNrYmxoYWltdm1saHl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0MTgzMzYsImV4cCI6MjA3Mjk5NDMzNn0.HTPv9Uxk7X6Syhs-TZri1ljsIq-XNG1uNG16ERTlDIw";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loginUser() {
+      const customerId = document.getElementById("customerId").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorDiv = document.getElementById("errorMsg");
+      errorDiv.textContent = "";
+      
+      if (!customerId || !password) {
+        errorDiv.textContent = "❌ Please enter both Customer ID and Password.";
+        return;
+      }
+
+      try {
+        // Fetch user by customer_id
+        const { data: users, error } = await supabase
+          .from("users")
+          .select("*")
+          .eq("customer_id", customerId)
+          .limit(1);
+
+        if (error) throw error;
+        if (!users || users.length === 0) {
+          errorDiv.textContent = "❌ Incorrect ID or Password.";
+          return;
+        }
+
+        const user = users[0];
+        if (user.password === password) {
+          // Save in localStorage
+          localStorage.setItem("loggedInCustomerId", customerId);
+          localStorage.setItem("loggedInUser", JSON.stringify(user));
+          window.location.href = "welcome1page.html";
+        } else {
+          errorDiv.textContent = "❌ Incorrect ID or Password.";
+        }
+      } catch (err) {
+        console.error("Login Error:", err);
+        errorDiv.textContent = "❌ Something went wrong. Please try again.";
+      }
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById("password");
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+    }
+  </script>
+</body>
+</html>

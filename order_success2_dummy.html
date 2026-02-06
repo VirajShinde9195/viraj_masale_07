@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order Success | Viraj Masale</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+  background: #f5f7fa;
+  font-family: Arial, sans-serif;
+}
+
+.page {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 10px;
+}
+
+.success-head {
+  text-align: center;
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.order-meta {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.items-table th,
+.items-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.items-table th {
+  background: #f1f1f1;
+}
+
+.grand-total {
+  text-align: right;
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.status.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+.tracking {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tracking li {
+  margin: 8px 0;
+}
+
+.tracking .done {
+  color: green;
+}
+
+.tracking .active {
+  color: orange;
+}
+
+.actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.actions button {
+  padding: 12px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.actions .secondary {
+  background: #28a745;
+}
+
+  </style>
+</head>
+
+<body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Order Successful</title>
+<link rel="stylesheet" href="order_success.css">
+</head>
+
+<body>
+<div class="page">
+
+  <!-- TOP CONFIRM -->
+  <div class="success-head">
+    <h1>🎉 Order Received</h1>
+    <p>Your order has been received successfully</p>
+
+    <div class="order-meta">
+      <div><b>Order ID:</b> <span id="orderId"></span></div>
+      <div><b>Date:</b> <span id="orderDate"></span></div>
+      <div>
+        <b>Status:</b>
+        <span id="orderStatus" class="status pending">Pending</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER -->
+  <div class="card">
+    <h3>👤 Customer Details</h3>
+    <p id="customerName"></p>
+    <p id="customerEmail"></p>
+  </div>
+
+  <!-- ADDRESS -->
+  <div class="card">
+    <h3>📍 Delivery Address</h3>
+    <p id="deliveryAddress"></p>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="card">
+    <h3>🛒 Ordered Items</h3>
+
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Weight</th>
+          <th>Price/g</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="itemsBody"></tbody>
+    </table>
+
+    <div class="grand-total">
+      Grand Total: ₹<span id="grandTotal"></span>
+    </div>
+  </div>
+
+  <!-- TRACKING -->
+  <div class="card">
+    <h3>📦 Order Progress</h3>
+    <ul class="tracking">
+      <li class="done">✔ Order received</li>
+      <li class="active">⏳ Awaiting admin confirmation</li>
+      <li>⬜ Preparing</li>
+      <li>⬜ Out for delivery</li>
+      <li>⬜ Delivered</li>
+    </ul>
+  </div>
+
+  <div class="actions">
+    <button onclick="location.href='my_orders.html'">View My Orders</button>
+    <button class="secondary" onclick="location.href='index.html'">Continue Shopping</button>
+  </div>
+
+</div>
+
+<script src="order_success.js"></script>
+</body>
+</html>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://uibdyfebaqabjwkctotg.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const orderId = localStorage.getItem("last_order_id");
+
+  if (!orderId) {
+    alert("Order not found");
+    return;
+  }
+
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    alert("Please login");
+    window.location.href = "login_supa.html";
+    return;
+  }
+
+  // 1️⃣ Fetch order
+  const { data: order, error: orderError } = await supabaseClient
+    .from("orders")
+    .select("*")
+    .eq("id", orderId)
+    .single();
+
+  if (orderError || !order) {
+    alert("Order not found");
+    return;
+  }
+
+  // 2️⃣ Fill order info
+  document.getElementById("orderId").innerText = order.id;
+  document.getElementById("customerName").innerText = order.customer_name;
+  document.getElementById("customerEmail").innerText = order.customer_email;
+  document.getElementById("orderTotal").innerText = `₹${order.total_amount}`;
+  document.getElementById("orderStatus").innerText = order.status;
+  document.getElementById("deliveryAddress").innerText = order.address;
+
+  // 3️⃣ Fetch order items
+    const { data: items } = await supabaseClient
+      .from("order_items")
+      .select("product_name, quantity, price_per_gram")
+      .eq("order_id", order.id);
+  
+    const list = document.getElementById("orderItems");
+    list.innerHTML = "";
+  
+    items.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent =
+        `${item.product_name} × ${item.quantity} (₹${item.price_per_gram}/gm)`;
+      list.appendChild(li);
+    });
+  
+    // Optional: prevent reload reuse
+    localStorage.removeItem("last_order_id");
+  
+  });
+  
+  
+// <!-- 
+// <script>
+//   // 🔑 Supabase
+//   const supabaseClient = supabase.createClient(
+//     "https://uibdyfebaqabjwkctotg.supabase.co",
+//     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+//   );
+
+//   const orderId = localStorage.getItem("last_order_id");
+
+//   if (!orderId) {
+//     alert("Order not found");
+//     location.href = "index.html";
+//   }
+
+//   async function loadOrderSuccess() {
+
+//     // 1️⃣ Order main data
+//     const { data: order, error } = await supabaseClient
+//       .from("orders")
+//       .select("*")
+//       .eq("id", orderId)
+//       .single();
+      
+//     localStorage.setItem("last_order_id", order.id);
+
+//     if (error || !order) {
+//       alert("Unable to load order");
+//       return;
+//     }
+
+//     document.getElementById("custName").innerText = order.customer_name;
+//     document.getElementById("custEmail").innerText = order.customer_email;
+//     document.getElementById("orderId").innerText = order.id;
+//     document.getElementById("orderDate").innerText =
+//       new Date(order.created_at).toLocaleString();
+//     document.getElementById("orderStatus").innerText = order.status;
+//     document.getElementById("orderAddress").innerText = order.address;
+//     document.getElementById("orderTotal").innerText =
+//       "Total Amount: ₹" + order.total_amount.toFixed(2);
+
+//     // 2️⃣ Order items
+//     const { data: items } = await supabaseClient
+//       .from("order_items")
+//       .select("product_name, quantity, price_per_gram")
+//       .eq("order_id", orderId);
+
+//     const tbody = document.getElementById("itemsBody");
+
+//     items.forEach(item => {
+//       const total = item.quantity * item.price_per_gram;
+//       const tr = document.createElement("tr");
+//       tr.innerHTML = `
+//         <td>${item.product_name}</td>
+//         <td>${item.quantity}</td>
+//         <td>₹${item.price_per_gram}</td>
+//         <td>₹${total.toFixed(2)}</td>
+//       `;
+//       tbody.appendChild(tr);
+//     });
+//   }
+
+//   loadOrderSuccess();
+//  -->
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Confirm Order</title>
+
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f6f7fb;
+  margin: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 5px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 20px;
+}
+
+th, td {
+  padding: 14px;
+  text-align: center;
+  font-size: 20px;
+}
+
+th {
+  background: #73d2f2;
+  color: white;
+  /* border-radius: 20px; */
+}
+
+tr:nth-child(even) {
+  background: #f1f1f1;
+}
+
+.qty-btn {
+  padding: 4px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.total-box {
+  text-align: right;
+  font-size: 20px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.address-section {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 12px;
+  background: #f8f8f8;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 15px;
+}
+
+.input-box {
+  width: 100%;
+  height: 85px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #bbb;
+  resize: none;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 12px;
+  background: white;
+}
+
+/* .location-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  background: #ff9800;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: 0.2s ease;
+}
+
+.location-btn:hover {
+  background: #e68900;
+} */
+
+.confirm-btn {
+  width: 100%;
+  margin-top: 25px;
+  padding: 14px;
+  font-size: 18px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background: #15803d;
+}
+
+.help-btn {
+  background: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.help-box {
+  display: none;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  margin-bottom: 15px;
+  animation: fade 0.2s ease-in-out;
+}
+
+.help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.close-help {
+  cursor: pointer;
+  font-size: 18px;
+  color: red;
+}
+
+.help-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.copy-btn {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.copy-btn:hover {
+  background: #3e3ac7;
+}
+
+.address-big-box {
+  width: 100%;
+  min-height: 150px;         /* मोठा comfortable box */
+  padding: 15px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 1px solid #bbb;
+  outline: none;
+  resize: none;              /* user ला resize करण्याची गरज नाही */
+  background: #fff;
+  line-height: 1.5;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.08);
+}
+
+
+.howto-btn {
+  width: 100%;
+  margin-top: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 20px;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.howto-btn:hover {
+  background: #3965df;
+}
+
+.info-box {
+  background: #e8f0ff;
+  border-left: 6px solid #2563eb;
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-top: 12px;
+  font-size: 18px;
+  color: #1e3a8a;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  animation: fadeInfo 0.25s ease-in-out;
+}
+
+@keyframes fadeInfo {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.back-btn{
+  position:absolute;
+  top:180px;
+  left:20px;
+  background:#020617;
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+  transition:.3s;
+  z-index:999;
+}
+
+.back-btn:hover{
+  transform:translateY(-3px);
+  background:#1e293b;
+}
+
+
+    .user-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  text-align: center;
+  z-index: 1001;
+}
+   
+ .user-badge img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #25D366;
+  box-shadow: 0 0 8px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease;
+}
+
+.user-badge img:hover {
+  transform: scale(1.1);
+}
+
+.user-id {
+  background: #d91440;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 16px;
+  margin-top: 5px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+/* Logo subtle pulse */
+    @keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap:10px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.logo-img {
+  width: 140px;
+  height: 150px;
+  border-radius: 45%;
+  /* animation: pulse 3s infinite ease-in-out; */
+}
+
+/* Logo subtle pulse */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-family:Playfair Display;
+  font-size: 40px;
+  font-weight: bold;
+  color: #b22222;
+  animation: wipeBounce 6s ease-in-out infinite;
+}
+
+.tagline {
+  font-family: 'Great Vibes', cursive;
+  font-size: 22px;
+  color: #333;
+  animation: wipeBounce 6s ease-in-out infinite;
+  animation-delay: 0.6s;
+  opacity: 0;
+}
+
+/* ===== SAME WIPE + BOUNCE ANIMATION ===== */
+@keyframes wipeBounce {
+  0% { transform: translateX(-80px) scale(0.95); opacity: 0; }
+  50% { transform: translateX(10px) scale(1.05); opacity: 0.8; }
+  70% { transform: translateX(-5px) scale(1.1); }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+header {
+      background: linear-gradient(to right, #ede8e8,#da8e25, #e70404);
+      color: white;
+      height: 100px;
+      padding: 60px 0 15px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+
+/* ===== LOGO ALIGN SAME UI ===== */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.logo-img {
+  width: 140px;
+  height: 150px;
+  border-radius: 45%;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+}
+
+/* ===== BRAND NAME + TAGLINE SAME STYLE ===== */
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-family: "Playfair Display", serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: #b22222;
+  animation: wipeBounce 6s ease-in-out infinite;
+}
+
+.tagline {
+  font-family: "Great Vibes", cursive;
+  font-size: 22px;
+  color: #fff;
+  animation: wipeBounce 6s ease-in-out infinite;
+  animation-delay: 0.6s;
+  opacity: 0;
+}
+
+/* smooth moving animation */
+@keyframes headerFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* Quantity / Gram Buttons */
+.table-btn {
+  padding: 3px 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  background: #fb4f4f;
+  color: white;
+  transition: 0.25s;
+  margin: 0 3px;
+}
+
+.table-btn:hover {
+  background: #334155;
+  transform: translateY(-2px);
+}
+
+/* Remove Button Styled */
+.remove-btn {
+  padding: 6px 12px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.25s;
+}
+
+.remove-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+}
+
+</style>
+</head>
+
+<body>
+
+  <body>
+  <header>
+    <div class="logo-container">
+  <img src="viru_masala_logo-removebg-preview.png" alt="Logo" class="logo-img" />
+  <div class="logo-text">
+    <div class="brand-name">Viraj Masale</div>
+    <div class="tagline">Traditional Taste With Modern Touch</div>
+  </div>
+</div>
+
+  <div class="user-badge" id="userBadge" title="Customer Info">
+  <img src="ganpati.png" alt="User" />
+  <div class="user-id" id="badgeCustomerId">Loading...</div>
+</div>
+  </header>
+
+<div class="container">
+  <h2>🛒 Confirm Your Order</h2>
+  <button class="back-btn" onclick="goAdminHome()">⬅ Back to Cart Page</button>
+
+
+  <table id="cartTable">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Weight (gm)</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="total-box" id="grandTotal">Total: ₹0</div>
+
+  <!-- NEW LOCATION SYSTEM -->
+<div class="address-section">
+
+    <!-- Help Button -->
+    <button class="help-btn" onclick="toggleHelp()">❓ How to fill address</button>
+    <p class="info-box">
+      If you don’t know how to fill the address, click on “How to Fill Address”.<br>   
+    </p>
+        <!-- HELP INFO POPUP -->
+    <div id="helpBox" class="help-box">
+        <div class="help-header">
+            <strong>How to Fill Your Address</strong>
+            <span class="close-help" onclick="toggleHelp()">✖</span>
+        </div>
+        
+    
+        <ul>
+            <li>🏡 <b>Village / Area:</b>Your actual village or area (e.g., Sanswadi, Wagholi)</li>
+            <li>🚪 <b>House No / Room No:</b> Room No 302 / B-12</li>
+            <li>🛣 <b>Road / Lane:</b> Grampanchayat Road / Main Road</li>
+            <li>📍 <b>Landmark:</b>Opposite Sutam Company / Near Temple</li>
+            <li>✏️ The more detailed your address is, the more accurately the courier can deliver.</li>
+        </ul>
+    
+        <hr style="margin:12px 0;">
+    
+        <h4>📄 Copy This Format & Fill Your Address</h4>
+    
+        <textarea id="dummyFormat" class="input-box" style="height:120px;">
+    Village:  
+    House No: 
+    Road / Area: 
+    Landmark: 
+    Pincode: 
+        </textarea>
+    
+        <button class="copy-btn" onclick="copyDummy()">📋 Copy Format</button>
+    </div>
+  
+    
+    <!-- MAIN REQUIRED ADDRESS -->
+    <label class="label">📝 Exact Address Details</label>
+    <textarea id="exactAddress" class="address-big-box" placeholder="House No, Galli, Road, Landmark (Required)"></textarea>
+    <small class="hint">
+          Example: House No 12, Kendur Main Road, Near Temple, Shirur
+    </small>
+</div>
+
+
+  <button class="confirm-btn" onclick="confirmOrder()">✅ Place Order</button>
+</div>
+
+<!-- bell notification of index page  -->
+<audio id="soundAccepted" preload="auto">
+  <source src="bell.wav" type="audio/mpeg">
+</audio>
+
+<audio id="soundDelivered" preload="auto">
+  <source src="bell_2.wav" type="audio/mpeg">
+</audio>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+
+    function getCartKey(session) {
+  if (!session) return "cart_guest";
+  return `cart_${session.user.id}`;
+}
+
+async function loadUserBadge() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    document.getElementById("badgeCustomerId").innerText = "Guest";
+    return;
+  }
+
+  document.getElementById("badgeCustomerId").innerText =
+    session.user.email;
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  // updateCartCount();
+  // loadCart();
+  loadUserBadge();
+});
+
+  function goAdminHome(){
+  location.href = "add_cart.html";
+}
+
+
+async function requireLogin() {
+  const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+  if (error || !session) {
+    alert("🔒 Please login first.");
+    window.location.replace("login_supa.html");
+    return null;
+  }
+
+  return session.user;
+}
+
+const supabaseClient = supabase.createClient(
+  "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+function getCartKey(user) {
+  if (!user) return "cart_guest";
+  return `cart_${user.id}`;
+}
+
+let LOGGED_USER = null;
+let cartKey = null;
+let cart = [];
+
+const tbody = document.querySelector("#cartTable tbody");
+
+/* 🔐 Load user + cart ONCE */
+document.addEventListener("DOMContentLoaded", async () => {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    window.location.replace("login_supa.html");
+    return;
+  }
+
+  LOGGED_USER = session.user;
+  cartKey = getCartKey(LOGGED_USER);
+
+  cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+  renderCart();
+});
+
+async function getStockMap(productIds) {
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select("id, stock_quantity, reserved_quantity")
+    .in("id", productIds);
+
+  if (error) {
+    console.error("❌ Stock fetch error:", error);
+    return {};
+  }
+
+  const map = {};
+  data.forEach(p => {
+    map[p.id] = {
+      stock: p.stock_quantity,        // total grams
+      reserved: p.reserved_quantity   // reserved grams
+    };
+  });
+
+  return map;
+}
+
+// async function getStockMap(productIds) {
+//   const { data, error } = await supabaseClient
+//     .from("products")
+//     .select("id, stock_quantity")
+//     .in("id", productIds);
+
+//   if (error) {
+//     console.error("❌ Stock fetch error:", error);
+//     return {};
+//   }
+
+//   const map = {};
+//   data.forEach(p => {
+//     map[p.id] = p.stock_quantity; // grams
+//   });
+//   return map;
+// }
+
+/* 🛒 Render Cart */
+async function renderCart() {
+  const productIds = cart.map(i => i.id);
+  const stockMap = await getStockMap(productIds);
+
+  tbody.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    const usedGrams = item.grams * item.quantity;
+
+    const s = stockMap[item.id] || { stock: 0, reserved: 0 };
+    const availableGrams = Math.max(s.stock - s.reserved, 0);
+
+    const remainingKg = Math.max(
+      (availableGrams - usedGrams) / 1000,
+      0
+    ).toFixed(2);
+
+    const itemTotal = item.pricePerGram * item.grams * item.quantity;
+    total += itemTotal;
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${item.name}<br>
+          <small style="color:green">Available: ${remainingKg} kg</small>
+      </td>
+      <td>
+        <button class="table-btn" onclick="changeGrams(${index}, -50)">−</button>
+        <span>${item.grams}</span>
+        <button class="table-btn" onclick="changeGrams(${index}, 50)">+</button>
+      </td>
+      <td>
+        <button class="table-btn" onclick="changeQty(${index}, -1)">−</button>
+        <span>${item.quantity}</span>
+        <button class="table-btn" onclick="changeQty(${index}, 1)">+</button>
+      </td>
+      <td>₹${itemTotal.toFixed(2)}</td>
+      <td>
+        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  document.getElementById("grandTotal").textContent =
+    `Total: ₹${total.toFixed(2)}`;
+}
+
+// async function renderCart() {
+//   const productIds = cart.map(i => i.id);
+//   const stockMap = await getStockMap(productIds);
+
+//   tbody.innerHTML = "";
+//   let total = 0;
+
+//   cart.forEach((item, index) => {
+//     const usedGrams = item.grams * item.quantity;
+//     const dbStock = stockMap[item.id] ?? 0;
+//     const remainingKg = Math.max((dbStock - usedGrams) / 1000, 0).toFixed(2);
+
+//     const itemTotal = item.pricePerGram * item.grams * item.quantity;
+//     total += itemTotal;
+
+//     const row = document.createElement("tr");
+//     row.innerHTML = `
+//       <td>${item.name}<br>
+//           <small style="color:green">Available: ${remainingKg} kg</small>
+//       </td>
+//       <td>
+//         <button class="table-btn" onclick="changeGrams(${index}, -50)">−</button>
+//         <span>${item.grams}</span>
+//         <button class="table-btn" onclick="changeGrams(${index}, 50)">+</button>
+//       </td>
+      
+//       <td>
+//         <button class="table-btn" onclick="changeQty(${index}, -1)">−</button>
+//         <span>${item.quantity}</span>
+//         <button class="table-btn" onclick="changeQty(${index}, 1)">+</button>
+//       </td>
+//       <td>₹${itemTotal.toFixed(2)}</td>
+//       <td>
+//         <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+//       </td>    `;
+//     tbody.appendChild(row);
+//   });
+
+//   document.getElementById("grandTotal").textContent = `Total: ₹${total.toFixed(2)}`;
+// }
+
+async function getDBStock(productId) {
+  const map = await getStockMap([productId]);
+
+  if (!map[productId]) return 0;
+
+  const { stock, reserved } = map[productId];
+
+  // ✅ REAL AVAILABLE STOCK
+  return Math.max(stock - reserved, 0); // grams
+}
+
+// async function getDBStock(productId) {
+//   const map = await getStockMap([productId]);
+//   return map[productId] ?? 0; // grams
+// }
+
+
+/* ➕➖ Qty */
+async function changeQty(i, delta) {
+  const item = cart[i];
+  const newQty = item.quantity + delta;
+
+  if (newQty < 1) return;
+
+  // 🔥 DB STOCK CHECK
+  const dbStock = await getDBStock(item.id);
+  const usedGrams = newQty * item.grams;
+
+  if (usedGrams > dbStock) {
+    alert(`❌ Only ${(dbStock / 1000).toFixed(2)} kg available`);
+    return;
+  }
+
+  item.quantity = newQty;
+  saveAndRender();
+}
+
+// function changeQty(i, delta) {
+//   cart[i].quantity += delta;
+//   if (cart[i].quantity < 1) cart[i].quantity = 1;
+//   saveAndRender();
+// }
+
+/* ⚖ Weight */
+async function changeGrams(i, delta) {
+  const item = cart[i];
+  const newGrams = item.grams + delta;
+
+  if (newGrams < 50) return;
+
+  // 🔥 DB STOCK CHECK
+  const dbStock = await getDBStock(item.id);
+  const usedGrams = newGrams * item.quantity;
+
+  if (usedGrams > dbStock) {
+    alert(`❌ Max allowed ${(dbStock / 1000).toFixed(2)} kg`);
+    return;
+  }
+
+  item.grams = newGrams;
+  saveAndRender();
+}
+
+/* 
+📦 Atta stock = 5 kg (5000g)
+
+👤 User A
+Cart मध्ये add → 3 kg
+UI says ✔ allowed
+
+👤 User B (same time)
+Cart मध्ये add → 3 kg
+UI says ✔ allowed
+
+😱 Reality
+
+दोघांनी confirm केलं
+👉 Total demand = 6 kg
+👉 Stock = 5 kg
+
+➡️ 1 kg magically sell झाला ❌
+➡️ Business loss
+➡️ Inventory mismatch
+Solution: Always check stock just before changing qty/grams
+*/
+
+
+// function changeGrams(i, delta) {
+//   cart[i].grams += delta;
+//   if (cart[i].grams < 50) cart[i].grams = 50;
+//   saveAndRender();
+// }
+
+function saveAndRender() {
+  localStorage.setItem(cartKey, JSON.stringify(cart));
+  renderCart();
+}
+
+/* ======================================================
+     ⭐ NEW — SUPER ACCURATE LIVE LOCATION
+====================================================== */
+
+
+function toggleHelp() {
+  const box = document.getElementById("helpBox");
+  box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+function copyDummy() {
+    const dummy = document.getElementById("dummyFormat");
+    dummy.select();
+    dummy.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(dummy.value);
+
+    alert("📋 Format copied! Now paste and fill  your correct address below.");
+}
+
+// function renderCart() {
+//   tbody.innerHTML = "";
+//   let total = 0;
+
+//   if (!cart.length) {
+//     document.getElementById("grandTotal").textContent = "Total: ₹0";
+//     return;
+//   }
+
+//   cart.forEach((item, index) => {
+//     const itemTotal = item.pricePerGram * item.grams * item.quantity;
+
+//     total += itemTotal;
+
+//     const row = document.createElement("tr");
+//     row.innerHTML = `
+//       <td>${item.name}</td>
+
+//       <td>
+//         <button class="qty-btn" onclick="changeGrams(${index}, -50)">−</button>
+//         ${item.grams}
+//         <button class="qty-btn" onclick="changeGrams(${index}, 50)">+</button>
+//       </td>
+
+//       <td>
+//         <button class="qty-btn" onclick="changeQty(${index}, -1)">−</button>
+//         ${item.quantity}
+//         <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+//       </td>
+
+//       <td>₹${itemTotal.toFixed(2)}</td>
+//     `;
+//     tbody.appendChild(row);
+//   });
+
+//   document.getElementById("grandTotal").textContent =
+//     `Total: ₹${total.toFixed(2)}`;
+// }
+
+// async function fetchLocation() {
+//   if (!navigator.geolocation) {
+//     alert("❌ Location not supported");
+//     return;
+//   }
+
+//   navigator.geolocation.getCurrentPosition(async (pos) => {
+//     const lat = pos.coords.latitude;
+//     const lon = pos.coords.longitude;
+
+//     // BigDataCloud → BEST accuracy
+//     const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`;
+
+//     const res = await fetch(url);
+//     const data = await res.json();
+
+//     console.log("Live Location:", data);
+
+//     let village =
+//       data.locality ||
+//       data.city ||
+//       data.postcode_locality ||
+//       data.suburb ||
+//       "N/A";
+
+//     const taluka =
+//       data.localityInfo?.administrative[2]?.name || "N/A";
+
+//     const district =
+//       data.localityInfo?.administrative[1]?.name || "N/A";
+
+//     const pincode = data.postcode || "000000";
+
+//     const autoAddress = `
+// Village: ${village}
+// Taluka: ${taluka}
+// District: ${district}
+// Pincode: ${pincode}
+// `.trim();
+
+//     document.getElementById("autoAddress").value = autoAddress;
+
+//     alert("📍 Location fetched successfully!");
+//   }, () => {
+//     alert("❌ Unable to fetch location");
+//   }, {
+//     enableHighAccuracy: true,
+//     timeout: 7000
+//   });
+// }
+
+
+function isValidAddress(address) {
+  address = address.trim().toLowerCase();
+
+  // minimum real-world length
+  if (address.length < 15) return false;
+
+  // must contain at least one number (house / flat no)
+  const hasNumber = /\d/.test(address);
+
+  // must have multiple words
+  const words = address.split(/\s+/);
+  const hasMultipleWords = words.length >= 4;
+
+  // must contain locality keyword
+  const keywords = [
+    "road", "rd", "street", "st",
+    "nagar", "colony", "galli",
+    "lane", "near", "opposite",
+    "chowk", "society", "village",
+    "taluka", "district", "mandir"
+  ];
+
+  const hasKeyword = keywords.some(k => address.includes(k));
+
+  return hasNumber && hasMultipleWords && hasKeyword;
+}
+
+/* ======================================================
+     🟦 CONFIRM ORDER (OLD LOGIC SAME — ONLY ADDRESS MERGE)
+====================================================== */
+async function confirmOrder() {
+  if (!LOGGED_USER) {
+    alert("Login required");
+    return;
+  }
+  
+  // NEW → Correct IDs
+  const autoAddress = document.getElementById("autoAddress") 
+                      ? document.getElementById("autoAddress").value.trim()
+                      : "";
+
+  const exactAddress = document.getElementById("exactAddress")
+                      ? document.getElementById("exactAddress").value.trim()
+                      : "";
+
+  // Create final address (auto + manual)
+  // const finalAddress = (autoAddress ? autoAddress + "\n" : "") + exactAddress;
+  const cleanedExactAddress = exactAddress
+  .replace(/\n+/g, ", ")
+  .replace(/\s+/g, " ")
+  .trim();
+
+  const finalAddress = [autoAddress, cleanedExactAddress]
+    .filter(Boolean)
+    .join(", ");
+
+  // Validation
+if (!isValidAddress(exactAddress)) {
+  alert(
+    "❌ Invalid address\n\n" +
+    "Please enter complete address.\n\n" +
+    "Example:\n" +
+    "House No 12, Shivaji Nagar Road,\n" +
+    "Near Hanuman Mandir, Shirur"
+  );
+  return;
+}
+
+  
+  if (!cart.length) {
+    alert("Cart is empty");
+    return;
+  }
+
+  const { data: customer, error } =
+    await supabaseClient
+      .from("customers")
+      .select("user_id ,full_name, email")
+      .eq("email", LOGGED_USER.email)
+      .single();
+
+  if (error || !customer) {
+    alert("Customer not found");
+    return;
+  }
+  
+   // 🔒 RESERVE STOCK (IMPORTANT)
+  const reservePayload = cart.map(i => ({
+    product_id: i.id,
+    grams: i.grams,
+    quantity: i.quantity
+  }));
+  
+  const { error: reserveErr } = await supabaseClient
+    .rpc("reserve_stock", { p_items: reservePayload });
+  
+  if (reserveErr) {
+    alert("❌ Stock just sold out. Please refresh and try again.");
+    return;
+  }
+  
+  // Calculate total amount
+  const totalAmount = cart.reduce(
+    (sum, i) => sum + i.pricePerGram * i.grams * i.quantity,
+    0
+  );
+
+  const { data: order, error: orderError } =
+    await supabaseClient
+      .from("orders")
+      .insert([{
+        customer_id: customer.user_id,
+        customer_name: customer.full_name,
+        customer_email: customer.email,
+        total_amount: totalAmount,
+        address: finalAddress,
+        status: "pending"
+      }])
+      .select()
+      .single();
+
+  if (orderError) {
+    console.error(orderError);
+    alert("Order failed");
+    return;
+  }
+
+  const orderItems = cart.map(i => ({
+    order_id: order.id,
+    product_id: i.id,
+    product_name: i.name,
+    quantity: i.quantity,
+    grams: i.grams,
+    price_per_gram: i.pricePerGram
+  }));
+
+  await supabaseClient.from("order_items").insert(orderItems);
+
+  await supabaseClient.from("order_tracking").insert([{
+    order_id: order.id,
+    status: "pending",
+    note: "Order placed"
+  }]);
+
+  localStorage.removeItem(cartKey);
+
+  alert("🎉 Order placed successfully!");
+  localStorage.setItem("last_order_id", order.id);
+  window.location.href = "order_success.html";
+
+}
+</script>
+<script src="notifications.js"></script>
+
+</body>
+</html>
+
+
+<script>
+
+
+// async function requireLogin() {
+//   const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+//   if (error || !session) {
+//     alert("🔒 Please login first.");
+//     window.location.replace("login_supa.html"); // 🔥 better than href
+//     return null;
+//   }
+
+//   return session.user; // ✅ logged in user
+// }
+
+// const supabaseClient = supabase.createClient(
+//   "https://uibdyfebaqabjwkctotg.supabase.co",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+// );
+
+
+// function getCartKey(user) {
+//   if (!user) return "cart_guest";
+//   return `cart_${user.id}`;
+// }
+
+// let LOGGED_USER = null;
+// let cartKey = null;
+// let cart = [];
+
+// const tbody = document.querySelector("#cartTable tbody");
+
+// /* 🔐 Load user + cart ONCE */
+// document.addEventListener("DOMContentLoaded", async () => {
+//   const { data: { session } } =
+//     await supabaseClient.auth.getSession();
+
+//   if (!session) {
+//     window.location.replace("login_supa.html");
+//     return;
+//   }
+
+//   LOGGED_USER = session.user;
+//   cartKey = getCartKey(LOGGED_USER);
+
+//   cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+//   renderCart();
+// });
+
+// /* 🛒 Render Cart */
+// function renderCart() {
+//   tbody.innerHTML = "";
+//   let total = 0;
+
+//   if (!cart.length) {
+//     document.getElementById("grandTotal").textContent = "Total: ₹0";
+//     return;
+//   }
+
+//   cart.forEach((item, index) => {
+//     const itemTotal =
+//       item.pricePerGram * item.grams * item.quantity;
+
+//     total += itemTotal;
+
+//     const row = document.createElement("tr");
+//     row.innerHTML = `
+//       <td>${item.name}</td>
+
+//       <td>
+//         <button class="qty-btn" onclick="changeGrams(${index}, -50)">−</button>
+//         ${item.grams}
+//         <button class="qty-btn" onclick="changeGrams(${index}, 50)">+</button>
+//       </td>
+
+//       <td>
+//         <button class="qty-btn" onclick="changeQty(${index}, -1)">−</button>
+//         ${item.quantity}
+//         <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+//       </td>
+
+//       <td>₹${itemTotal.toFixed(2)}</td>
+//     `;
+//     tbody.appendChild(row);
+//   });
+
+//   document.getElementById("grandTotal").textContent =
+//     `Total: ₹${total.toFixed(2)}`;
+// }
+
+// /* ➕➖ Qty */
+// function changeQty(i, delta) {
+//   cart[i].quantity += delta;
+//   if (cart[i].quantity < 1) cart[i].quantity = 1;
+//   saveAndRender();
+// }
+
+// /* ⚖ Weight */
+// function changeGrams(i, delta) {
+//   cart[i].grams += delta;
+//   if (cart[i].grams < 50) cart[i].grams = 50;
+//   saveAndRender();
+// }
+
+// function saveAndRender() {
+//   localStorage.setItem(cartKey, JSON.stringify(cart));
+//   renderCart();
+// }
+
+// /* ✅ Confirm Order */
+// async function confirmOrder() {
+//   if (!LOGGED_USER) {
+//     alert("Login required");
+//     return;
+//   }
+
+//   const address =
+//     document.getElementById("address").value.trim();
+
+//   if (!address) {
+//     alert("Address required");
+//     return;
+//   }
+
+//   if (!cart.length) {
+//     alert("Cart is empty");
+//     return;
+//   }
+
+//   /* 🔹 Customer */
+//   const { data: customer, error } =
+//     await supabaseClient
+//       .from("customers")
+//       .select("user_id ,full_name, email")
+//       .eq("email", LOGGED_USER.email)
+//       .single();
+
+//   if (error || !customer) {
+//     alert("Customer not found");
+//     return;
+//   }
+
+//   const totalAmount = cart.reduce(
+//     (sum, i) => sum + i.pricePerGram * i.grams * i.quantity,
+//     0
+//   );
+
+//   /* 1️⃣ Order */
+//   const { data: order, error: orderError } =
+//     await supabaseClient
+//       .from("orders")
+//       .insert([{
+//         customer_id: customer.user_id,
+//         customer_name: customer.full_name,     // ✅
+//         customer_email: customer.email,   // ✅
+//         total_amount: totalAmount,
+//         address: address,
+//         status: "pending"
+//       }])
+//       .select()
+//       .single();
+
+//   if (orderError) {
+//     console.error(orderError);
+//     alert("Order failed");
+//     return;
+//   }
+
+//   /* 2️⃣ Items */
+//   const orderItems = cart.map(i => ({
+//     order_id: order.id,
+//     product_id: i.id,
+//     product_name: i.name,   // ✅ NEW LINE
+//     grams: i.grams,      // ✅ NEW LINE
+//     quantity: i.quantity,
+//     price_per_gram: i.pricePerGram
+//   }));
+
+//   await supabaseClient
+//     .from("order_items")
+//     .insert(orderItems);
+
+//   /* 3️⃣ Tracking */
+//   await supabaseClient
+//     .from("order_tracking")
+//     .insert([{
+//       order_id: order.id,
+//       status: "pending",
+//       note: "Order placed"
+//     }]);
+
+//   localStorage.removeItem(cartKey);
+
+//   alert("🎉 Order placed successfully!");
+//   localStorage.setItem("last_order_id", order.id);
+//   window.location.href = "order_success.html";
+// }
+
+
+// async function confirmOrder() {
+//   const address = document.getElementById("address").value.trim();
+//   const customerId = localStorage.getItem("loggedInCustomerId");
+
+//   if (!address) {
+//     alert("Address required");
+//     return;
+//   }
+
+//   let totalAmount = cart.reduce(
+//     (sum, i) => sum + (i.pricePerGram * i.grams * i.quantity), 0
+//   );
+
+//   // 1️⃣ INSERT ORDER
+//   const { data: order, error } = await supabaseClient
+//     .from("orders")
+//     .insert([{
+//       customer_id: customerId,
+//       total_amount: totalAmount,
+//       delivery_address: address,
+//       status: "PLACED"
+//     }])
+//     .select()
+//     .single();
+
+//   if (error) {
+//     alert("Order failed");
+//     console.error(error);
+//     return;
+//   }
+
+//   // 2️⃣ INSERT ITEMS
+//   const items = cart.map(item => ({
+//     order_id: order.id,
+//     product_id: item.id,
+//     grams: item.grams,
+//     quantity: item.quantity,
+//     price_per_gram: item.pricePerGram
+//   }));
+
+//   await supabaseClient.from("order_items").insert(items);
+
+//   // 3️⃣ TRACKING
+//   await supabaseClient.from("order_tracking").insert([{
+//     order_id: order.id,
+//     status: "Order Placed"
+//   }]);
+
+//   // 4️⃣ CLEAR CART
+//   localStorage.removeItem("cart");
+
+//   alert("🎉 Order placed successfully!");
+//   window.location.href = "order_success.html";
+// }
+
+// // ✅ Cart key based on user
+// function getCartKey(user) {
+//   if (!user) return "cart_guest";
+//   return `cart_${user.id}`;
+// }
+
+
+// let LOGGED_USER = null;
+
+// document.addEventListener("DOMContentLoaded", async () => {
+//   const { data: { session } } =
+//     await supabaseClient.auth.getSession();
+
+//   if (!session) {
+//     window.location.replace("login_supa.html");
+//     return;
+//   }
+
+//   LOGGED_USER = session.user; // ✅ store once
+// });
+
+
+// let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+// const tbody = document.querySelector("#cartTable tbody");
+
+// function renderCart() {
+//   tbody.innerHTML = "";
+//   let total = 0;
+
+//   cart.forEach((item, index) => {
+//     const itemTotal = item.pricePerGram * item.grams * item.quantity;
+//     total += itemTotal;
+
+//     const row = document.createElement("tr");
+//     row.innerHTML = `
+//       <td>${item.name}</td>
+//       <td>
+//         <button class="qty-btn" onclick="changeGrams(${index}, -50)">−</button>
+//         ${item.grams}
+//         <button class="qty-btn" onclick="changeGrams(${index}, 50)">+</button>
+//       </td>
+//       <td>
+//         <button class="qty-btn" onclick="changeQty(${index}, -1)">−</button>
+//         ${item.quantity}
+//         <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+//       </td>
+//       <td>₹${itemTotal.toFixed(2)}</td>
+//     `;
+//     tbody.appendChild(row);
+//   });
+
+//   document.getElementById("grandTotal").textContent =
+//     `Total: ₹${total.toFixed(2)}`;
+// }
+
+// function changeQty(i, delta) {
+//   cart[i].quantity += delta;
+//   if (cart[i].quantity < 1) cart[i].quantity = 1;
+//   saveAndRender();
+// }
+
+// function changeGrams(i, delta) {
+//   cart[i].grams += delta;
+//   if (cart[i].grams < 50) cart[i].grams = 50;
+//   saveAndRender();
+// }
+
+// function saveAndRender() {
+//   localStorage.setItem(cartKey, JSON.stringify(cart));
+//   renderCart();
+// }
+
+
+
+// renderCart();
+// async function confirmOrder() {
+
+//   const user = await requireLogin();
+//   if (!user) return;
+
+//   const address = document.getElementById("address").value.trim();
+//   if (!address) {
+//     alert("Address required");
+//     return;
+//   }
+
+//   if (!cart.length) {
+//     alert("Cart is empty");
+//     return;
+//   }
+
+//   // 🔹 Get customer_id from customers table
+//   const { data: customer, error } = await supabaseClient
+//     .from("customers")
+//     .select("user_id")
+//     .eq("email", user.email)
+//     .single();
+
+//   if (error || !customer) {
+//     alert("Customer not found");
+//     return;
+//   }
+
+//   const customerId = customer.user_id;
+
+//   // 🔢 Total
+//   const totalAmount = cart.reduce(
+//     (sum, item) => sum + (item.pricePerGram * item.grams * item.quantity),
+//     0
+//   );
+
+//   // 1️⃣ orders
+//   const { data: order, error: orderError } =
+//     await supabaseClient
+//       .from("orders")
+//       .insert([{
+//         customer_id: customerId,
+//         total_amount: totalAmount,
+//         address: address,
+//         status: "pending"   // ✅ FIXED
+//       }])
+//       .select()
+//       .single();
+
+//   if (orderError) {
+//     console.error(orderError);
+//     alert("Order creation failed");
+//     return;
+//   }
+
+//   // 2️⃣ order_items
+//   const orderItems = cart.map(item => ({
+//     order_id: order.id,
+//     product_id: item.id,
+//     quantity: item.quantity,
+//     price_per_gram: item.pricePerGram
+//   }));
+
+//   const { error: itemsError } =
+//     await supabaseClient.from("order_items").insert(orderItems);
+
+//   if (itemsError) {
+//     console.error(itemsError);
+//     alert("Order items failed");
+//     return;
+//   }
+
+//   // 3️⃣ order_tracking
+//   await supabaseClient.from("order_tracking").insert([{
+//     order_id: order.id,
+//     status: "pending",
+//     note: "Order placed by customer"
+//   }]);
+
+//   localStorage.removeItem(cartKey);
+
+//   alert("🎉 Order placed successfully!");
+//   window.location.href = "order_success.html";
+// }
+</script>
+
+
+</body>
+</html>
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirm Your Order - Viraj Masale</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff7f3;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #d91440;
+      color: white;
+      text-align: center;
+      padding: 40px 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #d91440;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      background-color: #25D366;
+      color: white;
+      padding: 12px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .continue-link {
+      display: inline-block;
+      text-align: center;
+      background-color: #ff6a00;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    .user-badge {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      text-align: center;
+      z-index: 999;
+    }
+    .user-badge img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #25D366;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .user-badge img:hover {
+      transform: scale(1.1);
+    }
+    .user-id {
+      background: #d91440;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 13px;
+      margin-top: 5px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    
+/*  */
+    @keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+}
+
+  </style>
+</head>
+<body>
+<div style="position: absolute; top: 20px; left: 20px; z-index: 999;">
+  <img src="ganpati.png" alt="Viraj Masale Logo" style="width: 100px; height: 100px; border-radius: 50%; animation: pulse 3s infinite ease-in-out;" />
+</div>
+
+<div class="user-badge" id="userBadge" title="Customer Info">
+  <img src="https://i.ibb.co/X54kBN8/user-icon.png" alt="User" />
+  <div class="user-id" id="badgeCustomerId">Loading...</div>
+</div>
+
+<header>
+  <h1>🧾 Confirm Your Order</h1>
+</header>
+
+<div class="container">
+  <h2>Your Selected Products</h2>
+  <table id="productTable">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div id="totalAmount" style="text-align: right; font-weight: bold;"></div>
+
+  <h2>Customer Details</h2>
+  <form id="orderForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
+
+    <label for="mobile">Mobile Number:</label>
+    <input type="text" id="mobile" required>
+
+    <label for="customerId">Customer ID:</label>
+    <input type="text" id="customerId" required>
+
+    <label for="address">Address:</label>
+    <textarea id="address" rows="3" required></textarea>
+
+    <div style="text-align: center;">
+      <a href="index.html" class="continue-link">🛍️ Continue Shopping</a>
+    </div>
+
+    <button type="button" onclick="sendToWhatsApp()">📲 Place WhatsApp Order</button>
+  </form>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCRaPf-khd5b9xr-F_3liPnB8asJnQcw-0",
+    authDomain: "virajmasale9195.firebaseapp.com",
+    projectId: "virajmasale9195",
+    storageBucket: "virajmasale9195.appspot.com",
+    messagingSenderId: "257333053440",
+    appId: "1:257333053440:web:08e92a23f14a1617ba70e5"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // const cid = localStorage.getItem("loggedInCustomerId");
+  // if (!cid) {
+  //   alert("🔒 Please login first.");
+  //   window.location.href = "login_firbase.html";
+  // }
+
+  async function loadCustomerDetails() {
+    try {
+      const snapshot = await db.collection("registration")
+        .where("customerId", "==", cid)
+        .get();
+
+      if (!snapshot.empty) {
+        const data = snapshot.docs[0].data();
+        document.getElementById("name").value = data.name;
+        document.getElementById("mobile").value = data.mobile;
+        document.getElementById("customerId").value = data.customerId;
+        document.getElementById("address").value = `${data.village}, ${data.taluka}, ${data.district}`;
+      } else {
+        alert("⚠️ User session not found. Please login again.");
+        localStorage.clear();
+        window.location.href = "login_firbase.html";
+      }
+    } catch (err) {
+      console.error("Error loading user:", err);
+      alert("❌ Failed to load customer info.");
+    }
+  }
+
+  const productPrices = {
+     "Turmeric Powder": 120,
+     "normal hot chilli Powder": 180,
+     "Tej Chilli Powder": 200,
+     "Kashmiri Chilli Powder": 220,
+     "Jal-Jira Powder": 80,
+     "Coriander Powder": 130,
+     "Premium Kanda Lasun Masala": 250,
+     "Classic Kanda Lasun Masala": 220,
+     "Regular Kanda Lasun Masala": 200,
+     "Sambhar Masala": 160,
+     "Garam Masala": 190,
+     "Sabzi Masala": 170,
+     "Pav Bhaji Masala": 180,
+     "Pulav Masala": 150,
+     "chole Masala": 175,
+     "Goda Masala": 190,
+     "Malvani Masala": 200,
+     "Kolhapuri Masala": 210,
+     "Premium Kala Masala": 240,
+     "Regular Kala Masala": 190,
+     "Meat Masala": 220,
+     "Fish Masala": 210,
+     "Chicken Masala": 230,
+     "Biryani Masala": 250,
+     "Sunday Special Masala": 240,
+     "Panipuri Masala": 90,
+     "Loncha Masala": 100,
+     "Papad Masala": 80,
+     "Chat Masala": 110,
+     "Tea Masala": 130,
+     "Milk Masala": 140,
+     "Black Pepper": 270,
+     "Cloves": 220,
+     "Cardamom": 280,
+     "Cinnamon": 120,
+     "Bay Leaf": 40,
+     "Star Anise": 200,
+     "Mace": 300,
+     "Nutmeg": 250,
+     "Mustard Seeds": 60,
+     "Coriander Seeds": 70,
+     "Cumin Seeds": 150,
+     "Fenugreek Seeds": 50,
+     "Fennel Seeds": 90,
+     "Dry Ginger": 160,
+     "Dried Red Chili": 130,
+     "White Sesame": 110,
+     "Asafoetida": 500,
+     "Carom Seeds": 70,
+     "Black Cardamom": 220,
+     "Stone Flower": 60,
+     "Dry Mango Powder": 140,
+     "Poppy Seeds": 240,
+     "Tamarind": 80,
+     "Nigella Seeds": 160,
+     "Dried Curry Leaves": 40,
+     "Dried Onion Flakes": 100,
+     "Dried Garlic": 120,
+     "Rock Salt": 30,
+     "Dry Kokum": 90,
+     "Dry Mint": 60
+  };
+  const quantityOptions = {
+    "10gm": 0.01,
+    "20gm": 0.02,
+    "25gm": 0.025,
+    "50gm": 0.05,
+    "100gm": 0.10,
+    "200gm": 0.20,
+    "250gm": 0.25,
+    "500gm": 0.5,
+    "750gm": 0.75,
+    "1kg": 1,
+    "1.500kg": 1.5,
+    "2kg": 2,
+    "3kg": 3,
+    "4kg": 4,
+    "5kg": 5,
+    "10kg": 10
+  };
+
+  function loadProducts() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const tbody = document.querySelector("#productTable tbody");
+    tbody.innerHTML = "";
+    let total = 0;
+
+    cart.forEach(item => {
+      const qtyLabel = item.quantityLabel || "1kg";
+      const qty = item.quantity || 1;
+      const weight = quantityOptions[qtyLabel] || 1;
+      const itemTotal = productPrices[item.name] * qty * weight;
+      total += itemTotal;
+
+      const row = `
+        <tr>
+          <td>${item.name}</td>
+          <td>${qty} x ${qtyLabel}</td>
+          <td>₹${itemTotal.toFixed(2)}</td>
+        </tr>
+      `;
+      tbody.innerHTML += row;
+    });
+
+    document.getElementById("totalAmount").innerText = `Total: ₹${total.toFixed(2)}`;
+  }
+
+  function sendToWhatsApp() {
+    const name = document.getElementById("name").value.trim();
+    const mobile = document.getElementById("mobile").value.trim();
+    const customerId = document.getElementById("customerId").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (!name || !mobile || !address || !customerId) {
+      alert("Please fill in all the fields.");
+      return;
+    }
+
+    let message = `Name: ${name}\nID: ${customerId}\nMobile: ${mobile}\nAddress: ${address}\n\nOrder:\n`;
+    let total = 0;
+    let summary = "";
+
+    const orderItems = cart.map(item => {
+      const qtyLabel = item.quantityLabel || "1kg";
+      const qty = item.quantity || 1;
+      const weight = quantityOptions[qtyLabel] || 1;
+      const price = productPrices[item.name] * qty * weight;
+      total += price;
+      message += `- ${item.name} (${qty} x ${qtyLabel}) = ₹${price.toFixed(2)}\n`;
+      summary += `- ${item.name} (${qty} x ${qtyLabel}) = ₹${price.toFixed(2)}\n`;
+      return {
+        product: item.name,
+        quantity: `${qty} x ${qtyLabel}`,
+        price: parseFloat(price.toFixed(2)),
+        status: "Pending"
+      };
+    });
+
+    message += `\nTotal Price: ₹${total.toFixed(2)}`;
+
+    const orderData = {
+      customerId,
+      name,
+      mobile,
+      address,
+      date: firebase.firestore.Timestamp.now(),
+
+      orderItems,
+      totalPrice: total.toFixed(2),
+      status: "Pending"
+    };
+
+    // ✅ Save with unique ID (no overwrite)
+    db.collection("order").add(orderData)
+      .then(() => console.log("✅ Order added successfully"))
+      .catch(err => console.error("❌ Error saving order:", err));
+
+    localStorage.setItem("lastOrderDate", new Date().toLocaleDateString());
+    localStorage.setItem("lastOrderSummary", summary);
+    localStorage.setItem("lastOrderTotal", total.toFixed(2));
+    localStorage.setItem("lastCustomerName", name);
+    localStorage.setItem("lastCustomerID", customerId);
+    localStorage.setItem("lastCustomerAddress", address);
+
+    localStorage.removeItem("cart");
+
+    const phone = "9322789195";
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+
+    window.location.href = "order_details.html";
+  }
+
+  window.onload = () => {
+    loadProducts();
+    loadCustomerDetails();
+  };
+
+  const badgeCid = localStorage.getItem("loggedInCustomerId");
+  if (badgeCid) {
+    document.getElementById("badgeCustomerId").textContent = badgeCid;
+  } else {
+    document.getElementById("userBadge").style.display = "none";
+  }
+</script>
+
+</body>
+</html> -->

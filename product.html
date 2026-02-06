@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product | Viraj Masale</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<style>
+body{
+  background:linear-gradient(135deg,#fff3e6,#ffe8d6);
+  font-family:'Segoe UI',sans-serif;
+  margin:0;
+}
+
+/* MAIN CARD */
+.container{
+  max-width:950px;
+  margin:60px auto;
+  background:#ffffff;
+  padding:35px;
+  border-radius:18px;
+  box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+/* PRODUCT HEADER */
+.product-top{
+  display:flex;
+  gap:40px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.product-top img{
+  width:320px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.18);
+}
+
+/* TEXT SIDE */
+.product-info{
+  flex:1;
+}
+
+.product-info h1{
+  margin:0 0 10px;
+  font-size:32px;
+  color:#b11226;
+}
+
+.product-info p{
+  font-size:16px;
+  color:#555;
+  line-height:1.6;
+}
+
+/* PRICE */
+.price{
+  font-size:28px;
+  color:#ff7a00;
+  font-weight:800;
+  margin-top:15px;
+}
+
+/* INFO BOXES */
+.box{
+  background:#fff4f6;
+  padding:18px;
+  border-radius:14px;
+  margin-top:25px;
+  border-left:6px solid #d91440;
+}
+
+.box h3{
+  margin-top:0;
+  color:#b11226;
+}
+
+/* VIDEO */
+iframe{
+  width:100%;
+  height:340px;
+  margin-top:25px;
+  border-radius:16px;
+  border:none;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+/* BACK BUTTON */
+.back{
+  display:inline-block;
+  margin-top:35px;
+  background:linear-gradient(135deg,#ff7a00,#ff4800);
+  color:white;
+  padding:14px 30px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:700;
+  box-shadow:0 8px 18px rgba(0,0,0,.25);
+  transition:.3s;
+}
+
+.back:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 25px rgba(0,0,0,.3);
+}
+
+.hidden{display:none;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="product-top">
+    <img id="productImage" alt="Product Image">
+
+    <div class="product-info">
+      <h1 id="productName">Loading...</h1>
+      <p id="productDesc"></p>
+      <div class="price">₹<span id="price"></span>/ kg</div>
+    </div>
+  </div>
+
+  <div id="ingBox" class="box hidden">
+    <h3>Ingredients</h3>
+    <p id="ingredients"></p>
+  </div>
+
+  <div id="extraBox" class="box hidden">
+    <h3>Extra Details</h3>
+    <p id="extra"></p>
+  </div>
+
+  <div id="videoBox" class="hidden">
+    <iframe id="video" allowfullscreen></iframe>
+  </div>
+
+  <a href="products.html" class="back">⬅ Back to Products</a>
+
+</div>
+
+<!-- bell on index page  -->
+<audio id="soundAccepted" preload="auto">
+  <source src="bell.wav" type="audio/mpeg">
+</audio>
+
+<audio id="soundDelivered" preload="auto">
+  <source src="bell_2.wav" type="audio/mpeg">
+</audio>
+
+<script>
+const supabaseClient = supabase.createClient(
+  "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+const productId = new URLSearchParams(window.location.search).get("id");
+
+async function loadProduct(){
+
+  if(!productId){
+    alert("Invalid product link");
+    window.location.href="products.html";
+    return;
+  }
+
+  const { data: product, error } = await supabaseClient
+    .from("products")
+    .select("*")
+    .eq("id", productId)
+    .single();
+
+  if(error || !product){
+    alert("Product not found");
+    window.location.href="products.html";
+    return;
+  }
+
+  productName.innerText = product.name;
+  productImage.src = product.image_url;
+  productDesc.innerText = product.description || "";
+  const pricePerKg = product.price * 1000;
+  price.innerText = pricePerKg.toLocaleString();
+
+
+  if(product.ingredients){
+    ingredients.innerText = product.ingredients;
+    ingBox.classList.remove("hidden");
+  }
+
+  if(product.extra_details){
+    extra.innerText = product.extra_details;
+    extraBox.classList.remove("hidden");
+  }
+
+  if(product.video_url){
+    video.src = product.video_url;
+    videoBox.classList.remove("hidden");
+  }
+}
+
+loadProduct();
+
+
+let CURRENT_USER = null;
+
+function notifKey() {
+  return `notifications_${CURRENT_USER.id}`;
+}
+
+function unreadKey() {
+  return `unreadCount_${CURRENT_USER.id}`;
+}
+
+function getNotifications() {
+  return JSON.parse(localStorage.getItem(notifKey()) || "{}");
+}
+
+function setNotifications(data) {
+  localStorage.setItem(notifKey(), JSON.stringify(data));
+}
+
+function getUnread() {
+  return Number(localStorage.getItem(unreadKey()) || 0);
+}
+
+function setUnread(count) {
+  localStorage.setItem(unreadKey(), count);
+}
+</script>
+
+<script src="notifications.js"></script>
+
+</body>
+</html>

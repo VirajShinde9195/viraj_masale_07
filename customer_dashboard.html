@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel – Viraj Masale</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f7f7f7; }
+    h1 { text-align: center; color: #d91440; }
+    .order { background: white; padding: 15px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .order h3 { margin: 0 0 8px; }
+    .items { font-size: 14px; margin-bottom: 8px; }
+    select { padding: 6px; }
+    button { margin-left: 8px; padding: 6px 12px; background: #25D366; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    button:disabled { background: #ccc; }
+  </style>
+</head>
+<body>
+  <h1>Admin – All Orders</h1>
+  <div id="ordersContainer">Loading orders…</div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCRaPf-khd5b9xr-F_3liPnB8asJnQcw-0",
+      authDomain: "virajmasale9195.firebaseapp.com",
+      projectId: "virajmasale9195",
+      storageBucket: "virajmasale9195.appspot.com",
+      messagingSenderId: "257333053440",
+      appId: "1:257333053440:web:08e92a23f14a1617ba70e5"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function formatItems(items) {
+      return items.map(i => `${i.product} — ${i.quantity} (₹${i.price})`).join('<br>');
+    }
+
+    async function loadOrders() {
+      const container = document.getElementById('ordersContainer');
+      container.innerHTML = 'Loading orders…';
+      const snapshot = await db.collection('order').orderBy('date','desc').get();
+      if (snapshot.empty) {
+        container.innerHTML = 'No orders found.';
+        return;
+      }
+      container.innerHTML = '';
+      snapshot.docs.forEach(doc => {
+        const o = doc.data();
+        const div = document.createElement('div');
+        div.className = 'order';
+        div.innerHTML = `
+          <h3>🆔 ${o.customerId} — ${new Date(o.date.seconds * 1000).toLocaleString('en-GB')}</h3>
+          <div><strong>Name:</strong> ${o.name}, <strong>Mobile:</strong> ${o.mobile}</div>
+          <div class="items"><strong>Items:</strong><br>${formatItems(o.orderItems)}</div>
+          <div><strong>Total:</strong> ₹${o.totalPrice}</div>
+          <div>
+            <label>Status:</label>
+            <select id="sel_${doc.id}">
+              <option${o.status=='Pending'?' selected':''}>Pending</option>
+              <option${o.status=='Dispatched'?' selected':''}>Dispatched</option>
+              <option${o.status=='Delivered'?' selected':''}>Delivered</option>
+            </select>
+            <button onclick="updateStatus('${doc.id}')">✅ Update</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function updateStatus(docId) {
+      const sel = document.getElementById('sel_' + docId);
+      const newStatus = sel.value;
+      sel.nextElementSibling.disabled = true;
+      db.collection('order').doc(docId).update({ status: newStatus })
+        .then(() => {
+          alert('Order status updated.');
+          sel.nextElementSibling.disabled = false;
+        })
+        .catch(err => {
+          alert('Error updating: ' + err);
+          sel.nextElementSibling.disabled = false;
+        });
+    }
+
+    loadOrders();
+  </script>
+</body>
+</html>

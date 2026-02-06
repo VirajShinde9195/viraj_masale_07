@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Management | Viraj Masale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)),
+                  url("viraj_shop.png") center / cover no-repeat fixed;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* ---------- HEADER ---------- */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+
+    .header h1 {
+      font-size: 26px;
+      margin: 0;
+    }
+
+    .back-btn {
+      background: #22c55e;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* ---------- CONTROLS ---------- */
+    .controls {
+      display: flex;
+      gap: 15px;
+      padding: 25px 40px;
+      flex-wrap: wrap;
+    }
+
+    .controls input,
+    .controls select {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    /* ---------- TABLE ---------- */
+    .table-container {
+      padding: 0 40px 40px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(14px);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+    }
+
+    thead {
+      background: rgba(0,0,0,.55);
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      color: #cbd5f5;
+      font-weight: 600;
+    }
+
+    tr {
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    tr:hover {
+      background: rgba(255,255,255,.06);
+    }
+
+    /* ---------- STATUS ---------- */
+    .badge {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .active {
+      background: #16a34a;
+    }
+
+    .blocked {
+      background: #dc2626;
+    }
+
+    /* ---------- ACTION ---------- */
+    .view-btn {
+      background: #3b82f6;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>👥 Customer Management</h1>
+    <button class="back-btn" onclick="goBack()">⬅ Admin Dashboard</button>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search by name or email">
+    <select id="statusFilter">
+      <option value="all">All Customers</option>
+      <option value="active">Active</option>
+      <option value="blocked">Blocked</option>
+    </select>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Email</th>
+          <th>Total Orders</th>
+          <th>Last Order</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="customerTable">
+        <!-- JS will inject rows -->
+      </tbody>
+    </table>
+  </div>
+<script src="admin-alerts.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+/* ---------------- MOCK DATA (replace with Supabase) ---------------- */
+const supabaseClient = supabase.createClient(
+  "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+async function loadCustomers() {
+  const { data, error } = await supabaseClient
+    .from("customers")
+    .select(`
+      user_id,
+      full_name,
+      email,
+      is_active,
+      orders (
+        id,
+        created_at
+      )
+    `);
+
+  if (error) {
+    console.error("Failed to load customers", error);
+    alert("Error loading customers");
+    return;
+  }
+
+  renderTable(data);
+}
+checkLowStockGlobal();
+
+function renderTable(customers) {
+  const search = searchInput.value.toLowerCase();
+  const status = statusFilter.value;
+  const table = document.getElementById("customerTable");
+
+  table.innerHTML = "";
+
+  customers
+    .filter(c =>
+      (c.full_name.toLowerCase().includes(search) ||
+       c.email.toLowerCase().includes(search)) &&
+      (status === "all" ||
+       (status === "active" && c.is_active) ||
+       (status === "blocked" && !c.is_active))
+    )
+    .forEach(c => {
+
+      const totalOrders = c.orders.length;
+      const lastOrder =
+        totalOrders > 0
+          ? new Date(
+              Math.max(...c.orders.map(o => new Date(o.created_at)))
+            ).toLocaleDateString()
+          : "-";
+
+      table.innerHTML += `
+        <tr>
+          <td>${c.full_name}</td>
+          <td>${c.email}</td>
+          <td>${totalOrders}</td>
+          <td>${lastOrder}</td>
+          <td>
+            <span class="badge ${c.is_active ? 'active' : 'blocked'}">
+              ${c.is_active ? 'Active' : 'Blocked'}
+            </span>
+          </td>
+          <td>
+            <button class="view-btn"
+              onclick="viewOrders('${c.user_id}')">
+              View Orders
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+}
+
+function viewOrders(id) {
+  location.href = `admin_orders.html?customer_id=${id}`;
+}
+
+function goBack() {
+  location.href = "admin_welcome.html";
+}
+
+searchInput.oninput = loadCustomers;
+statusFilter.onchange = loadCustomers;
+
+loadCustomers();
+
+
+
+/* ---------------- SUPABASE LOGIC (REFERENCE) ----------------
+
+SELECT
+  customers.user_id,
+  customers.full_name,
+  customers.email,
+  customers.is_active,
+  COUNT(orders.id),
+  MAX(orders.created_at)
+FROM customers
+LEFT JOIN orders ON orders.customer_id = customers.user_id
+GROUP BY customers.user_id;
+
+---------------------------------------------------------------- */
+</script>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order on WhatsApp - Viraj Masale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Baloo 2', cursive;
+      background: url('https://i.imgur.com/KnShX8f.jpg') no-repeat center center/cover;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #d91440;
+      margin-bottom: 20px;
+    }
+
+    p {
+      text-align: center;
+      color: #444;
+      margin-bottom: 30px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .product-entry {
+      border: 1px dashed #aaa;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      background: #fff9f2;
+      position: relative;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .btn {
+      width: 100%;
+      background-color: #25D366;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #1aaa50;
+    }
+
+    .add-btn {
+      background-color: #d91440;
+    }
+
+    .add-btn:hover {
+      background-color: #a80c2b;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📦 Quick Order - Viraj Masale</h1>
+    <p>Fill in your details and place an order on WhatsApp</p>
+
+
+    <input type="text" id="custName" placeholder="Enter Your Name">
+    <input type="text" id="custID" placeholder="Enter Customer ID">
+    <input type="text" id="custMobile" placeholder="Enter Mobile Number">
+    <textarea id="custAddress" rows="3" placeholder="Enter Your Full Address"></textarea>
+
+    
+    <div id="productsContainer"></div>
+    <button class="btn add-btn" onclick="addProduct()">➕ Add Product</button>
+
+ 
+    <button class="btn" onclick="submitOrder()">📲 Send Order on WhatsApp</button>
+  </div>
+
+  <script>
+    const productPrices = {
+      "Turmeric Powder": 160,
+      "Red Chilli Powder": 180,
+      "Coriander Powder": 140,
+      "Garam Masala": 200,
+      "Cumin Powder": 150,
+      "Black Pepper": 250,
+      "Clove Powder": 300,
+      "Fennel Seeds": 120
+    };
+
+    const productOptions = Object.keys(productPrices);
+
+    const quantityOptions = [
+      "0.250kg", "0.500kg", "0.750kg", "1kg", "1.500kg", "2kg", "3kg", "4kg", "5kg", "10kg"
+    ];
+
+    function addProduct() {
+      const container = document.getElementById("productsContainer");
+      const div = document.createElement("div");
+      div.className = "product-entry";
+      div.innerHTML = `
+        <button class="remove-btn" onclick="this.parentElement.remove()">✖</button>
+        <select class="productSelect">
+          <option value="">-- Select Product --</option>
+          ${productOptions.map(p => `<option value="${p}">${p} (₹${productPrices[p]}/kg)</option>`).join("")}
+        </select>
+        <select class="quantitySelect">
+          <option value="">-- Select Quantity --</option>
+          ${quantityOptions.map(q => `<option value="${q}">${q}</option>`).join("")}
+        </select>
+      `;
+      container.appendChild(div);
+    }
+
+    function parseQuantity(qtyStr) {
+      return parseFloat(qtyStr.replace("kg", "")) || 0;
+    }
+
+    function submitOrder() {
+      const name = document.getElementById("custName").value.trim();
+      const id = document.getElementById("custID").value.trim();
+      const mobile = document.getElementById("custMobile").value.trim();
+      const address = document.getElementById("custAddress").value.trim();
+
+      if (!name || !id || !mobile || !address) {
+        alert("Please enter Name, Customer ID, Mobile Number, and Address.");
+        return;
+      }
+
+      const products = document.querySelectorAll(".productSelect");
+      const quantities = document.querySelectorAll(".quantitySelect");
+
+      let orderText = "";
+      let totalPrice = 0;
+
+      for (let i = 0; i < products.length; i++) {
+        const prod = products[i].value;
+        const qty = quantities[i].value;
+
+        if (prod && qty) {
+          const qtyNum = parseQuantity(qty);
+          const unitPrice = productPrices[prod.split(" (")[0]];
+          const price = (qtyNum * unitPrice).toFixed(2);
+          totalPrice += parseFloat(price);
+          orderText += `- ${prod.split(" (")[0]} (${qty}) = ₹${price}\n`;
+        }
+      }
+
+      if (!orderText) {
+        alert("Please select at least one product and quantity.");
+        return;
+      }
+
+      const message =
+`👤 Name: ${name}
+🆔 ID: ${id}
+📞 Mobile: ${mobile}
+🏠 Address: ${address}
+
+🛒 Order:
+${orderText}
+💰 Total Price: ₹${totalPrice.toFixed(2)}`;
+
+      const encoded = encodeURIComponent(message);
+      const phone = "919322789195"; // Replace with actual owner number
+      const url = `https://wa.me/${phone}?text=${encoded}`;
+      window.open(url, "_blank");
+    }
+
+    window.onload = addProduct;
+  </script>
+</body>
+</html> -->

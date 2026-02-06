@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome | Viraj Masale</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      background: url("welcome_page_image.png") no-repeat center/cover;
+      backdrop-filter: blur(6px);
+      position: relative;
+    }
+
+    /* Dark overlay for premium look */
+    body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  /* backdrop-filter: blur(1px); */
+  z-index: -1;
+}
+
+
+
+    .container {
+      position: relative;
+      width: 90%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+      color: white;
+      padding: 20px;
+    }
+
+    /* LEFT SECTION – BRAND */
+    .brand-box {
+      width: 45%;
+      text-align: center;
+    }
+
+    .brand-box img {
+      width: 80%;
+      max-width: 240px;
+      filter: drop-shadow(0 0 20px rgba(255,255,255,0.35));
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .brand-title {
+      /* margin-top: 20px; */
+      font-size: 38px;
+      font-weight: 700;
+      color: aliceblue;
+      font-family: 'Great Vibes', cursive;
+      /* font-style:inherit; */
+      letter-spacing: 2px;
+      text-shadow: 0 4px 15px rgba(243, 234, 234, 0.5);
+      animation: slideUp 0.8s ease;
+    }
+
+    /* RIGHT SECTION – GLASS CARD */
+    .card {
+      width: 350px;
+      background: rgba(255, 255, 255, 0.10);
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      animation: slideLeft 1s ease;
+    }
+
+    .card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 26px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .login-btn {
+      background: #0d9488;
+      color: white;
+    }
+
+    .login-btn:hover {
+      background: #0f766e;
+    }
+
+    .reg-btn {
+      background: #fcd34d;
+      color: #000;
+    }
+
+    .reg-btn:hover {
+      background: #eab308;
+    }
+
+    .guest-btn {
+      background: #e5e7eb;
+      color: #111;
+    }
+
+    .guest-btn:hover {
+      background: #d1d5db;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideLeft {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .brand-box {
+        width: 100%;
+        margin-bottom: 25px;
+      }
+
+      .card {
+        width: 90%;
+      }
+    }
+
+        /* LEFT IMAGE BOX */
+    .shop-image-box {
+      width: 450px;
+      height: 600px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+    }
+    
+    .shop-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* RIGHT SECTION */
+    .right-section {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    /* BRAND ON RIGHT */
+    .right-brand {
+      width: 100%;
+      margin-bottom: 25px;
+      
+    }
+    
+  </style>
+
+</head>
+<body>
+
+  <!-- LEFT : SHOP IMAGE -->
+<div class="shop-image-box">
+  <img src="viraj_shop_1.png" alt="Viraj Masale Shop">
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="right-section">
+
+  <!-- BRAND MOVED HERE -->
+  <div class="brand-box right-brand">
+    <img src="viru_masala_logo-removebg-preview.png" alt="Viraj Masale Logo">
+    <div class="brand-title">Welcome to Viraj Masale</div>
+  </div>
+
+  <!-- CARD -->
+  <div class="card">
+    <h2>Continue As</h2>
+
+    <button class="login-btn" onclick="location.href='login_supa.html'">
+      <i class="fa-solid fa-right-to-bracket"></i> Login
+    </button>
+
+    <button class="reg-btn" onclick="location.href='registration_supa.html'">
+      <i class="fa-solid fa-user-plus"></i> Register
+    </button>
+
+    <button class="guest-btn" onclick="enterGuestMode()">
+      <i class="fa-solid fa-user"></i> Guest User
+    </button>
+  </div>
+
+</div>
+
+
+</div>
+<script>
+async function enterGuestMode() {
+  // ✅ Set guest mode
+  localStorage.setItem("mode", "guest");
+
+  // ✅ Force logout if already logged in
+  // await supabaseClient.auth.signOut();
+
+  // ✅ Redirect
+  window.location.replace("index.html");
+}
+</script>
+
+</body>
+</html>

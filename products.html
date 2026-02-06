@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Products | Viraj Masale</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI', sans-serif;
+  background:#fffaf3;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(to right,#ede8e8,#da8e25,#e70404);
+  padding:50px;
+  text-align:center;
+  color:white;
+  font-size:28px;
+  font-weight:bold;
+}
+
+/* NAVBAR */
+nav{
+  background:#ffe0b3;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:10px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+nav a{
+  text-decoration:none;
+  color:#333;
+  padding:8px 16px;
+  border-radius:6px;
+  font-weight:bold;
+  transition:.3s;
+}
+nav a:hover{
+  background:#ff8000;
+  color:white;
+}
+
+/* CATEGORY GRID */
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr); /* ✅ always 3 per row */
+  gap:30px;
+  padding:60px;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* CARD */
+.category-box{
+  background:#fc681e;
+  border-radius:16px;
+  overflow:hidden;
+  text-align:center;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+  transition:transform .4s ease, box-shadow .4s ease;
+  position:relative;
+}
+
+/* IMAGE */
+.category-box img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  transition:transform .45s ease;
+}
+
+/* TITLE */
+.category-box h3{
+  margin:18px 0 8px;
+  font-size:30px;
+  font-weight:bold;
+}
+
+/* TAGLINE */
+.category-box p{
+  padding:0 18px 22px;
+  font-size:18px;   /* 👈 font size increased */
+  line-height:1.6;
+  opacity:.95;
+}
+
+/* HOVER ANIMATION */
+.category-box:hover{
+  transform:translateY(-12px) scale(1.04);
+  box-shadow:0 20px 45px rgba(0,0,0,.28);
+}
+
+/* IMAGE ZOOM */
+.category-box:hover img{
+  transform:scale(1.02);
+}
+
+/* SOFT GLOW OVERLAY */
+.category-box::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(0,0,0,.15));
+  opacity:0;
+  transition:.4s;
+}
+
+.category-box:hover::after{
+  opacity:1;
+}
+
+
+/* PRODUCT VIEW */
+.hidden{display:none;}
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+  padding:50px;
+  max-width:1200px;
+  margin:auto;
+}
+.product-card{
+  background:#fc681e;
+  border-radius:14px;
+  overflow:hidden;
+  text-align:center;
+  color:white;
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
+  transition:.3s;
+}
+.product-card img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+}
+.product-card h3{
+  margin:10px 0;
+}
+.product-card p{
+  margin-bottom:10px;
+}
+.product-card a{
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+}
+.product-card:hover{
+  transform:translateY(-6px);
+}
+
+/* BACK BUTTON */
+.back-btn{
+  display:inline-block;
+  background:#ff8000;
+  color:white;
+  padding:12px 25px;
+  border-radius:8px;
+  cursor:pointer;
+  margin-bottom:40px;
+}
+footer{
+  background:#ffe0b3;
+  padding:20px;
+  text-align:center;
+}
+@media(max-width:900px){
+  .category-grid,
+  .product-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media(max-width:500px){
+  .category-grid,
+  .product-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>🌶️ Viraj Masale – Explore Our Products</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="products.html">Products</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<!-- CATEGORY VIEW -->
+<div id="categoryView" class="category-grid">
+  <div class="category-box" onclick="loadCategory('basic_spices')">
+    <img src="images/m.basics.png">
+    <h3>Basic Spices</h3>
+    <p>“Perfectly Balanced Spices for Authentic Indian Taste”</p>
+  </div>
+
+  <div class="category-box" onclick="loadCategory('blended_masalas')">
+    <img src="images/m.blended1.png">
+    <h3>Blended Masalas</h3>
+    <p>“Perfectly Balanced Blends for Everyday Cooking”</p>
+  </div>
+
+  <div class="category-box" onclick="loadCategory('regional_masalas')">
+    <img src="images/m.reg.png">
+    <h3>Regional</h3>
+    <p>“Authentic Regional Flavors from Every Corner of India”</p>
+  </div>
+
+  <div class="category-box" onclick="loadCategory('nonveg_masalas')">
+    <img src="images/m.nonveg.png">
+    <h3>Non-Veg</h3>
+    <p>“Rich, Robust Flavors That Bring Meat to Life”</p>
+  </div>
+
+  <div class="category-box" onclick="loadCategory('tasty_masalas')">
+    <img src="images/m.tasty.png">
+    <h3>Tasty</h3>
+    <p>“Bold, Delicious Spices That Elevate Every Bite”</p>
+  </div>
+
+  <div class="category-box" onclick="loadCategory('whole_spices')">
+    <img src="images/w.total.png">
+    <h3>Whole Spices</h3>
+    <p>“Pure Whole Spices, Just the Way Nature Intended”</p>
+  </div>
+</div>
+
+<!-- PRODUCT VIEW -->
+<div id="productView" class="hidden">
+  <h2 id="catTitle" style="text-align:center;color:#d91440;margin-top:30px;"></h2>
+  <div id="productGrid" class="product-grid"></div>
+  <div style="text-align:center;">
+    <span class="back-btn" onclick="goBack()">⬅ Back to Categories</span>
+  </div>
+</div>
+
+<footer>© 2025 Viraj Masale</footer>
+
+<audio id="soundAccepted" preload="auto">
+  <source src="bell.wav" type="audio/mpeg">
+</audio>
+
+<audio id="soundDelivered" preload="auto">
+  <source src="bell_2.wav" type="audio/mpeg">
+</audio>
+
+<script>
+const supabaseClient = supabase.createClient(
+ "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+
+async function loadCategory(cat){
+  categoryView.classList.add("hidden");
+  productView.classList.remove("hidden");
+  catTitle.innerText = cat.replaceAll("_"," ").toUpperCase();
+
+  const {data,error} = await supabaseClient
+    .from("products")
+    .select("id,name,image_url,price")
+    .eq("category",cat);
+
+  if(error){ alert(error.message); return; }
+
+  productGrid.innerHTML="";
+  data.forEach(p=>{
+    productGrid.innerHTML+=`
+      <div class="product-card">
+        <img src="${p.image_url}">
+        <h3>${p.name}</h3>
+        <p>₹${(p.price * 1000).toLocaleString()} / kg</p>
+        <a href="product.html?id=${p.id}">View Product</a>
+      </div>
+    `;
+  });
+}
+
+function goBack(){
+  productView.classList.add("hidden");
+  categoryView.classList.remove("hidden");
+}
+</script>
+<script src="notifications.js"></script>
+
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Products | Viraj Masale</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#fff6ee;
+}
+header{
+  background:#d91440;
+  color:white;
+  padding:15px;
+  text-align:center;
+}
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  padding:30px;
+}
+.category-box{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  cursor:pointer;
+  text-align:center;
+}
+.category-box:hover{
+  background:#ffe0e6;
+}
+.hidden{display:none;}
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+  padding:30px;
+}
+.product-card{
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+}
+.product-card img{
+  max-width:150px;
+  border-radius:8px;
+}
+.back-btn{
+  background:#d91440;
+  color:white;
+  padding:10px 20px;
+  border-radius:6px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🌶️ Viraj Masale</h1>
+</header>
+
+<div id="categoryView" class="category-grid">
+  <div class="category-box" onclick="loadCategory('basic_spices')">Basic Spices</div>
+  <div class="category-box" onclick="loadCategory('blended_masalas')">Blended Masala</div>
+  <div class="category-box" onclick="loadCategory('regional_masalas')">Regional</div>
+  <div class="category-box" onclick="loadCategory('nonveg_masalas')">Non-Veg</div>
+  <div class="category-box" onclick="loadCategory('tasty_masalas')">Tasty</div>
+  <div class="category-box" onclick="loadCategory('whole_spices')">Whole Spices</div>
+</div>
+
+<div id="productView" class="hidden">
+  <h2 id="catTitle" style="text-align:center;"></h2>
+  <div id="productGrid" class="product-grid"></div>
+  <div style="text-align:center;">
+    <span class="back-btn" onclick="goBack()">⬅ Back</span>
+  </div>
+</div>
+
+<script>
+const supabaseClient = supabase.createClient(
+    "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+async function loadCategory(cat){
+  categoryView.classList.add("hidden");
+  productView.classList.remove("hidden");
+  catTitle.innerText = cat.toUpperCase();
+
+  const {data,error} = await supabaseClient
+    .from("products")
+    .select("id,name,image_url,price")
+    .eq("category",cat);
+
+  if(error){alert(error.message);return;}
+
+  productGrid.innerHTML="";
+  data.forEach(p=>{
+    productGrid.innerHTML+=`
+      <div class="product-card">
+        <img src="${p.image_url}">
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
+        <a href="product.html?id=${p.id}">View</a>
+      </div>`;
+  });
+}
+
+function goBack(){
+  productView.classList.add("hidden");
+  categoryView.classList.remove("hidden");
+}
+</script>
+
+</body>
+</html> -->

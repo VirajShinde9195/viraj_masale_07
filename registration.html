@@ -1,0 +1,192 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Registration - Viraj Masale</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; width: 100%; }
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #ffe8d6, #ffbc9a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+    }
+    @media(max-width: 600px){
+      .box { width: 90%; padding: 30px 20px; }
+      h2 { font-size: 20px; }
+      input, button { font-size: 14px; padding: 10px; }
+      .toggle-password { font-size: 14px; top: 10px; }
+      .result { font-size: 13px; padding: 8px; }
+    }
+    .box {
+      position: relative;
+      width: 90%;
+      max-width:360px ;
+      background: #1f1f1f;
+      border-radius: 20px;
+      box-shadow: 0 0 50px rgba(255, 145, 77, 0.3);
+      overflow: hidden;
+      padding: 40px 30px;
+    }
+    .box::before, .box::after {
+      content: '';
+      position: absolute;
+      width: 150%; height: 150%;
+      background: linear-gradient(120deg, #ff914d, #ff4c7b);
+      top: -25%; left: -25%; z-index: -1;
+      animation: rotate 6s linear infinite;
+    }
+    .box::after { filter: blur(50px); }
+    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    h2 { color: white; text-align: center; margin-bottom: 25px; }
+    label {
+      color: #fff; font-weight: bold; margin-top: 10px; display: block; font-size: 14px;
+    }
+    input {
+      width: 100%; padding: 12px; margin-top: 4px;
+      background: transparent; border: 2px solid #ff914d;
+      border-radius: 10px; color: #fff; font-size: 14px;
+    }
+    input:focus { border-color: #ff4c7b; outline: none; }
+    .inputBox { margin-bottom: 16px; position: relative; }
+    .toggle-password {
+      position: absolute; top: 12px; right: 15px; color: #ccc; cursor: pointer; font-size: 16px;
+    }
+    button {
+      margin-top: 20px; width: 100%;
+      background-color: #25D366; color: black;
+      padding: 12px; font-size: 15px; border: none; border-radius: 10px;
+      cursor: pointer; font-weight: bold;
+    }
+    button:hover { background: #1eb152; color: white; box-shadow: 0 0 10px #90edb2; }
+    a { text-decoration: none; color: #ff4c7b; font-weight: bold; font-size: 13px; }
+    .result {
+      margin-top: 20px; background: #e7ffe5; padding: 10px; border-radius: 6px;
+      font-weight: bold; color: #1a7f3c; display: none;
+      white-space: pre-line; font-size: 14px; text-align: center;
+    }
+    .link-wrap { text-align: center; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>🧾 Customer Registration</h2>
+    <form id="registrationForm">
+      <div class="inputBox">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" required>
+      </div>
+
+      <div class="inputBox">
+        <label for="mobile">Mobile Number:</label>
+        <input type="text" id="mobile" required>
+      </div>
+
+      <div class="inputBox">
+        <label for="village">Village:</label>
+        <input type="text" id="village" required>
+      </div>
+
+      <div class="inputBox">
+        <label for="taluka">Taluka:</label>
+        <input type="text" id="taluka" required>
+      </div>
+
+      <div class="inputBox">
+        <label for="district">District:</label>
+        <input type="text" id="district" required>
+      </div>
+
+      <div class="inputBox">
+        <label for="password">Set Your Password:</label>
+        <input type="password" id="password" required>
+        <span class="toggle-password" onclick="togglePassword()">👁</span>
+      </div>
+
+      <button type="button" onclick="registerUser()">Register</button>
+
+      <div class="link-wrap">
+        <a href="set_password.html">🔑 Forgot your password? Reset here</a>
+      </div>
+    </form>
+
+    <div class="result" id="resultMessage"></div>
+  </div>
+
+  <script>
+    // Supabase Config
+    const SUPABASE_URL = "https://wwngkhskblhaimvmlhyu.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3bmdraHNrYmxoYWltdm1saHl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0MTgzMzYsImV4cCI6MjA3Mjk5NDMzNn0.HTPv9Uxk7X6Syhs-TZri1ljsIq-XNG1uNG16ERTlDIw";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function registerUser() {
+      const name = document.getElementById("name").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const village = document.getElementById("village").value.trim();
+      const taluka = document.getElementById("taluka").value.trim();
+      const district = document.getElementById("district").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!name || !mobile || !village || !taluka || !district || !password) {
+        alert("⚠️ Please fill all fields");
+        return;
+      }
+
+      try {
+        // 1️⃣ Get the latest customer_id
+        const { data: users, error: fetchError } = await supabase
+          .from("users")
+          .select("customer_id")
+          .order("created_at", { ascending: false })
+          .limit(1);
+
+        let nextId = 1;
+        if (users && users.length > 0) {
+          const lastId = users[0].customer_id.split("_").pop();
+          nextId = parseInt(lastId) + 1;
+        }
+        const customerId = `Viraj_Masale_${nextId}`;
+
+        // 2️⃣ Insert new user
+        const { error: insertError } = await supabase
+          .from("users")
+          .insert([{
+            name,
+            mobile,
+            village,
+            taluka,
+            district,
+            password, // ⚠️ For production: hash password before storing
+            customer_id: customerId
+          }]);
+
+        if (insertError) throw insertError;
+
+        document.getElementById("resultMessage").innerText =
+          `✅ Registration successful!\nYour Customer ID: ${customerId}\nRedirecting to login...`;
+        document.getElementById("resultMessage").style.display = "block";
+        document.getElementById("registrationForm").reset();
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1500);
+
+      } catch (error) {
+        console.error("❌ Registration error:", error);
+        alert("Something went wrong. Try again.");
+      }
+    }
+
+    function togglePassword() {
+      const pw = document.getElementById("password");
+      pw.type = pw.type === "password" ? "text" : "password";
+    }
+  </script>
+</body>
+</html> -->

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Profile - Viraj Masale</title>
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family: Inter, system-ui, sans-serif;
+  background: linear-gradient(135deg,#f7f8fb,#eef2f7);
+  margin:0;
+}
+
+/* ===== container ===== */
+.profile-container{
+  max-width:520px;
+  margin:70px auto;
+  background:#fff;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 12px 28px rgba(0,0,0,.1);
+}
+
+/* ===== top bar ===== */
+.top-bar{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.top-bar button{
+  padding:9px 16px;
+  border-radius:10px;
+  border:none;
+  background: linear-gradient(135deg,#3b82f6,#eb7b25ec);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.top-bar button:hover{
+  background:#ef7e3c;
+}
+
+/* ===== info banner ===== */
+.info-banner{
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  color:#fd3f3f;
+  padding:12px 14px;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:600;
+  margin-bottom:18px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* ===== heading ===== */
+h2{
+  text-align:center;
+  margin-bottom:22px;
+  font-size:22px;
+  font-weight:700;
+  color:#111827;
+}
+
+/* ===== form ===== */
+label{
+  font-weight:600;
+  margin-top:14px;
+  display:block;
+  font-size:14px;
+  color:#374151;
+}
+
+input{
+  width:100%;
+  padding:11px 12px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  margin-top:6px;
+  font-size:14px;
+  transition:.2s;
+}
+
+input:focus{
+  outline:none;
+  border-color:#3b82f6;
+  box-shadow:0 0 0 2px rgba(59,130,246,.15);
+}
+
+input[readonly]{
+  background:#f3f4f6;
+  color:#6b7280;
+}
+
+/* ===== save button ===== */
+button.save{
+  margin-top:24px;
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#fff;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+}
+
+button.save:hover{
+  opacity:.95;
+}
+
+/* ===== message ===== */
+#msg{
+  margin-top:14px;
+  text-align:center;
+  font-weight:600;
+  font-size:14px;
+  color:#16a34a;
+}
+
+/* ===== toast ===== */
+.toast{
+  position:fixed;
+  bottom:28px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#fff;
+  padding:14px 20px;
+  border-radius:14px;
+  font-weight:700;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  opacity:0;
+  pointer-events:none;
+  transition:.4s ease;
+  z-index:9999;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ===== mobile responsive ===== */
+@media(max-width:600px){
+  .profile-container{
+    margin:20px 14px;
+    padding:22px 18px;
+  }
+
+  h2{
+    font-size:20px;
+  }
+
+  .top-bar button{
+    flex:1;
+    padding:10px 0;
+    font-size:13px;
+  }
+
+  input{
+    padding:12px;
+    font-size:15px;
+  }
+
+  button.save{
+    padding:14px;
+    font-size:16px;
+  }
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div class="profile-container">
+
+  <div class="top-bar">
+    <button onclick="location.href='index.html'">⬅ Home</button>
+    <button onclick="location.href='my_orders.html'">📦 Orders</button>
+  </div>
+  <div class="info-banner">
+    ✏️ You can update your Profil information anytime from here
+  </div>
+  
+  <h2>👤 My Profile</h2>
+
+  <label>Full Name</label>
+  <input id="full_name">
+
+  <label>Email</label>
+  <input id="email" readonly>
+
+  <label>Phone</label>
+  <input id="phone">
+
+  <label>Address</label>
+  <input id="address">
+
+  <label>City</label>
+  <input id="city">
+
+  <label>Pincode</label>
+  <input id="pincode">
+
+  <button class="save" onclick="updateProfile()">💾 Update Profile</button>
+
+  <div id="msg"></div>
+</div>
+
+<div id="toast" class="toast">
+  ✅ Profile updated successfully
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<script>
+/* ===============================
+   🔗 SUPABASE INIT
+================================ */
+const supabaseClient = supabase.createClient(
+   "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+
+let CURRENT_USER = null;
+let CUSTOMER_ROW_ID = null;
+
+/* ===============================
+   📥 LOAD PROFILE
+================================ */
+async function loadProfile() {
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
+
+  if (!session) {
+    alert("Please login first");
+    location.href = "login.html";
+    return;
+  }
+
+  CURRENT_USER = session.user;
+
+  const { data, error } = await supabaseClient
+    .from("customers")
+    .select("*")
+    .eq("user_id", CURRENT_USER.id)
+    .single();
+
+  if (error || !data) {
+    alert("Profile not found");
+    return;
+  }
+
+  CUSTOMER_ROW_ID = data.id;
+
+  full_name.value = data.full_name || "";
+  email.value = data.email || "";
+  phone.value = data.phone || "";
+  address.value = data.address || "";
+  city.value = data.city || "";
+  pincode.value = data.pincode || "";
+}
+
+/* ===============================
+   💾 UPDATE PROFILE
+================================ */
+async function updateProfile() {
+  if (!CUSTOMER_ROW_ID) return;
+
+  const { error } = await supabaseClient
+    .from("customers")
+    .update({
+      full_name: full_name.value.trim(),
+      phone: phone.value.trim(),
+      address: address.value.trim(),
+      city: city.value.trim(),
+      pincode: pincode.value.trim()
+    })
+    .eq("id", CUSTOMER_ROW_ID);
+
+  if (!error) {
+  showToast();
+}
+
+}
+
+document.addEventListener("DOMContentLoaded", loadProfile);
+
+/* ===============================
+   🍞 TOAST NOTIFICATION
+================================ */
+function showToast() {
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+
+  setTimeout(() => {
+    t.classList.remove("show");
+  }, 2500);
+}
+
+</script>
+
+</body>
+</html>

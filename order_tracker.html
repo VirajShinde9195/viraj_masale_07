@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Track Your Order – Viraj Masale</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f4ef;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+    h2 {
+      color: #d91440;
+    }
+    .status-box {
+      margin-top: 30px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: inline-block;
+      max-width: 500px;
+      text-align: left;
+    }
+    .error {
+      color: red;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .btn-back {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 25px;
+      background: #d91440;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📦 Track Your Order</h2>
+
+  <div id="statusBox" class="status-box">
+    Loading your latest order…
+  </div>
+  <div id="errorBox" class="error"></div>
+
+  <a href="add_cart.html" class="btn-back">⬅️ Back to Cart</a>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCRaPf-khd5b9xr-F_3liPnB8asJnQcw-0",
+    authDomain: "virajmasale9195.firebaseapp.com",
+    projectId: "virajmasale9195",
+    storageBucket: "virajmasale9195.appspot.com",
+    messagingSenderId: "257333053440",
+    appId: "1:257333053440:web:08e92a23f14a1617ba70e5"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const cid = localStorage.getItem("loggedInCustomerId");
+  const statusBox = document.getElementById("statusBox");
+  const errorBox = document.getElementById("errorBox");
+
+  // if (!cid) {
+  //   statusBox.textContent = "";
+  //   errorBox.textContent = "🔒 Please login first to track your order.";
+  // } else {
+  //   fetchOrderStatus(cid);
+  // }
+
+  async function fetchOrderStatus(customerId) {
+    try {
+      const snapshot = await db.collection("order")
+        .where("customerId", "==", customerId)
+        .orderBy("date", "desc") // ✅ Important: Order by latest date
+        .limit(1) // ✅ Only fetch latest order
+        .get();
+
+      if (snapshot.empty) {
+        statusBox.textContent = "";
+        errorBox.textContent = "❌ No order found for this Customer ID.";
+        return;
+      }
+
+      const doc = snapshot.docs[0];
+      const data = doc.data();
+      const { name, date, orderItems, status, totalPrice } = data;
+
+      const productList = orderItems.map(item =>
+        `🔸 ${item.product} — ${item.quantity} (₹${item.price})`
+      ).join("<br>");
+
+      statusBox.innerHTML = `
+        <strong>Name:</strong> ${name}<br>
+        <strong>Date:</strong> ${date.toDate().toLocaleString("en-GB", { timeZone: "Asia/Kolkata" })}<br><br>
+        <strong>Items:</strong><br>${productList}<br><br>
+        <strong>Total:</strong> ₹${totalPrice}<br>
+        <strong>Status:</strong> <span style="color:#1a7f3c">${status || "Pending"}</span>
+      `;
+    } catch (err) {
+      console.error("❌ Error fetching order:", err);
+      statusBox.textContent = "";
+      errorBox.textContent = "❌ Failed to fetch order.";
+    }
+  }
+</script>
+
+</body>
+</html>

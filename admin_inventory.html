@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Inventory – Viraj Masale</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <style>
+    body{font-family:Arial;background:#f3f4f6;padding:20px}
+    h1{margin-bottom:10px}
+    h2{margin-top:40px;color:#374151}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:20px;
+    }
+
+    .card{
+      background:white;
+      padding:16px;
+      border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.05);
+      border-left:6px solid #22c55e;
+    }
+
+    .low{border-left-color:#f59e0b;background:#fff7ed}
+    .out{border-left-color:#ef4444;background:#fee2e2}
+
+    .name{font-weight:bold;font-size:16px}
+    .stock{margin:6px 0}
+
+    .badge{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:bold;
+    }
+
+    .badge.ok{background:#dcfce7;color:#166534}
+    .badge.low{background:#fef3c7;color:#92400e}
+    .badge.out{background:#fecaca;color:#7f1d1d}
+
+    .actions{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+    }
+
+    input{
+      width:80px;
+      padding:6px;
+    }
+
+    button{
+      padding:6px 12px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      background:#2563eb;
+      color:white;
+    }
+
+    .back-btn{
+    position:fixed;
+    top:20px;
+    right :50px;
+    background:#020617;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,.4);
+    transition:.3s;
+    z-index:999;
+  }
+  
+  .back-btn:hover{
+    transform:translateY(-3px);
+    background:#1e293b;
+  }
+  
+  </style>
+</head>
+
+<body>
+
+<h1>📦 Inventory Management</h1>
+<button class="back-btn" onclick="goAdminHome()">⬅ Back to Dashboard</button>
+
+
+<div id="inventory"></div>
+<!-- 🔔 LOW STOCK MODAL -->
+<div id="lowStockModal" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  z-index:9999;
+">
+  <div style="
+    background:white;
+    width:400px;
+    margin:10% auto;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  ">
+    <h2 style="margin-top:0;color:#b45309">⚠ Low Stock Alert</h2>
+    <p>The following products are running low:</p>
+    <ul id="lowStockList"></ul>
+    <button onclick="closeLowStock()" style="
+      margin-top:10px;
+      background:#b45309;
+      color:white;
+      border:none;
+      padding:8px 14px;
+      border-radius:6px;
+      cursor:pointer;
+    ">OK</button>
+  </div>
+</div>
+
+<script>
+const supabaseClient = supabase.createClient(
+  "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+
+const ADMINS=["virajmasale07@gmail.com","owner@virajmasale.com"];
+
+async function requireAdmin(){
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session || !ADMINS.includes(session.user.email.toLowerCase())){
+    alert("Access denied");
+    location.href="welcome1page.html";
+    return null;
+  }
+  return session.user;
+}
+
+async function loadInventory(){
+  const admin=await requireAdmin();
+  if(!admin) return;
+
+  const {data, error}=await supabaseClient
+    .from("products")
+    .select("id,name,category,stock_quantity,reserved_quantity")
+    .order("category");
+
+  if(error){console.error(error);return;}
+
+  // 🔔 LOW STOCK CHECK
+  const lowStock = data.filter(p => {
+  const available = p.stock_quantity - (p.reserved_quantity || 0);
+  return available > 0 && available < 1000;
+});
+
+  showLowStockPopup(lowStock);
+  
+
+  const grouped={};
+  data.forEach(p=>{
+    if(!grouped[p.category]) grouped[p.category]=[];
+    grouped[p.category].push(p);
+  });
+
+  const container=document.getElementById("inventory");
+  container.innerHTML="";
+
+  for(const cat in grouped){
+    container.innerHTML+=`<h2>🧂 ${cat}</h2><div class="grid" id="cat-${cat}"></div>`;
+    const grid=document.getElementById(`cat-${cat}`);
+
+    grouped[cat].forEach(p=>{
+    const totalKg = (p.stock_quantity / 1000).toFixed(2);
+    const reservedKg = ((p.reserved_quantity || 0) / 1000).toFixed(2);
+    const available = p.stock_quantity - (p.reserved_quantity || 0);
+    const availableKg = (available / 1000).toFixed(2);
+    
+    let cls = "card", badge = "ok", text = "In Stock";
+    
+    if (available <= 0) {
+      cls += " out"; badge = "out"; text = "OUT";
+    } else if (available < 1000) {
+      cls += " low"; badge = "low"; text = "LOW";
+    }
+    
+
+      grid.innerHTML += `
+       <div class="${cls}">
+         <div class="name">${p.name}</div>
+     
+         <div class="stock">
+           <div>Total: <b>${totalKg} kg</b></div>
+           <div>Reserved: <b>${reservedKg} kg</b></div>
+           <div>Available: <b>${availableKg} kg</b></div>
+         </div>
+     
+         <span class="badge ${badge}">${text}</span>
+     
+         <div class="actions">
+           <input type="number" min="0" step="0.5"
+             id="add-${p.id}" placeholder="+ kg">
+           <button onclick="addStock('${p.id}', ${p.stock_quantity})">Add</button>
+         </div>
+       </div>
+     `;
+     
+    });
+  }
+}
+
+async function addStock(pid,current){
+  const inp=document.getElementById(`add-${pid}`);
+  const kg=Number(inp.value);
+  if(kg<=0){alert("Enter KG to add");return;}
+
+  const grams=current + Math.round(kg*1000);
+
+  const {error}=await supabaseClient
+    .from("products")
+    .update({stock_quantity:grams})
+    .eq("id",pid);
+
+  if(error){alert("Update failed");return;}
+
+  loadInventory();
+}
+
+loadInventory();
+
+
+function showLowStockPopup(lowItems){
+  if(!lowItems.length) return;
+
+  const list=document.getElementById("lowStockList");
+  list.innerHTML="";
+
+  lowItems.forEach(p=>{
+    const kg=(p.stock_quantity/1000).toFixed(2);
+    list.innerHTML+=`<li>${p.name} – ${kg} kg</li>`;
+  });
+
+  document.getElementById("lowStockModal").style.display="block";
+}
+
+function closeLowStock(){
+  document.getElementById("lowStockModal").style.display="none";
+}
+
+function goAdminHome(){
+  location.href = "admin_welcome.html";
+}
+
+</script>
+
+</body>
+</html>

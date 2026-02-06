@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard – Orders</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Segoe UI",Arial;
+  background:#f1f3f6;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#111827,#1f2937);
+  color:#fff;
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{
+  margin:0;
+  font-size:18px;
+}
+
+.logout-btn{
+  background:#ef4444;
+  color:#fff;
+  border:none;
+  padding:8px 16px;
+  border-radius:20px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* CONTAINER */
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
+
+/* ORDER CARD */
+.order-card{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:18px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.08);
+  transition:transform .2s;
+}
+.order-card:hover{transform:translateY(-2px)}
+
+.order-top{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.order-id{font-weight:600}
+
+/* STATUS */
+.status-select{
+  padding:6px 14px;
+  border-radius:20px;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.status-pending{background:#f59e0b}
+.status-accepted{background:#3b82f6}
+.status-preparing{background:#6366f1}
+.status-delivered{background:#22c55e}
+
+/* META */
+.meta{
+  margin-top:8px;
+  font-size:14px;
+  color:#555;
+}
+
+/* ITEMS */
+.items{
+  margin-top:10px;
+  border-top:1px dashed #ddd;
+  padding-top:10px;
+}
+.item{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  margin-bottom:6px;
+}
+
+/* TOTAL */
+.total{
+  text-align:right;
+  font-weight:700;
+  margin-top:10px;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .order-top{flex-direction:column;align-items:flex-start}
+}
+
+.back-btn{
+  position:fixed;
+  top:70px;
+  left:20px;
+  background:#020617;
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+  transition:.3s;
+  z-index:999;
+}
+
+.back-btn:hover{
+  transform:translateY(-3px);
+  background:#1e293b;
+}
+
+.meta {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.meta div {
+  margin-bottom: 4px;
+}
+
+.address {
+  margin-top: 6px;
+  padding-left: 4px;
+  color: #444;
+}
+
+.items {
+  margin-top: 10px;
+}
+
+.total {
+  margin-top: 12px;
+  font-size: 16px;
+  color: #000;
+  text-align: right;
+}
+
+.status-cancelled {
+  background: #ffe5e5;
+  color: #b30000;
+  font-weight: bold;
+  border: 2px solid #ff4d4d;
+}
+
+.cancel-box{
+  margin-top: 10px;
+}
+
+.toggle-btn{
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-reason{
+  margin-top: 6px;
+  padding: 8px;
+  background: #fee2e2;
+  border-left: 4px solid #dc2626;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.hidden{
+  display: none;
+}
+
+.cancel-reason.hidden {
+  display: none;
+}
+
+.cancel-box {
+  margin: 10px 0;
+  padding: 8px;
+  background: #fff3f3;
+  border-radius: 8px;
+}
+
+.toggle-btn {
+  background: #ffe5e5;
+  border: 1px solid #ff4d4d;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📦 Admin Orders</h1>
+  <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+  <button class="back-btn" onclick="goAdminHome()">⬅ Back to Dashboard</button>
+
+</header>
+
+<div class="container" id="ordersContainer"></div>
+
+<script src="admin-alerts.js"></script>
+
+<script>
+// 🔑 SUPABASE
+const supabaseClient = supabase.createClient(
+  "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+// 🔐 ADMIN GUARD
+async function requireAdmin(){
+  const { data:{session} } = await supabaseClient.auth.getSession();
+  if(!session){
+    location.href="login_supa.html";
+    return null;
+  }
+
+  const ADMIN_EMAILS=[
+    "virajmasale07@gmail.com",
+    "owner@virajmasale.com"
+  ];
+
+  if(!ADMIN_EMAILS.includes(session.user.email.toLowerCase())){
+    alert("Access denied");
+    location.href="welcome1page.html";
+    return null;
+  }
+  return session.user;
+}
+checkLowStockGlobal();
+
+
+// 🎨 STATUS COLOR UPDATE
+function updateSelectColor(sel){
+  sel.className="status-select status-"+sel.value;
+}
+
+// 📦 LOAD ORDERS
+async function loadOrders(){
+  const admin=await requireAdmin();
+  if(!admin) return;
+
+  const { data:orders, error } = await supabaseClient
+    .from("orders")
+    .select(`
+      id,
+      customer_name,
+      customer_email,
+      address,
+      total_amount,
+      status,
+      cancel_reason,
+      created_at,
+      order_items(
+        product_name,
+        grams,
+        quantity,
+        price_per_gram
+      )
+    `)
+    .order("created_at",{ascending:false});
+
+  if(error){console.error(error);return;}
+
+  const c=document.getElementById("ordersContainer");
+  c.innerHTML="";
+
+  orders.forEach(o=>{
+    const items=o.order_items.map(i=>`
+      <div class="item">
+        <span>${i.product_name} (${i.grams}g × ${i.quantity})</span>
+        <span>₹${(i.price_per_gram*i.grams*i.quantity).toFixed(2)}</span>
+      </div>`).join("");
+
+      
+
+    c.innerHTML+=`
+      <div class="order-card">
+        <div class="order-top">
+          <div class="order-id">Order #${o.id}</div>
+
+          <select class="status-select status-${o.status}"
+            ${["cancelled","delivered"].includes(o.status) ? "disabled" : ""}
+            onchange="updateSelectColor(this);updateStatus('${o.id}', this.value)">
+          
+            <option value="pending" ${o.status==="pending"?"selected":""}>Pending</option>
+            <option value="accepted" ${o.status==="accepted"?"selected":""}>Accepted</option>
+            <option value="preparing" ${o.status==="preparing"?"selected":""}>Preparing</option>
+          
+            <option value="delivered"
+              ${o.status==="delivered"?"selected":""}
+            >
+              Delivered
+            </option>
+          
+            <option value="cancelled"
+              ${o.status==="cancelled"?"selected":""}
+            >
+              ❌ Cancelled
+            </option>
+          </select>
+          
+          
+        </div>
+
+        <div class="meta">
+           <div>👤 <strong>${o.customer_name}</strong></div>
+           <div>📧 ${o.customer_email}</div>
+           <div>📅 ${new Date(o.created_at).toLocaleString()}</div>
+
+           ${o.address ? `
+              <div class="address">
+                🏠 <span>${o.address}</span>
+              </div>
+            ` : ""}
+        </div>
+
+        <div class="items">${items}</div>
+
+        ${o.status === "cancelled" && o.cancel_reason ? `
+          <div class="cancel-box">
+            <button class="toggle-btn"
+              onclick="toggleReason('reason-${o.id}')">
+              ❌ View Cancel Reason
+            </button>
+        
+            <div id="reason-${o.id}" class="cancel-reason hidden">
+              <strong>Reason:</strong> ${o.cancel_reason}
+            </div>
+          </div>
+        ` : ""}
+
+        <div class="total">
+          <strong>Total:</strong> ₹${Number(o.total_amount).toFixed(2)}
+        </div>
+      </div>`;
+  });
+}
+
+// 🔄 UPDATE STATUS
+// async function updateStatus(id,status){
+//   await supabaseClient.from("orders").update({status}).eq("id",id);
+//   loadOrders();
+// }
+
+// 🔄 UPDATE STATUS WITH STOCK DEDUCTION
+async function updateStatus(id, newStatus) {
+
+  const { data:{session} } = await supabaseClient.auth.getSession();
+  if(!session){
+    alert("Session expired. Please login again.");
+    location.href="login_supa.html";
+    return;
+  }
+
+  // 🔍 Get current order status
+  const { data: order, error: fetchErr } = await supabaseClient
+    .from("orders")
+    .select("status")
+    .eq("id", id)
+    .single();
+
+  if (fetchErr || !order) {
+    alert("Order not found");
+    loadOrders();
+    return;
+  }
+
+  // 🚫 HARD BLOCK: Delivered → no cancel
+  if (order.status === "delivered" && newStatus === "cancelled") {
+    alert("❌ Delivered order cannot be cancelled");
+    loadOrders(); // reset dropdown
+    return;
+  }
+
+  // ❌ CANCEL FLOW
+  if (newStatus === "cancelled") {
+
+    const reason = prompt("❌ Enter cancel reason (customer will see this):");
+
+    if (!reason || reason.trim().length < 3) {
+      alert("Cancel reason is required");
+      loadOrders(); // reset dropdown
+      return;
+    }
+
+    const { error } = await supabaseClient.rpc("cancel_order", {
+      p_order_id: id,
+      p_reason: reason.trim()
+    });
+
+    if (error) {
+      console.error("Cancel failed:", error);
+      alert("❌ Failed to cancel order");
+      loadOrders();
+      return;
+    }
+
+    loadOrders();
+    return;
+  }
+
+  // ✅ ACCEPT ORDER → stock handled in DB
+  if (newStatus === "accepted") {
+
+    const { error } = await supabaseClient
+      .rpc("accept_order", { p_order_id: id });
+
+    if (error) {
+      alert("❌ Cannot accept order (insufficient stock)");
+      console.error(error);
+      loadOrders();
+      return;
+    }
+
+    loadOrders();
+    return;
+  }
+
+  // 🔄 NORMAL STATUS UPDATE
+  const { error } = await supabaseClient
+    .from("orders")
+    .update({ status: newStatus })
+    .eq("id", id);
+
+  if (error) {
+    alert("Update failed");
+    console.error(error);
+    loadOrders();
+    return;
+  }
+
+  loadOrders();
+}
+
+function toggleReason(id){
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle("hidden");
+}
+
+
+// async function updateStatus(id, status) {
+
+//   const { data:{session} } = await supabaseClient.auth.getSession();
+//   if(!session){
+//     alert("Session expired. Please login again.");
+//     location.href="login_supa.html";
+//     return;
+//   }
+
+//   // ❌ HARD BLOCK: delivered → no cancel
+//   if (status === "cancelled") {
+  
+//     const { data: order } = await supabaseClient
+//       .from("orders")
+//       .select("status")
+//       .eq("id", id)
+//       .single();
+  
+//     if (order?.status === "delivered") {
+//       alert("❌ Delivered order cannot be cancelled");
+//       loadOrders();
+//       return;
+//     }
+//   }
+  
+//   // ❌ CANCEL ORDER → RELEASE RESERVED STOCK
+//   if (status === "cancelled") {
+
+
+//     const reason = prompt("❌ Enter cancel reason (customer will see this):");
+
+//     if (!reason || reason.trim().length < 3) {
+//       alert("Cancel reason is required");
+//       loadOrders(); // reset dropdown
+//       return;
+//     }
+
+//     const { error } = await supabaseClient
+//       .rpc("cancel_order", {
+//         p_order_id: id,
+//         p_reason: reason
+//       });
+
+//     if (error) {
+//       console.error("Cancel failed:", error);
+//       alert("❌ Failed to cancel order");
+//       return;
+//     }
+
+//     loadOrders();
+//     return;
+//   }
+
+//   // ✅ ACCEPT ORDER → STOCK + RESERVED handled in DB
+//   if (status === "accepted") {
+
+//     const { error } = await supabaseClient
+//       .rpc("accept_order", { p_order_id: id });
+
+//     if (error) {
+//       alert("❌ Cannot accept order (insufficient stock)");
+//       console.error(error);
+//       return;
+//     }
+
+//     loadOrders();
+//     return;
+//   }
+
+//   // 🔄 NORMAL STATUS UPDATE
+//   const { error } = await supabaseClient
+//     .from("orders")
+//     .update({ status })
+//     .eq("id", id);
+
+//   if (error) {
+//     alert("Update failed");
+//     console.error(error);
+//     return;
+//   }
+
+//   loadOrders();
+// }
+
+// async function updateStatus(id, status) {
+
+//   const { data: { session } } = await supabaseClient.auth.getSession();
+//   if (!session) {
+//     alert("Session expired. Please login again.");
+//     location.href = "login_supa.html";
+//     return;
+//   }
+
+//   // 🔥 ONLY when accepting order → DB handles stock + locking
+//   if (status === "accepted") {
+
+//     const { error: rpcErr } = await supabaseClient
+//       .rpc("accept_order", { p_order_id: id });
+
+//     if (rpcErr) {
+//       console.error("Order accept failed:", rpcErr);
+//       alert("❌ Cannot accept order. Insufficient stock or concurrent order.");
+//       return;
+//     }
+
+//     // success
+//     loadOrders();
+//     return;
+//   }
+
+//   // 🔄 Normal status update (pending → preparing → delivered)
+//   const { error } = await supabaseClient
+//     .from("orders")
+//     .update({ status })
+//     .eq("id", id);
+
+//   if (error) {
+//     console.error("Update failed:", error);
+//     alert("Update failed: " + error.message);
+//     return;
+//   }
+
+//   loadOrders();
+// }
+
+// if (newStatus === "accepted") {
+//   playNotifSound("accepted");
+// }
+
+// if (newStatus === "delivered") {
+//   playNotifSound("delivered");
+// }
+
+// async function updateStatus(id, status) {
+
+//   const { data:{session} } = await supabaseClient.auth.getSession();
+//   if(!session){
+//     alert("Session expired. Please login again.");
+//     location.href="login_supa.html";
+//     return;
+//   }
+
+//   // 🔥 Only when accepting order → deduct stock
+//   if(status === "accepted") {
+//     // Get all order items
+//     const { data: items, error: itemsErr } = await supabaseClient
+//       .from("order_items")
+//       .select("product_id, grams, quantity")
+//       .eq("order_id", id);
+
+//     if(itemsErr){
+//       console.error("Failed to fetch order items:", itemsErr);
+//       alert("Cannot fetch order items to deduct stock");
+//       return;
+//     }
+
+//     // Deduct stock for each product via RPC
+//     for(const i of items){
+//     const totalQty = i.grams * i.quantity; // grams
+//     console.log("Deducting stock for", i.product_id, totalQty); // ✅ Here
+//     const { error: rpcErr } = await supabaseClient
+//         .rpc("deduct_stock", { pid: i.product_id, qty: totalQty });
+
+//     if(rpcErr){
+//         console.error("Stock deduction failed for product due to Insufficient stock", i.product_id, rpcErr);
+//         alert(`Stock deduction failed for product due to Insufficient stock ${i.product_id}`);
+//         return;
+//     }
+// }
+
+//   }
+
+//   // Update order status
+//   const { error } = await supabaseClient
+//     .from("orders")
+//     .update({ status })
+//     .eq("id", id);
+
+//   if (error) {
+//     console.error("Update failed:", error);
+//     alert("Update failed: " + error.message);
+//     return;
+//   }
+
+//   loadOrders();
+// }
+
+// async function updateStatus(id, status) {
+
+//   const { data:{session} } = await supabaseClient.auth.getSession();
+//   if(!session){
+//     alert("Session expired. Please login again.");
+//     location.href="login_supa.html";
+//     return;
+//   }
+
+//   const { error } = await supabaseClient
+//     .from("orders")
+//     .update({ status })
+//     .eq("id", id);
+
+//   if (error) {
+//     console.error("Update failed:", error);
+//     alert("Update failed: " + error.message);
+//     return;
+//   }
+
+//   loadOrders();
+// }
+
+
+// 🚪 LOGOUT WITH CONFIRM
+async function logoutAdmin(){
+  if(confirm("Are you sure you want to logout?")){
+    await supabaseClient.auth.signOut();
+    location.href="welcome1page.html";
+  }
+}
+
+loadOrders();
+
+function goAdminHome(){
+  location.href = "admin_welcome.html";
+}
+
+</script>
+
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard – Orders</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.order-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.order-top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.order-id {
+  font-weight: bold;
+}
+
+.status-select {
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.status-pending { background: orange; }
+.status-accepted { background: #007bff; }
+.status-preparing { background: #6f42c1; }
+.status-delivered { background: #28a745; }
+
+.meta {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.items {
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.total {
+  text-align: right;
+  font-weight: bold;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📦 Admin Orders Dashboard</h1>
+<div id="ordersContainer"></div>
+
+<script>
+// 🔑 SUPABASE
+const supabaseClient = supabase.createClient(
+  "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+// 👑 ADMIN EMAILS
+
+
+
+// 🔐 ADMIN GUARD
+async function requireAdmin() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    location.href = "login_supa.html";
+    return null;
+  }
+
+  const ADMIN_EMAILS = [
+   "virajmasale07@gmail.com",
+   "owner@virajmasale.com"
+  ];
+
+  const email = session.user.email.toLowerCase();
+  const isAdmin = ADMIN_EMAILS
+    .map(e => e.toLowerCase())
+    .includes(email);
+
+  if (!isAdmin) {
+    alert("Access denied");
+    location.href = "welcome1page.html";
+    return null;
+  }
+
+  return session.user;
+}
+
+
+// 📦 LOAD ORDERS
+async function loadOrders() {
+  const admin = await requireAdmin();
+  if (!admin) return;
+
+  const { data: orders, error } = await supabaseClient
+    .from("orders")
+    .select(`
+      id,
+      customer_name,
+      customer_email,
+      total_amount,
+      status,
+      created_at,
+      order_items (
+        product_name,
+        grams,
+        quantity,
+        price_per_gram
+      )
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    alert("Failed to load orders");
+    console.error(error);
+    return;
+  }
+
+  const container = document.getElementById("ordersContainer");
+  container.innerHTML = "";
+
+  orders.forEach(order => {
+    const card = document.createElement("div");
+    card.className = "order-card";
+
+    const itemsHTML = order.order_items.map(item => `
+      <div class="item">
+        <span>${item.product_name} (${item.grams}g × ${item.quantity})</span>
+        <span>₹${(item.price_per_gram * item.grams * item.quantity).toFixed(2)}</span>
+      </div>
+    `).join("");
+
+    card.innerHTML = `
+      <div class="order-top">
+        <div class="order-id">Order #${order.id}</div>
+
+        <select class="status-select status-${order.status}"
+          onchange="updateStatus(${order.id}, this.value)">
+          <option value="pending" ${order.status==="pending"?"selected":""}>Pending</option>
+          <option value="accepted" ${order.status==="accepted"?"selected":""}>Accepted</option>
+          <option value="preparing" ${order.status==="preparing"?"selected":""}>Preparing</option>
+          <option value="delivered" ${order.status==="delivered"?"selected":""}>Delivered</option>
+        </select>
+      </div>
+
+      <div class="meta">
+        👤 ${order.customer_name} <br>
+        📧 ${order.customer_email} <br>
+        📅 ${new Date(order.created_at).toLocaleString()}
+      </div>
+
+      <div class="items">${itemsHTML}</div>
+
+      <div class="total">
+        Total: ₹${Number(order.total_amount).toFixed(2)}
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// 🔄 UPDATE STATUS
+async function updateStatus(orderId, status) {
+  await supabaseClient
+    .from("orders")
+    .update({ status })
+    .eq("id", orderId);
+
+  loadOrders();
+}
+
+loadOrders();
+</script>
+
+</body>
+</html> -->
+
+

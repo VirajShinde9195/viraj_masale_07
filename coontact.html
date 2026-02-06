@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us - Viraj Masale</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff8f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header and Logo */
+    header {
+      background-color: #b22222;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+
+    .header-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .ganpati-logo {
+      width: 100px;
+      height: 100px;
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+      }
+      50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    /* Navbar */
+    nav {
+      background: white;
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #d91440;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+
+    /* User Badge */
+    .user-badge {
+      position: fixed;
+      top: 25px;
+      right: 25px;
+      text-align: center;
+      z-index: 999;
+    }
+
+    .user-badge img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 3px solid #25D366;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .user-badge img:hover {
+      transform: scale(1.1);
+    }
+
+    .user-id {
+      background: #d91440;
+      color: white;
+      padding: 6px 16px;
+      border-radius: 15px;
+      font-size: 13px;
+      margin-top: 5px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* Main Content */
+    main {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #b22222;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .contact-info {
+      margin-top: 30px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .contact-info p strong {
+      display: inline-block;
+      width: 150px;
+      color: #b22222;
+    }
+
+    .whatsapp-button {
+      display: inline-block;
+      margin-top: 20px;
+      background: #25D366;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .map {
+      margin-top: 30px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .contact-form {
+      margin-top: 40px;
+      background: #fefefe;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      background: #25D366;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #1ebd57;
+    }
+
+    #confirmation {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+      display: none;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Logo (top-left) -->
+<div style="position: absolute; top: 20px; left: 20px; z-index: 999;">
+  <img src="ganpati.png" alt="Viraj Masale Logo" style="width: 100px;border-radius: 50%; animation: pulse 3s infinite ease-in-out;" />
+</div>
+
+<!-- Customer Badge (already present at top-right) -->
+<div class="user-badge" id="userBadge" title="Customer Info">
+  <img src="https://i.ibb.co/X54kBN8/user-icon.png" alt="User" />
+  <div class="user-id" id="badgeCustomerId">Loading...</div>
+</div>
+
+<!-- Header Content Centered -->
+<header>
+  <h1>Contact Viraj Masale</h1>
+  <p>Have questions or want to place an order? Reach out to us anytime!</p>
+</header>
+
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://goo.gl/maps/your-shop-location" target="_blank">📍 Location</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="contact-info">
+      <h2>Contact Information</h2>
+      <p><strong>Shop Name:</strong> Viraj Masale</p>
+      <p><strong>Owner Name:</strong> Viraj Shinde</p>
+      <p><strong>Phone:</strong> +91 9876543210</p>
+      <p><strong>Email:</strong> virajmasale@gmail.com</p>
+      <p><strong>Address:</strong> Near Bus Stand, Village - XYZ, Taluka - ABC, District - Satara, Maharashtra - 415001</p>
+      <p><strong>Working Hours:</strong> 9:00 AM – 7:00 PM (Mon to Sat)</p>
+      <a class="whatsapp-button" href="https://wa.me/919876543210?text=Hello! I want to order spices from Viraj Masale." target="_blank">
+        📲 Order on WhatsApp
+      </a>
+    </div>
+
+    <div class="map">
+      <iframe src="https://www.google.com/maps/embed?pb=your-shop-location-link" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <div class="contact-form">
+      <h2>Send Us a Message</h2>
+      <form onsubmit="return sendWhatsAppMessage()">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="tel" id="phone" placeholder="Your Phone Number" required>
+        <input type="text" id="address" placeholder="Your Address" required>
+        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send on WhatsApp</button>
+      </form>
+      <div id="confirmation">✅ Message sent to owner via WhatsApp!</div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Viraj Masale. All rights reserved.
+  </footer>
+
+  <!-- bell on index page  -->
+<audio id="soundAccepted" preload="auto">
+  <source src="bell.wav" type="audio/mpeg">
+</audio>
+
+<audio id="soundDelivered" preload="auto">
+  <source src="bell_2.wav" type="audio/mpeg">
+</audio>
+
+   <script>
+     const cid = localStorage.getItem("loggedInCustomerId");
+     if (!cid) {
+       alert("🔒 Please login first.");
+       window.location.href = "login.html";
+     }
+  </script>
+  <script>
+    function sendWhatsAppMessage() {
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const address = document.getElementById('address').value;
+      const message = document.getElementById('message').value;
+
+      const whatsappNumber = '9168079195'; // ✅ Replace with real number
+      const text = `👋 Hello!%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0AMessage: ${message}`;
+
+      window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+      document.getElementById('confirmation').style.display = 'block';
+
+      // Clear form
+      document.getElementById('name').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('address').value = '';
+      document.getElementById('message').value = '';
+
+      return false;
+    }
+
+    const badgeCid = localStorage.getItem("loggedInCustomerId");
+    if (badgeCid) {
+      document.getElementById("badgeCustomerId").textContent = badgeCid;
+    } else {
+      document.getElementById("userBadge").style.display = "none";
+    }
+  </script>
+
+<script src="notifications.js"></script>
+
+</body>
+</html>

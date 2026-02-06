@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>My Orders</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(135deg, #f7f8fb, #eef2f7);
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+#ordersContainer {
+  max-width: 900px;
+  margin: auto;
+}
+
+/* ===== Order Card ===== */
+.order-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-id {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.order-date {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 6px 0 10px;
+}
+
+.order-status {
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.status-pending { background: #f59e0b; }
+.status-accepted { background: #3b82f6; }
+.status-preparing { background: #8b5cf6; }
+.status-delivered { background: #22c55e; }
+
+/* ===== Timeline ===== */
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  margin: 14px 0;
+  font-size: 13px;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  color: #9ca3af;
+}
+
+.step::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: -50%;
+  width: 100%;
+  height: 2px;
+  background: #e5e7eb;
+  z-index: -1;
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+.step.done {
+  color: #22c55e;
+}
+
+.step.current {
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+.step span {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+/* ===== Items ===== */
+.items {
+  border-top: 1px dashed #e5e7eb;
+  padding-top: 12px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.total {
+  text-align: right;
+  font-weight: 800;
+  margin-top: 12px;
+}
+
+.empty {
+  text-align: center;
+  padding: 50px;
+  background: #fff;
+  border-radius: 18px;
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #22c55e;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: fadeInOut 2.5s forwards;
+  z-index: 999;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  15% { opacity: 1; transform: translate(-50%, 0); }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.back-btn{
+  position:fixed;
+  top:20px;
+  left:20px;
+  background: linear-gradient(135deg,#3b82f6,#eb7b25ec);
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+  transition:.3s;
+  z-index:999;
+}
+
+.back-btn:hover{
+  transform:translateY(-3px);
+  background:#f75656eb;
+}
+
+.back-btn-notif{
+  text-decoration: none;
+  position:fixed;
+  top:20px;
+  right:20px;
+  background: linear-gradient(135deg,#3b82f6,#eb7b25ec);
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  box-shadow:0 8px 20px rgba(0, 0, 0, 0.4);
+  transition:.3s;
+  z-index:999;
+}
+
+.back-btn-notif:hover{
+  transform:translateY(-3px);
+  background:#f75656eb;
+}
+.step.cancelled {
+  color: #b30000;
+  font-weight: bold;
+}
+
+.step.cancelled span {
+  margin-left: 4px;
+}
+
+.timeline {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.order-card.cancelled {
+  background: #ffe9e9;
+  opacity: 0.85;
+  border-left: 5px solid #b30000;
+}
+
+.cancel-reason {
+  margin-top: 10px;
+  padding: 8px;
+  background: #ffe5e5;
+  color: #7a0000;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+</style>
+</head>
+
+<body>
+  <a href="notifications.html" style="float:right" class="back-btn-notif"> 
+  🔔 Notifications
+</a>
+
+<h1>🧾 My Orders</h1>
+<button class="back-btn" onclick="goAdminHome()">⬅ Back to Index Page </button>
+
+
+
+<div id="ordersContainer"></div>
+ 
+ 
+<!-- <script src="notifications.js"></script> -->
+
+<script src="notifications.js"></script>
+
+
+<script>
+  function goAdminHome(){
+  location.href = "index.html";
+}
+
+const supabaseClient = supabase.createClient(
+  "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+
+let CURRENT_USER = null;
+let lastOrderStatus = {};
+
+/* ===== LOGIN ===== */
+async function requireLogin() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    location.replace("login_supa.html");
+    return null;
+  }
+  CURRENT_USER = session.user;
+  return session.user;
+}
+
+/* ===== Timeline UI ===== */
+function renderTimeline(status) {
+
+  // ❌ Special case: CANCELLED
+  if (status === "cancelled") {
+    return `
+      <div class="timeline">
+        <div class="step done">✔<span>pending</span></div>
+        <div class="step cancelled">❌<span>cancelled</span></div>
+      </div>
+    `;
+  }
+
+  // ✅ Normal flow
+  const steps = ["pending", "accepted", "preparing", "delivered"];
+
+  return `
+    <div class="timeline">
+      ${steps.map(s => {
+        const cls =
+          steps.indexOf(s) < steps.indexOf(status)
+            ? "done"
+            : s === status
+            ? "current"
+            : "";
+
+        const icon =
+          cls === "done" ? "✔" :
+          cls === "current" ? "🔵" : "⭕";
+
+        return `
+          <div class="step ${cls}">
+            ${icon}<span>${s}</span>
+          </div>`;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderCancelReason(reason) {
+  if (!reason) return "";
+  return `
+    <div class="cancel-reason">
+      ❌ <strong>Order Cancelled</strong><br>
+      <small>Reason: ${reason}</small>
+    </div>
+  `;
+}
+
+
+/* ===== Toast ===== */
+function showToast(msg) {
+  const t = document.createElement("div");
+  t.className = "toast";
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+/* ===== LOAD ORDERS ===== */
+async function loadOrders() {
+  const { data: orders } = await supabaseClient
+    .from("orders")
+    .select(`id,total_amount,status,cancel_reason,created_at,order_items(*)`)
+    .eq("customer_email", CURRENT_USER.email)
+    .order("created_at", { ascending: false });
+
+  const c = document.getElementById("ordersContainer");
+  c.innerHTML = "";
+
+  if (!orders || !orders.length) {
+    c.innerHTML = `<div class="empty">😕 You have not placed any orders yet.</div>`;
+    return;
+  }
+
+  orders.forEach(order => {
+
+    const cardClass =
+      order.status === "cancelled"
+        ? "order-card cancelled"
+        : "order-card";
+
+    c.innerHTML += `
+      <div class="${cardClass}">
+        <div class="order-header">
+          <div class="order-id">Order Id :- #${order.id}</div>
+          <div class="order-status status-${order.status}">
+            ${order.status}
+          </div>
+        </div>
+
+        <div class="order-date">
+          📅 ${new Date(order.created_at).toLocaleString()}
+        </div>
+
+        ${renderTimeline(order.status)}
+
+        ${order.status === "cancelled"
+          ? renderCancelReason(order.cancel_reason)
+          : ""
+        }
+
+        <div class="items">
+          ${order.order_items.map(i => `
+            <div class="item">
+              <span>${i.product_name} (${i.grams}g × ${i.quantity})</span>
+              <span>₹${(i.price_per_gram * i.grams * i.quantity).toFixed(2)}</span>
+            </div>
+          `).join("")}
+        </div>
+
+        <div class="total">
+          Total: ₹${Number(order.total_amount).toFixed(2)}
+        </div>
+      </div>
+    `;
+  });
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+  const user = await requireLogin();
+  if (!user) return;
+
+  await loadOrders();
+});
+
+/* ===== REALTIME ===== */
+//   window.NOTIFICATIONS = [];
+//   window.UNREAD_COUNT = 0;
+
+// function addNotification(msg){
+//   window.NOTIFICATIONS.unshift({
+//     msg,
+//     time: new Date().toLocaleString()
+//   });
+//   window.UNREAD_COUNT++;
+//   showToast(msg);   // toast + notification together
+// }
+
+
+// function attachRealtime() {
+//   supabaseClient
+//     .channel("order-status-live")
+//     .on(
+//       "postgres_changes",
+//       { event: "UPDATE", schema: "public", table: "orders" },
+//       payload => {
+//         if (payload.new.customer_email !== CURRENT_USER.email) return;
+
+//         const orderId = payload.new.id;
+//         const oldStatus = lastOrderStatus[orderId];
+//         const newStatus = payload.new.status;
+
+//         if (oldStatus !== "accepted" && newStatus === "accepted") {
+//           addNotification(`✅ Order #${orderId} has been accepted`);
+//           // showToast(`✅ Order #${orderId} has been accepted`);
+//           addNotification(`✅ Order #${orderId} accepted`, "accepted");
+
+//         }
+
+//         if (oldStatus !== "delivered" && newStatus === "delivered") {
+//           addNotification(`🚚 Order #${orderId} has been delivered`);
+//           // showToast(`🚚 Order #${orderId} has been delivered`);
+//           addNotification(`🚚 Order #${orderId} delivered`, "delivered");
+
+//         }
+
+//         lastOrderStatus[orderId] = newStatus;
+//         loadOrders();
+//       }
+//     )
+//     .subscribe();
+// }
+function attachRealtime() {
+  supabaseClient
+    .channel("order-status-live")
+    .on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "orders" },
+      payload => {
+
+        if (!CURRENT_USER) return;
+        if (payload.new.customer_email !== CURRENT_USER.email) return;
+
+        const orderId = payload.new.id;
+        const oldStatus = lastOrderStatus[orderId];
+        const newStatus = payload.new.status;
+
+        // ✅ ACCEPTED
+        if (oldStatus !== "accepted" && newStatus === "accepted") {
+          addNotification(`✅ Order #${orderId} accepted`, "accepted"); // 🔔 sound + bell
+          showToast(`✅ Order #${orderId} accepted`);                  // 🍞 toast (my_orders only)
+        }
+
+        // ✅ DELIVERED
+        if (oldStatus !== "delivered" && newStatus === "delivered") {
+          addNotification(`🚚 Order #${orderId} delivered`, "delivered");
+          showToast(`🚚 Order #${orderId} delivered`);
+        }
+
+        lastOrderStatus[orderId] = newStatus;
+        loadOrders();
+      }
+    )
+    .subscribe();
+}
+
+
+
+/* ===== REALTIME ===== */
+// function attachRealtime() {
+//   supabaseClient
+//     .channel("order-status-live")
+//     .on(
+//       "postgres_changes",
+//       { event: "UPDATE", schema: "public", table: "orders" },
+//       payload => {
+
+//         if (!CURRENT_USER) return;
+//         if (payload.new.customer_email !== CURRENT_USER.email) return;
+
+//         const orderId = payload.new.id;
+//         const oldStatus = lastOrderStatus[orderId];
+//         const newStatus = payload.new.status;
+
+//         if (oldStatus !== "accepted" && newStatus === "accepted") {
+//           addNotification(`✅ Order #${orderId} accepted`, "accepted");
+//         }
+
+//         if (oldStatus !== "delivered" && newStatus === "delivered") {
+//           addNotification(`🚚 Order #${orderId} delivered`, "delivered");
+//         }
+
+//         lastOrderStatus[orderId] = newStatus;
+//         loadOrders();
+//       }
+//     )
+//     .subscribe();
+// }
+
+// function attachRealtime() {
+//   supabaseClient
+//     .channel("order-status-live")
+//     .on(
+//       "postgres_changes",
+//       { event: "UPDATE", schema: "public", table: "orders" },
+//       payload => {
+//         if (payload.new.customer_email !== CURRENT_USER.email) return;
+
+//         const orderId = payload.new.id;
+//         const oldStatus = lastOrderStatus[orderId];
+//         const newStatus = payload.new.status;
+
+//         // 🔔 ACCEPTED TOAST
+//         if (oldStatus !== "accepted" && newStatus === "accepted") {
+//           showToast(`✅ Order #${orderId} has been accepted`);
+//         }
+
+//         // 🚚 DELIVERED TOAST
+//         if (oldStatus !== "delivered" && newStatus === "delivered") {
+//           showToast(`🚚 Order #${orderId} has been delivered`);
+//         }
+
+//         // update cache
+//         lastOrderStatus[orderId] = newStatus;
+
+//         // refresh UI
+//         loadOrders();
+//       }
+//     )
+//     .subscribe();
+    
+// }
+
+// let CURRENT_USER = null;
+
+function notifKey() {
+  if (!CURRENT_USER) return null;
+  return `notifications_${CURRENT_USER.id}`;
+}
+
+function unreadKey() {
+  if (!CURRENT_USER) return null;
+  return `unreadCount_${CURRENT_USER.id}`;
+}
+
+function getNotifications() {
+  const key = notifKey();
+  if (!key) return {};
+  return JSON.parse(localStorage.getItem(key) || "{}");
+}
+
+function setNotifications(data) {
+  const key = notifKey();
+  if (!key) return;
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function getUnread() {
+  const key = unreadKey();
+  if (!key) return 0;
+  return Number(localStorage.getItem(key) || 0);
+}
+
+function setUnread(count) {
+  const key = unreadKey();
+  if (!key) return;
+  localStorage.setItem(key, count);
+}
+
+/* ===============================
+   🚀 INIT REALTIME (FOR OTHER PAGES)
+================================ */
+async function initRealtime() {
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
+
+  if (!session) return;
+  CURRENT_USER = session.user;
+
+  refreshBell();
+  // renderNotifications?.(); // optional
+
+  attachOrderRealtime();
+}
+document.addEventListener("DOMContentLoaded", initRealtime);
+
+
+// function attachRealtime() {
+//   supabaseClient
+//     .channel("order-status-live")
+//     .on("postgres_changes",
+//       { event: "UPDATE", schema: "public", table: "orders" },
+//       payload => {
+//         const oldStatus = lastOrderStatus[payload.new.id];
+//         const newStatus = payload.new.status;
+
+//         if (
+//           payload.new.customer_email === CURRENT_USER.email &&
+//           oldStatus !== "accepted" &&
+//           newStatus === "accepted"
+//         ) {
+//           showToast("✅ Your order has been accepted!");
+//         }
+
+//         lastOrderStatus[payload.new.id] = newStatus;
+//         loadOrders();
+//       }
+//     ).subscribe();
+// }
+
+/* ===== INIT ===== */
+(async function init(){
+  const u = await requireLogin();
+  if (!u) return;
+  attachRealtime();
+  loadOrders();
+})();
+</script>
+
+<!-- <script src="notifications.js"></script> -->
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>My Orders</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(135deg, #f7f8fb, #eef2f7);
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* ===== Container ===== */
+#ordersContainer {
+  max-width: 900px;
+  margin: auto;
+}
+
+/* ===== Order Card ===== */
+.order-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.12);
+}
+
+/* ===== Header ===== */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.order-id {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* ===== Date ===== */
+.order-date {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+/* ===== Status Badge ===== */
+.order-status {
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.status-pending { background: #f59e0b; }
+.status-accepted { background: #3b82f6; }
+.status-preparing { background: #8b5cf6; }
+.status-delivered { background: #22c55e; }
+
+/* ===== Items ===== */
+.items {
+  border-top: 1px dashed #e5e7eb;
+  padding-top: 12px;
+  margin-top: 10px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.item span:last-child {
+  font-weight: 600;
+}
+
+/* ===== Total ===== */
+.total {
+  text-align: right;
+  font-weight: 800;
+  margin-top: 12px;
+  font-size: 15px;
+}
+
+/* ===== Empty State ===== */
+.empty {
+  text-align: center;
+  padding: 50px 30px;
+  background: #fff;
+  border-radius: 18px;
+  font-size: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+</style>
+</head>
+
+<body>
+
+<h1>🧾 My Orders</h1>
+<div id="ordersContainer"></div>
+
+<script>
+/* ===============================
+   🔑 SUPABASE INIT
+================================ */
+const supabaseClient = supabase.createClient(
+  "https://uibdyfebaqabjwkctotg.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpYmR5ZmViYXFhYmp3a2N0b3RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTEzMTksImV4cCI6MjA4MTQ2NzMxOX0.ye5ZwULTTAxX2eV0xQqY16ghN4Hzy5-9ejQi7lfJ6kI"
+);
+
+let CURRENT_USER = null;
+
+/* ===============================
+   🔐 LOGIN CHECK
+================================ */
+async function requireLogin() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    window.location.replace("login_supa.html");
+    return null;
+  }
+  CURRENT_USER = session.user;
+  return session.user;
+}
+
+/* ===============================
+   🎨 STATUS CLASS
+================================ */
+function statusClass(status) {
+  return "status-" + status;
+}
+
+/* ===============================
+   📦 LOAD ORDERS
+================================ */
+async function loadOrders() {
+  const user = CURRENT_USER;
+  if (!user) return;
+
+  const { data: orders, error } = await supabaseClient
+    .from("orders")
+    .select(`
+      id,
+      total_amount,
+      status,
+      created_at,
+      order_items (
+        product_name,
+        grams,
+        quantity,
+        price_per_gram
+      )
+    `)
+    .eq("customer_email", user.email)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    alert("Failed to load orders");
+    return;
+  }
+
+  const container = document.getElementById("ordersContainer");
+  container.innerHTML = "";
+
+  if (!orders.length) {
+    container.innerHTML = `
+      <div class="empty">
+        😕 You have not placed any orders yet.
+      </div>`;
+    return;
+  }
+
+  orders.forEach(order => {
+    const itemsHTML = order.order_items.map(item => `
+      <div class="item">
+        <span>${item.product_name} (${item.grams}g × ${item.quantity})</span>
+        <span>₹${(item.price_per_gram * item.grams * item.quantity).toFixed(2)}</span>
+      </div>
+    `).join("");
+
+    container.innerHTML += `
+      <div class="order-card">
+        <div class="order-header">
+          <div class="order-id">Order #${order.id}</div>
+          <div class="order-status ${statusClass(order.status)}">
+            ${order.status}
+          </div>
+        </div>
+
+        <div class="order-date">
+          📅 ${new Date(order.created_at).toLocaleString()}
+        </div>
+
+        <div class="items">
+          ${itemsHTML}
+        </div>
+
+        <div class="total">
+          Total: ₹${Number(order.total_amount).toFixed(2)}
+        </div>
+      </div>
+    `;
+  });
+}
+
+/* ===============================
+   🔥 REALTIME LISTENER
+================================ */
+function attachRealtime() {
+  supabaseClient
+    .channel("order-status-live")
+    .on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "orders" },
+      (payload) => {
+        if (payload.new.customer_email === CURRENT_USER.email) {
+          loadOrders();
+        }
+      }
+    )
+    .subscribe();
+}
+
+/* ===============================
+   🚀 INIT
+================================ */
+async function init() {
+  const user = await requireLogin();
+  if (!user) return;
+
+  attachRealtime();
+  loadOrders();
+}
+
+init();
+</script>
+
+</body>
+</html> -->
